@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:sputnik_cardio/src/features/maps/widgets/current_location_layer.dart';
 import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
 import 'package:sputnik_di/sputnik_di.dart';

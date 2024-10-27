@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sputnik_cardio/src/features/tracking/presentation/screens/tracking_screen.dart';
+import 'package:sputnik_localization/sputnik_localization.dart';
 
 class SputnikMain extends StatefulWidget {
   const SputnikMain({super.key});
@@ -21,7 +22,7 @@ class _SputnikMainState extends State<SputnikMain> {
         length: 2,
         child: Column(
           children: [
-            Expanded(
+            const Expanded(
               child: TabBarView(
                 children: [
                   TrackingScreen(),
@@ -33,7 +34,7 @@ class _SputnikMainState extends State<SputnikMain> {
               tabs: [
                 Tab(
                   icon: Icon(Icons.fiber_manual_record),
-                  text: 'Тренировка',
+                  text: context.tr.helloWorld,
                 ),
                 Tab(
                   icon: Icon(Icons.person),

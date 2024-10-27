@@ -1,28 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
+import 'package:sputnik_cardio/src/common/app_deps_node.dart';
+import 'package:sputnik_cardio/src/common/consts.dart';
+import 'package:sputnik_cardio/src/common/navigation_deps_node.dart';
+import 'package:sputnik_cardio/src/features/auth/auth_di.dart';
+import 'package:sputnik_cardio/src/common/app_initialize_wrapper.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
+import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
-import 'src/common/sputnik_main.dart';
-import 'src/features/tracking/presentation/screens/tracking_screen.dart';
+import 'src/common/sputnik_material.dart';
 
-void main() {
+Future<void> main() async {
+  await supabase.Supabase.initialize(
+    url: Consts.supabaseProjectURL,
+    anonKey: Consts.supabaseApiKey,
+  );
+
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final _navigationDepsNode = NavigationDepsNode();
+  late final _authDi = AuthDi(_navigationDepsNode);
+  late final _trackingDepsNode = TrackingDepsNode();
+  late final _appDepsNode = AppDepsNode(_authDi);
+
+  @override
   Widget build(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+
     return DepsNodeBinder(
-      depsNode: () => TrackingDepsNode(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+      depsNode: () => _navigationDepsNode,
+      child: DepsNodeBinder(
+        depsNode: () => _trackingDepsNode,
+        child: DepsNodeBinder(
+          depsNode: () => _authDi,
+          child: DepsNodeBinder(
+            depsNode: () => _appDepsNode,
+            child: SpukiTheme(
+              spukiThemeData: isLightMode
+                  ? const SpukiThemeData.light()
+                  : const SpukiThemeData.dark(),
+              child: const AppInitializeWrapper(
+                child: SputnikMaterial(),
+              ),
+            ),
+          ),
         ),
-        home: const SputnikMain(),
       ),
     );
   }

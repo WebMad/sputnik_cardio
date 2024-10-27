@@ -1,0 +1,14 @@
+{
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "alreadyHaveAccount": "Already have account?",
+  "signIn": "Sign in",
+  "signUp": "Sign up",
+  "invalidEmail": "Incorrect e-mail format",
+  "invalidPassword": "The password must contain no less than 6 and no more than 64 characters",
+  "passwordDontMatch": "The passwords don't match",
+  "unknownSignUpError": "Unknown error when creating an account",
+  "unknownSignInError": "Unknown error when logging in to the account"
+}

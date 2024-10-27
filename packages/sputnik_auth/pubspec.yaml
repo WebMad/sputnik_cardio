@@ -8,8 +8,12 @@ environment:
   flutter: '>=3.3.0'
 
 dependencies:
-  sputnik_di:
-    path: ../sputnik_di
+  flutter_sputnik_di:
+    path: ../flutter_sputnik_di
+  sputnik_ui_kit:
+    path: ../sputnik_ui_kit
+  sputnik_localization:
+    path: ../sputnik_localization
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2

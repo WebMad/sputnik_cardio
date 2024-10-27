@@ -40,7 +40,7 @@ class DepsNodeBinder<T extends DepsNode> extends StatefulWidget {
     required T Function() depsNode,
     required Widget child,
   }) =>
-      DepsNodeBinder._(
+      DepsNodeBinder<T>._(
         child: child,
         key: key,
         depsNode: depsNode,
@@ -52,7 +52,7 @@ class DepsNodeBinder<T extends DepsNode> extends StatefulWidget {
     required T depsNode,
     required Widget child,
   }) =>
-      DepsNodeBinder._(
+      DepsNodeBinder<T>._(
         key: key,
         depsNode: () => depsNode,
         child: child,
