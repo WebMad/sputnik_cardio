@@ -146,6 +146,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown error when logging in to the account'**
   String get unknownSignInError;
+
+  /// No description provided for @unknownAuthState.
+  ///
+  /// In en, this message translates to:
+  /// **'Oops, I think there\'s been a mistake. You shouldn\'t be here'**
+  String get unknownAuthState;
+
+  /// No description provided for @notAuthorizedOnProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not authorized'**
+  String get notAuthorizedOnProfile;
+
+  /// No description provided for @guest.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest'**
+  String get guest;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -45,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authDi = DepsNodeBinder.of<AuthDi>(context);
+    final authDi = DepsNodeBinder.of<AuthDepsNode>(context);
 
     final signUpStateHolder = authDi.signUpStateHolder;
     final signUpManager = authDi.signUpManager;

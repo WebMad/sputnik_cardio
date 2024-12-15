@@ -30,4 +30,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unknownSignInError => 'Unknown error when logging in to the account';
+
+  @override
+  String get unknownAuthState => 'Oops, I think there\'s been a mistake. You shouldn\'t be here';
+
+  @override
+  String get notAuthorizedOnProfile => 'You are not authorized';
+
+  @override
+  String get guest => 'Guest';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get logout => 'Logout';
 }

@@ -6,7 +6,7 @@ import 'package:sputnik_di/sputnik_di.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 class AuthController implements Lifecycle {
-  AuthDi? __depsNode;
+  AuthDepsNode? __depsNode;
 
   final supabase.SupabaseClient _supabaseClient;
 
@@ -14,7 +14,7 @@ class AuthController implements Lifecycle {
     this._supabaseClient,
   );
 
-  AuthDi get depsNode {
+  AuthDepsNode get depsNode {
     final depsNode = __depsNode;
 
     if (depsNode == null) {
@@ -30,7 +30,7 @@ class AuthController implements Lifecycle {
 
   @override
   FutureOr<void> init() async {
-    __depsNode = AuthDi(_supabaseClient);
+    __depsNode = AuthDepsNode(_supabaseClient);
     await depsNode.authManager.init();
   }
 

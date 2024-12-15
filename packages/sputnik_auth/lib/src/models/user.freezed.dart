@@ -18,19 +18,19 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$User {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String uuid, String name) $default, {
+    TResult Function(String uuid, String email) $default, {
     required TResult Function() guest,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String uuid, String name)? $default, {
+    TResult? Function(String uuid, String email)? $default, {
     TResult? Function()? guest,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String uuid, String name)? $default, {
+    TResult Function(String uuid, String email)? $default, {
     TResult Function()? guest,
     required TResult orElse(),
   }) =>
@@ -79,7 +79,7 @@ abstract class _$$UserImplCopyWith<$Res> {
           _$UserImpl value, $Res Function(_$UserImpl) then) =
       __$$UserImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String uuid, String name});
+  $Res call({String uuid, String email});
 }
 
 /// @nodoc
@@ -93,16 +93,16 @@ class __$$UserImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uuid = null,
-    Object? name = null,
+    Object? email = null,
   }) {
     return _then(_$UserImpl(
       uuid: null == uuid
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -111,16 +111,16 @@ class __$$UserImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$UserImpl with DiagnosticableTreeMixin implements _User {
-  const _$UserImpl({required this.uuid, required this.name});
+  const _$UserImpl({required this.uuid, required this.email});
 
   @override
   final String uuid;
   @override
-  final String name;
+  final String email;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'User(uuid: $uuid, name: $name)';
+    return 'User(uuid: $uuid, email: $email)';
   }
 
   @override
@@ -129,7 +129,7 @@ class _$UserImpl with DiagnosticableTreeMixin implements _User {
     properties
       ..add(DiagnosticsProperty('type', 'User'))
       ..add(DiagnosticsProperty('uuid', uuid))
-      ..add(DiagnosticsProperty('name', name));
+      ..add(DiagnosticsProperty('email', email));
   }
 
   @override
@@ -138,11 +138,11 @@ class _$UserImpl with DiagnosticableTreeMixin implements _User {
         (other.runtimeType == runtimeType &&
             other is _$UserImpl &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.email, email) || other.email == email));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, uuid, name);
+  int get hashCode => Object.hash(runtimeType, uuid, email);
 
   @JsonKey(ignore: true)
   @override
@@ -153,30 +153,30 @@ class _$UserImpl with DiagnosticableTreeMixin implements _User {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String uuid, String name) $default, {
+    TResult Function(String uuid, String email) $default, {
     required TResult Function() guest,
   }) {
-    return $default(uuid, name);
+    return $default(uuid, email);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String uuid, String name)? $default, {
+    TResult? Function(String uuid, String email)? $default, {
     TResult? Function()? guest,
   }) {
-    return $default?.call(uuid, name);
+    return $default?.call(uuid, email);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String uuid, String name)? $default, {
+    TResult Function(String uuid, String email)? $default, {
     TResult Function()? guest,
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(uuid, name);
+      return $default(uuid, email);
     }
     return orElse();
   }
@@ -215,10 +215,10 @@ class _$UserImpl with DiagnosticableTreeMixin implements _User {
 
 abstract class _User implements User {
   const factory _User(
-      {required final String uuid, required final String name}) = _$UserImpl;
+      {required final String uuid, required final String email}) = _$UserImpl;
 
   String get uuid;
-  String get name;
+  String get email;
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -268,7 +268,7 @@ class _$GuestImpl with DiagnosticableTreeMixin implements _Guest {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String uuid, String name) $default, {
+    TResult Function(String uuid, String email) $default, {
     required TResult Function() guest,
   }) {
     return guest();
@@ -277,7 +277,7 @@ class _$GuestImpl with DiagnosticableTreeMixin implements _Guest {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String uuid, String name)? $default, {
+    TResult? Function(String uuid, String email)? $default, {
     TResult? Function()? guest,
   }) {
     return guest?.call();
@@ -286,7 +286,7 @@ class _$GuestImpl with DiagnosticableTreeMixin implements _Guest {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String uuid, String name)? $default, {
+    TResult Function(String uuid, String email)? $default, {
     TResult Function()? guest,
     required TResult orElse(),
   }) {

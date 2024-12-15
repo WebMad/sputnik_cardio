@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
+import 'package:sputnik_auth/sputnik_auth.dart';
 import 'package:sputnik_cardio/src/features/tracking/presentation/screens/tracking_screen.dart';
 import 'package:sputnik_localization/sputnik_localization.dart';
+
+import '../features/auth/auth_di.dart';
 
 class SputnikMain extends StatefulWidget {
   const SputnikMain({super.key});
@@ -17,28 +21,30 @@ class _SputnikMainState extends State<SputnikMain> {
 
   @override
   Widget build(BuildContext context) {
+    final authController = DepsNodeBinder.of<AuthDi>(context).authController;
+
     return Scaffold(
       body: DefaultTabController(
         length: 2,
         child: Column(
           children: [
-            const Expanded(
+            Expanded(
               child: TabBarView(
                 children: [
-                  TrackingScreen(),
-                  SizedBox.shrink(),
+                  const TrackingScreen(),
+                  ProfileScreen(authController: authController),
                 ],
               ),
             ),
             TabBar(
               tabs: [
                 Tab(
-                  icon: Icon(Icons.fiber_manual_record),
+                  icon: const Icon(Icons.fiber_manual_record),
                   text: context.tr.helloWorld,
                 ),
                 Tab(
-                  icon: Icon(Icons.person),
-                  text: 'Профиль',
+                  icon: const Icon(Icons.person),
+                  text: context.tr.profile,
                 ),
               ],
             ),

@@ -35,7 +35,7 @@ class _SignInScreenState extends State<SignInScreen> {
     final theme = SpukiTheme.of(context);
     final puk = theme.puk;
 
-    final authDi = DepsNodeBinder.of<AuthDi>(context);
+    final authDi = DepsNodeBinder.of<AuthDepsNode>(context);
     final signInStateHolder = authDi.signInStateHolder;
     final signInManager = authDi.signInManager;
 

@@ -30,4 +30,19 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get unknownSignInError => 'Неизвестная ошибка при входе в аккаунт';
+
+  @override
+  String get unknownAuthState => 'Упс, кажется произошла ошибка. Вас тут быть не должно';
+
+  @override
+  String get notAuthorizedOnProfile => 'Вы не зарегистрированы';
+
+  @override
+  String get guest => 'Гость';
+
+  @override
+  String get profile => 'Профиль';
+
+  @override
+  String get logout => 'Выйти из аккаунта';
 }

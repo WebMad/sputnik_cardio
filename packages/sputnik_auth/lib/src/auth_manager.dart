@@ -1,11 +1,14 @@
 import 'dart:async';
 
-import 'package:sputnik_auth/src/auth_state_holder.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sputnik_di/sputnik_di.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
+
+import 'models/user.dart';
+import 'state_holders/auth_state_holder.dart';
 
 class AuthManager extends Lifecycle {
-  final SupabaseClient _supabaseClient;
+  final supabase.SupabaseClient _supabaseClient;
   final AuthStateHolder _authStateHolder;
 
   AuthManager(
@@ -27,15 +30,30 @@ class AuthManager extends Lifecycle {
     try {
       final user = (await _supabaseClient.auth.getUser()).user;
       isAuthed = user != null;
+
+      if (isAuthed) {
+        _authStateHolder.authed(
+          user: User(
+            uuid: user.id,
+            email: user.email ?? "Undefined email",
+          ),
+        );
+        return;
+      }
     } on Object catch (e, st) {
       /// TODO: add analytics
     }
 
-    if (isAuthed) {
-      _authStateHolder.authed();
-      return;
-    }
-
     _authStateHolder.notAuthed();
+  }
+
+  void logout() {
+    try {
+      _supabaseClient.auth.signOut();
+
+      _authStateHolder.notAuthed();
+    } on Object catch (e, st) {
+      /// TODO: create analytics
+    }
   }
 }

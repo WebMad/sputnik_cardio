@@ -10,5 +10,10 @@
   "invalidPassword": "The password must contain no less than 6 and no more than 64 characters",
   "passwordDontMatch": "The passwords don't match",
   "unknownSignUpError": "Unknown error when creating an account",
-  "unknownSignInError": "Unknown error when logging in to the account"
+  "unknownSignInError": "Unknown error when logging in to the account",
+  "unknownAuthState": "Oops, I think there's been a mistake. You shouldn't be here",
+  "notAuthorizedOnProfile": "You are not authorized",
+  "guest": "Guest",
+  "profile": "Profile",
+  "logout": "Logout"
 }
