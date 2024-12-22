@@ -176,6 +176,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Logout'**
   String get logout;
+
+  /// No description provided for @recordTrain.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking'**
+  String get recordTrain;
+
+  /// No description provided for @workouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts'**
+  String get workouts;
+
+  /// No description provided for @workoutListLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout list loading'**
+  String get workoutListLoading;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

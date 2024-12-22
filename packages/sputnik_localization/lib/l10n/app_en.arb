@@ -15,5 +15,8 @@
   "notAuthorizedOnProfile": "You are not authorized",
   "guest": "Guest",
   "profile": "Profile",
-  "logout": "Logout"
+  "logout": "Logout",
+  "recordTrain": "Tracking",
+  "workouts": "Workouts",
+  "workoutListLoading": "Workout list loading..."
 }

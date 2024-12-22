@@ -45,4 +45,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logout => 'Logout';
+
+  @override
+  String get recordTrain => 'Tracking';
+
+  @override
+  String get workouts => 'Workouts';
+
+  @override
+  String get workoutListLoading => 'Workout list loading';
 }

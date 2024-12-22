@@ -1,17 +1,23 @@
+import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_lifecycle_manager.dart';
+
 import 'tracking_holder.dart';
 import 'tracking_model.dart';
 
 class TrackingPresenter {
   final TrackingHolder _trackingHolder;
+  final WorkoutLifecycleManager _workoutLifecycleManager;
 
-  TrackingPresenter(this._trackingHolder);
+  TrackingPresenter(
+    this._trackingHolder,
+    this._workoutLifecycleManager,
+  );
 
   void start() {
     if (!_trackingHolder.isInitial) {
       return;
     }
 
-    _trackingHolder.update(const TrackingModel.played());
+    _workoutLifecycleManager.start();
   }
 
   void resume() {
@@ -19,7 +25,7 @@ class TrackingPresenter {
       return;
     }
 
-    _trackingHolder.update(const TrackingModel.played());
+    // _trackingHolder.update(const TrackingModel.played());
   }
 
   void pause() {
@@ -27,7 +33,7 @@ class TrackingPresenter {
       return;
     }
 
-    _trackingHolder.update(const TrackingModel.paused());
+    // _trackingHolder.update(const TrackingModel.paused());
   }
 
   void stop() {
@@ -35,7 +41,7 @@ class TrackingPresenter {
       return;
     }
 
-    _trackingHolder.update(const TrackingModel.stopped());
+    _workoutLifecycleManager.stop();
   }
 
   void reset() {

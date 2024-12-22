@@ -1,0 +1,52 @@
+import 'dart:async';
+
+import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
+import 'package:sputnik_cardio/src/features/tracking/presentation/presenters/tracking_presenter/tracking_holder.dart';
+import 'package:sputnik_cardio/src/features/tracking/presentation/presenters/tracking_presenter/tracking_model.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_remote_data_source.dart';
+
+import '../../tracking/models/pos.dart';
+
+class WorkoutCoordsRecordingManager implements Lifecycle {
+  final LocationManager _locationManager;
+  final TrackingHolder _trackingHolder;
+  final WorkoutRemoteDataSource _workoutRemoteDataSource;
+
+  StreamSubscription<Pos>? _locationSub;
+
+  WorkoutCoordsRecordingManager(
+    this._locationManager,
+    this._trackingHolder,
+    this._workoutRemoteDataSource,
+  );
+
+  @override
+  FutureOr<void> init() {}
+
+  Future<void> startRecord() async {
+    if (_locationSub != null) {
+      return;
+    }
+
+    _locationSub = _locationManager.locationStream
+        .throttleTime(const Duration(seconds: 1))
+        .listen(
+      (pos) {
+        final workout = _trackingHolder.state.getWorkout;
+        _workoutRemoteDataSource.recordWorkoutCoord(workout.id, pos);
+      },
+    );
+  }
+
+  Future<void> stopRecord() async {
+    await _locationSub?.cancel();
+    _locationSub = null;
+  }
+
+  @override
+  FutureOr<void> dispose() async {
+    await stopRecord();
+  }
+}

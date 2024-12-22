@@ -45,4 +45,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get logout => 'Выйти из аккаунта';
+
+  @override
+  String get recordTrain => 'Запись';
+
+  @override
+  String get workouts => 'Тренировки';
+
+  @override
+  String get workoutListLoading => 'Загрузка списка тренировок';
 }

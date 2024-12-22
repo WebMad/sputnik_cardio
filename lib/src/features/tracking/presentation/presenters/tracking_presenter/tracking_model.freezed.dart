@@ -19,25 +19,25 @@ mixin _$TrackingModel {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() played,
-    required TResult Function() paused,
-    required TResult Function() stopped,
+    required TResult Function(Workout workout) played,
+    required TResult Function(Workout workout) paused,
+    required TResult Function(Workout workout) stopped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? played,
-    TResult? Function()? paused,
-    TResult? Function()? stopped,
+    TResult? Function(Workout workout)? played,
+    TResult? Function(Workout workout)? paused,
+    TResult? Function(Workout workout)? stopped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? played,
-    TResult Function()? paused,
-    TResult Function()? stopped,
+    TResult Function(Workout workout)? played,
+    TResult Function(Workout workout)? paused,
+    TResult Function(Workout workout)? stopped,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -134,9 +134,9 @@ class _$InitialTrackingModelImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() played,
-    required TResult Function() paused,
-    required TResult Function() stopped,
+    required TResult Function(Workout workout) played,
+    required TResult Function(Workout workout) paused,
+    required TResult Function(Workout workout) stopped,
   }) {
     return initial();
   }
@@ -145,9 +145,9 @@ class _$InitialTrackingModelImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? played,
-    TResult? Function()? paused,
-    TResult? Function()? stopped,
+    TResult? Function(Workout workout)? played,
+    TResult? Function(Workout workout)? paused,
+    TResult? Function(Workout workout)? stopped,
   }) {
     return initial?.call();
   }
@@ -156,9 +156,9 @@ class _$InitialTrackingModelImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? played,
-    TResult Function()? paused,
-    TResult Function()? stopped,
+    TResult Function(Workout workout)? played,
+    TResult Function(Workout workout)? paused,
+    TResult Function(Workout workout)? stopped,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -214,6 +214,10 @@ abstract class _$$PlayedTrackingModelImplCopyWith<$Res> {
   factory _$$PlayedTrackingModelImplCopyWith(_$PlayedTrackingModelImpl value,
           $Res Function(_$PlayedTrackingModelImpl) then) =
       __$$PlayedTrackingModelImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Workout workout});
+
+  $WorkoutCopyWith<$Res> get workout;
 }
 
 /// @nodoc
@@ -223,6 +227,27 @@ class __$$PlayedTrackingModelImplCopyWithImpl<$Res>
   __$$PlayedTrackingModelImplCopyWithImpl(_$PlayedTrackingModelImpl _value,
       $Res Function(_$PlayedTrackingModelImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? workout = null,
+  }) {
+    return _then(_$PlayedTrackingModelImpl(
+      workout: null == workout
+          ? _value.workout
+          : workout // ignore: cast_nullable_to_non_nullable
+              as Workout,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $WorkoutCopyWith<$Res> get workout {
+    return $WorkoutCopyWith<$Res>(_value.workout, (value) {
+      return _then(_value.copyWith(workout: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -230,62 +255,75 @@ class __$$PlayedTrackingModelImplCopyWithImpl<$Res>
 class _$PlayedTrackingModelImpl
     with DiagnosticableTreeMixin
     implements _PlayedTrackingModel {
-  const _$PlayedTrackingModelImpl();
+  const _$PlayedTrackingModelImpl({required this.workout});
+
+  @override
+  final Workout workout;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'TrackingModel.played()';
+    return 'TrackingModel.played(workout: $workout)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'TrackingModel.played'));
+    properties
+      ..add(DiagnosticsProperty('type', 'TrackingModel.played'))
+      ..add(DiagnosticsProperty('workout', workout));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PlayedTrackingModelImpl);
+            other is _$PlayedTrackingModelImpl &&
+            (identical(other.workout, workout) || other.workout == workout));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, workout);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PlayedTrackingModelImplCopyWith<_$PlayedTrackingModelImpl> get copyWith =>
+      __$$PlayedTrackingModelImplCopyWithImpl<_$PlayedTrackingModelImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() played,
-    required TResult Function() paused,
-    required TResult Function() stopped,
+    required TResult Function(Workout workout) played,
+    required TResult Function(Workout workout) paused,
+    required TResult Function(Workout workout) stopped,
   }) {
-    return played();
+    return played(workout);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? played,
-    TResult? Function()? paused,
-    TResult? Function()? stopped,
+    TResult? Function(Workout workout)? played,
+    TResult? Function(Workout workout)? paused,
+    TResult? Function(Workout workout)? stopped,
   }) {
-    return played?.call();
+    return played?.call(workout);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? played,
-    TResult Function()? paused,
-    TResult Function()? stopped,
+    TResult Function(Workout workout)? played,
+    TResult Function(Workout workout)? paused,
+    TResult Function(Workout workout)? stopped,
     required TResult orElse(),
   }) {
     if (played != null) {
-      return played();
+      return played(workout);
     }
     return orElse();
   }
@@ -329,7 +367,13 @@ class _$PlayedTrackingModelImpl
 }
 
 abstract class _PlayedTrackingModel implements TrackingModel {
-  const factory _PlayedTrackingModel() = _$PlayedTrackingModelImpl;
+  const factory _PlayedTrackingModel({required final Workout workout}) =
+      _$PlayedTrackingModelImpl;
+
+  Workout get workout;
+  @JsonKey(ignore: true)
+  _$$PlayedTrackingModelImplCopyWith<_$PlayedTrackingModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -337,6 +381,10 @@ abstract class _$$PausedTrackingModelImplCopyWith<$Res> {
   factory _$$PausedTrackingModelImplCopyWith(_$PausedTrackingModelImpl value,
           $Res Function(_$PausedTrackingModelImpl) then) =
       __$$PausedTrackingModelImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Workout workout});
+
+  $WorkoutCopyWith<$Res> get workout;
 }
 
 /// @nodoc
@@ -346,6 +394,27 @@ class __$$PausedTrackingModelImplCopyWithImpl<$Res>
   __$$PausedTrackingModelImplCopyWithImpl(_$PausedTrackingModelImpl _value,
       $Res Function(_$PausedTrackingModelImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? workout = null,
+  }) {
+    return _then(_$PausedTrackingModelImpl(
+      workout: null == workout
+          ? _value.workout
+          : workout // ignore: cast_nullable_to_non_nullable
+              as Workout,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $WorkoutCopyWith<$Res> get workout {
+    return $WorkoutCopyWith<$Res>(_value.workout, (value) {
+      return _then(_value.copyWith(workout: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -353,62 +422,75 @@ class __$$PausedTrackingModelImplCopyWithImpl<$Res>
 class _$PausedTrackingModelImpl
     with DiagnosticableTreeMixin
     implements _PausedTrackingModel {
-  const _$PausedTrackingModelImpl();
+  const _$PausedTrackingModelImpl({required this.workout});
+
+  @override
+  final Workout workout;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'TrackingModel.paused()';
+    return 'TrackingModel.paused(workout: $workout)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'TrackingModel.paused'));
+    properties
+      ..add(DiagnosticsProperty('type', 'TrackingModel.paused'))
+      ..add(DiagnosticsProperty('workout', workout));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PausedTrackingModelImpl);
+            other is _$PausedTrackingModelImpl &&
+            (identical(other.workout, workout) || other.workout == workout));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, workout);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PausedTrackingModelImplCopyWith<_$PausedTrackingModelImpl> get copyWith =>
+      __$$PausedTrackingModelImplCopyWithImpl<_$PausedTrackingModelImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() played,
-    required TResult Function() paused,
-    required TResult Function() stopped,
+    required TResult Function(Workout workout) played,
+    required TResult Function(Workout workout) paused,
+    required TResult Function(Workout workout) stopped,
   }) {
-    return paused();
+    return paused(workout);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? played,
-    TResult? Function()? paused,
-    TResult? Function()? stopped,
+    TResult? Function(Workout workout)? played,
+    TResult? Function(Workout workout)? paused,
+    TResult? Function(Workout workout)? stopped,
   }) {
-    return paused?.call();
+    return paused?.call(workout);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? played,
-    TResult Function()? paused,
-    TResult Function()? stopped,
+    TResult Function(Workout workout)? played,
+    TResult Function(Workout workout)? paused,
+    TResult Function(Workout workout)? stopped,
     required TResult orElse(),
   }) {
     if (paused != null) {
-      return paused();
+      return paused(workout);
     }
     return orElse();
   }
@@ -452,7 +534,13 @@ class _$PausedTrackingModelImpl
 }
 
 abstract class _PausedTrackingModel implements TrackingModel {
-  const factory _PausedTrackingModel() = _$PausedTrackingModelImpl;
+  const factory _PausedTrackingModel({required final Workout workout}) =
+      _$PausedTrackingModelImpl;
+
+  Workout get workout;
+  @JsonKey(ignore: true)
+  _$$PausedTrackingModelImplCopyWith<_$PausedTrackingModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -460,6 +548,10 @@ abstract class _$$StoppedTrackingModelImplCopyWith<$Res> {
   factory _$$StoppedTrackingModelImplCopyWith(_$StoppedTrackingModelImpl value,
           $Res Function(_$StoppedTrackingModelImpl) then) =
       __$$StoppedTrackingModelImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Workout workout});
+
+  $WorkoutCopyWith<$Res> get workout;
 }
 
 /// @nodoc
@@ -469,6 +561,27 @@ class __$$StoppedTrackingModelImplCopyWithImpl<$Res>
   __$$StoppedTrackingModelImplCopyWithImpl(_$StoppedTrackingModelImpl _value,
       $Res Function(_$StoppedTrackingModelImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? workout = null,
+  }) {
+    return _then(_$StoppedTrackingModelImpl(
+      workout: null == workout
+          ? _value.workout
+          : workout // ignore: cast_nullable_to_non_nullable
+              as Workout,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $WorkoutCopyWith<$Res> get workout {
+    return $WorkoutCopyWith<$Res>(_value.workout, (value) {
+      return _then(_value.copyWith(workout: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -476,62 +589,76 @@ class __$$StoppedTrackingModelImplCopyWithImpl<$Res>
 class _$StoppedTrackingModelImpl
     with DiagnosticableTreeMixin
     implements _StoppedTrackingModel {
-  const _$StoppedTrackingModelImpl();
+  const _$StoppedTrackingModelImpl({required this.workout});
+
+  @override
+  final Workout workout;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'TrackingModel.stopped()';
+    return 'TrackingModel.stopped(workout: $workout)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'TrackingModel.stopped'));
+    properties
+      ..add(DiagnosticsProperty('type', 'TrackingModel.stopped'))
+      ..add(DiagnosticsProperty('workout', workout));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$StoppedTrackingModelImpl);
+            other is _$StoppedTrackingModelImpl &&
+            (identical(other.workout, workout) || other.workout == workout));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, workout);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StoppedTrackingModelImplCopyWith<_$StoppedTrackingModelImpl>
+      get copyWith =>
+          __$$StoppedTrackingModelImplCopyWithImpl<_$StoppedTrackingModelImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() played,
-    required TResult Function() paused,
-    required TResult Function() stopped,
+    required TResult Function(Workout workout) played,
+    required TResult Function(Workout workout) paused,
+    required TResult Function(Workout workout) stopped,
   }) {
-    return stopped();
+    return stopped(workout);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? played,
-    TResult? Function()? paused,
-    TResult? Function()? stopped,
+    TResult? Function(Workout workout)? played,
+    TResult? Function(Workout workout)? paused,
+    TResult? Function(Workout workout)? stopped,
   }) {
-    return stopped?.call();
+    return stopped?.call(workout);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? played,
-    TResult Function()? paused,
-    TResult Function()? stopped,
+    TResult Function(Workout workout)? played,
+    TResult Function(Workout workout)? paused,
+    TResult Function(Workout workout)? stopped,
     required TResult orElse(),
   }) {
     if (stopped != null) {
-      return stopped();
+      return stopped(workout);
     }
     return orElse();
   }
@@ -575,5 +702,11 @@ class _$StoppedTrackingModelImpl
 }
 
 abstract class _StoppedTrackingModel implements TrackingModel {
-  const factory _StoppedTrackingModel() = _$StoppedTrackingModelImpl;
+  const factory _StoppedTrackingModel({required final Workout workout}) =
+      _$StoppedTrackingModelImpl;
+
+  Workout get workout;
+  @JsonKey(ignore: true)
+  _$$StoppedTrackingModelImplCopyWith<_$StoppedTrackingModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

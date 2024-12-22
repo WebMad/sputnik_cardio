@@ -12,5 +12,8 @@
   "notAuthorizedOnProfile": "Вы не зарегистрированы",
   "guest": "Гость",
   "profile": "Профиль",
-  "logout": "Выйти из аккаунта"
+  "logout": "Выйти из аккаунта",
+  "recordTrain": "Запись",
+  "workouts": "Тренировки",
+  "workoutListLoading": "Загрузка списка тренировок..."
 }

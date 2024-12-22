@@ -10,8 +10,10 @@ class TrackingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final trackingDepsNode = context.depsNode<TrackingDepsNode>(listen: true);
+    final trackingDataDepsNode =
+        context.depsNode<TrackingDataDepsNode>(listen: true);
 
-    final trackingHolder = trackingDepsNode.trackingHolder;
+    final trackingHolder = trackingDataDepsNode.trackingHolder;
     final trackingPresenter = trackingDepsNode.trackingPresenter;
 
     return Scaffold(

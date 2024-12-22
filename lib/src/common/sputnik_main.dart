@@ -5,6 +5,7 @@ import 'package:sputnik_cardio/src/features/tracking/presentation/screens/tracki
 import 'package:sputnik_localization/sputnik_localization.dart';
 
 import '../features/auth/auth_di.dart';
+import '../features/workout_recording/screens/workouts_screen.dart';
 
 class SputnikMain extends StatefulWidget {
   const SputnikMain({super.key});
@@ -25,13 +26,15 @@ class _SputnikMainState extends State<SputnikMain> {
 
     return Scaffold(
       body: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Column(
           children: [
             Expanded(
               child: TabBarView(
+
                 children: [
                   const TrackingScreen(),
+                  const WorkoutsScreen(),
                   ProfileScreen(authController: authController),
                 ],
               ),
@@ -40,7 +43,11 @@ class _SputnikMainState extends State<SputnikMain> {
               tabs: [
                 Tab(
                   icon: const Icon(Icons.fiber_manual_record),
-                  text: context.tr.helloWorld,
+                  text: context.tr.recordTrain,
+                ),
+                Tab(
+                  icon: const Icon(Icons.run_circle_outlined),
+                  text: context.tr.workouts,
                 ),
                 Tab(
                   icon: const Icon(Icons.person),

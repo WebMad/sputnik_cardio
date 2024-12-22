@@ -20,7 +20,7 @@ class CurrentLocationLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locationDataMarker =
-        context.depsNode<TrackingDepsNode>().locationDataMarker;
+        context.depsNode<LocationDepsNode>().locationDataMarker;
 
     return StreamBuilder<Pos>(
       stream: locationDataMarker.locationStream,
