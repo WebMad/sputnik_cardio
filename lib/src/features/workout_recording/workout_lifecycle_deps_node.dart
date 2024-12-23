@@ -17,14 +17,16 @@ class WorkoutLifecycleDepsNode extends DepsNode {
 
   late final workoutLifecycleManager = bind(
     () => WorkoutLifecycleManager(
-      _workoutRemoteDataSource,
+      workoutRemoteDataSource,
       _locationDepsNode.locationManager,
       _trackingDataDepsNode.trackingHolder,
       _workoutCoordsRecordingManager,
+      _locationDepsNode,
+      workoutTrackProvider,
     ),
   );
 
-  late final _workoutRemoteDataSource = bind(
+  late final workoutRemoteDataSource = bind(
     () => WorkoutRemoteDataSource(
       Supabase.instance.client,
       _authDi.authController,
@@ -35,14 +37,14 @@ class WorkoutLifecycleDepsNode extends DepsNode {
     () => WorkoutCoordsRecordingManager(
       _locationDepsNode.locationManager,
       _trackingDataDepsNode.trackingHolder,
-      _workoutRemoteDataSource,
+      workoutRemoteDataSource,
       workoutTrackProvider,
     ),
   );
 
   late final workoutListManager = bind(
     () => WorkoutListManager(
-      _workoutRemoteDataSource,
+      workoutRemoteDataSource,
       workoutsListStateHolder,
     ),
   );

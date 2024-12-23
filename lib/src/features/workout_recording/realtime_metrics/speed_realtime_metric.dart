@@ -24,7 +24,9 @@ class SpeedRealtimeMetricCalculator
         (pos.fetchedAt.difference(previousPos.fetchedAt).inSeconds / (60 * 60));
 
     _previousPos = pos;
-
+    if (timeInHours == 0) {
+      return;
+    }
     update(
       SpeedRealtimeMetric(
         distance / timeInHours,

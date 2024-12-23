@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:sputnik_auth/sputnik_auth.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/workout.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/models/workout_metrics.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../tracking/models/extended_pos.dart';
@@ -75,6 +76,10 @@ class WorkoutRemoteDataSource {
     return Workout.fromJson(res);
   }
 
+  Future<void> removeWorkout(int workoutId) async {
+    await _supabaseClient.rest.from('workouts').delete().eq('id', workoutId);
+  }
+
   Future<void> recordWorkoutCoord(int id, ExtendedPos pos) async {
     await _supabaseClient.rest.from('workout_coords').insert({
       'workout_id': id,
@@ -83,5 +88,30 @@ class WorkoutRemoteDataSource {
       'alt': pos.alt,
       'fetched_at': pos.fetchedAt.toIso8601String(),
     });
+  }
+
+  Future<void> createWorkoutMetrics(WorkoutMetrics workoutsMetrics) async {
+    await _supabaseClient.rest
+        .from('workout_metrics')
+        .insert(workoutsMetrics.toJson());
+  }
+
+  Future<WorkoutMetrics> workoutMetrics(int workoutId) async {
+    final workoutMetric = await _supabaseClient.rest
+        .from('workout_metrics')
+        .select()
+        .eq('workout_id', workoutId)
+        .single();
+
+    return WorkoutMetrics.fromJson(workoutMetric);
+  }
+
+  Future<List<ExtendedPos>> getWorkoutCoords(int workoutId) async {
+    final workoutCoords = await _supabaseClient.rest
+        .from('workout_coords')
+        .select()
+        .eq('workout_id', workoutId);
+
+    return workoutCoords.map((e) => ExtendedPos.fromJson(e)).toList();
   }
 }

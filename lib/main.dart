@@ -48,21 +48,17 @@ class _MyAppState extends State<MyApp> {
   );
   late final _appDepsNode = AppDepsNode(_authDi);
   late final _mapsDepsNode = MapsDepsNode(_locationDepsNode);
-  late final _realtimeMetricsDepsNode =
-      RealtimeMetricsDepsNode(_locationDepsNode);
 
   @override
   void initState() {
     super.initState();
 
     _mapsDepsNode.init();
-    _realtimeMetricsDepsNode.init();
   }
 
   @override
   void dispose() {
     _mapsDepsNode.dispose();
-    _realtimeMetricsDepsNode.dispose();
     super.dispose();
   }
 
@@ -87,15 +83,12 @@ class _MyAppState extends State<MyApp> {
                   depsNode: () => _locationDepsNode,
                   child: DepsNodeBinder(
                     depsNode: () => _mapsDepsNode,
-                    child: DepsNodeBinder(
-                      depsNode: () => _realtimeMetricsDepsNode,
-                      child: SpukiTheme(
-                        spukiThemeData: isLightMode
-                            ? const SpukiThemeData.light()
-                            : const SpukiThemeData.dark(),
-                        child: const AppInitializeWrapper(
-                          child: SputnikMaterial(),
-                        ),
+                    child: SpukiTheme(
+                      spukiThemeData: isLightMode
+                          ? const SpukiThemeData.light()
+                          : const SpukiThemeData.dark(),
+                      child: const AppInitializeWrapper(
+                        child: SputnikMaterial(),
                       ),
                     ),
                   ),

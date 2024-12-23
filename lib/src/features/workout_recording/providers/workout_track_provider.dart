@@ -1,14 +1,22 @@
 import 'dart:async';
 
+import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/pos.dart';
 
 import '../../maps/providers/track_provider.dart';
 
 class WorkoutTrackProvider extends TrackProvider {
-  final _track = <Pos>[];
-  final _controller = StreamController<Pos>.broadcast();
+  final _track = <ExtendedPos>[];
+  final _controller = StreamController<ExtendedPos>.broadcast();
 
-  void push(Pos pos) {
+  void pushAll(List<ExtendedPos> coords) {
+    _track.addAll(coords);
+    if (coords.isNotEmpty) {
+      _controller.add(coords.last);
+    }
+  }
+
+  void push(ExtendedPos pos) {
     _track.add(pos);
     _controller.add(pos);
   }
@@ -18,8 +26,8 @@ class WorkoutTrackProvider extends TrackProvider {
   }
 
   @override
-  List<Pos> get track => _track;
+  List<ExtendedPos> get track => _track;
 
   @override
-  Stream<Pos> get trackStream => _controller.stream;
+  Stream<ExtendedPos> get trackStream => _controller.stream;
 }

@@ -6,6 +6,7 @@ import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.d
 import 'package:sputnik_cardio/src/features/tracking/presentation/presenters/tracking_presenter/tracking_holder.dart';
 import 'package:sputnik_cardio/src/features/tracking/presentation/presenters/tracking_presenter/tracking_model.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_remote_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/models/workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/providers/workout_track_provider.dart';
 
 import '../../tracking/models/pos.dart';
@@ -28,7 +29,7 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
   @override
   FutureOr<void> init() {}
 
-  Future<void> startRecord() async {
+  Future<void> startRecord(Workout workout) async {
     if (_locationSub != null) {
       return;
     }
@@ -37,7 +38,6 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
         .throttleTime(const Duration(seconds: 1))
         .listen(
       (pos) {
-        final workout = _trackingHolder.state.getWorkout;
         _workoutRemoteDataSource.recordWorkoutCoord(workout.id, pos);
         _workoutTrackProvider.push(pos);
       },
