@@ -12,6 +12,29 @@ abstract class DepsNode {
   }
 }
 
+abstract class DepsNodeWithLifecycle extends DepsNode implements Lifecycle {
+  bool _isInitialized = false;
+  Completer<void> _initializeCompleter = Completer<void>();
+
+  bool get isInitialized => _isInitialized;
+
+  Future<void> get initializeFuture => _initializeCompleter.future;
+
+  @override
+  @mustCallSuper
+  FutureOr<void> init() async {
+    _isInitialized = true;
+    _initializeCompleter.complete();
+  }
+
+  @override
+  @mustCallSuper
+  FutureOr<void> dispose() async {
+    _initializeCompleter = Completer<void>();
+    _isInitialized = false;
+  }
+}
+
 mixin AutoDisposableDepsNode on DepsNode implements Disposable {
   final List<Disposable> disposable = [];
 

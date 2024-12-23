@@ -23,13 +23,13 @@ mixin _$Workout {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'start_pos')
-  Pos get startPos => throw _privateConstructorUsedError;
+  ExtendedPos get startPos => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
   @JsonKey(name: 'status')
   WorkoutState get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'end_pos')
-  Pos? get endPos => throw _privateConstructorUsedError;
+  ExtendedPos? get endPos => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'start_at')
@@ -49,16 +49,16 @@ abstract class $WorkoutCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'start_pos') Pos startPos,
+      @JsonKey(name: 'start_pos') ExtendedPos startPos,
       @JsonKey(name: 'user_id') String userId,
       @JsonKey(name: 'status') WorkoutState status,
-      @JsonKey(name: 'end_pos') Pos? endPos,
+      @JsonKey(name: 'end_pos') ExtendedPos? endPos,
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'start_at') DateTime? startAt,
       @JsonKey(name: 'stop_at') DateTime? stopAt});
 
-  $PosCopyWith<$Res> get startPos;
-  $PosCopyWith<$Res>? get endPos;
+  $ExtendedPosCopyWith<$Res> get startPos;
+  $ExtendedPosCopyWith<$Res>? get endPos;
 }
 
 /// @nodoc
@@ -91,7 +91,7 @@ class _$WorkoutCopyWithImpl<$Res, $Val extends Workout>
       startPos: null == startPos
           ? _value.startPos
           : startPos // ignore: cast_nullable_to_non_nullable
-              as Pos,
+              as ExtendedPos,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -103,7 +103,7 @@ class _$WorkoutCopyWithImpl<$Res, $Val extends Workout>
       endPos: freezed == endPos
           ? _value.endPos
           : endPos // ignore: cast_nullable_to_non_nullable
-              as Pos?,
+              as ExtendedPos?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -121,20 +121,20 @@ class _$WorkoutCopyWithImpl<$Res, $Val extends Workout>
 
   @override
   @pragma('vm:prefer-inline')
-  $PosCopyWith<$Res> get startPos {
-    return $PosCopyWith<$Res>(_value.startPos, (value) {
+  $ExtendedPosCopyWith<$Res> get startPos {
+    return $ExtendedPosCopyWith<$Res>(_value.startPos, (value) {
       return _then(_value.copyWith(startPos: value) as $Val);
     });
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $PosCopyWith<$Res>? get endPos {
+  $ExtendedPosCopyWith<$Res>? get endPos {
     if (_value.endPos == null) {
       return null;
     }
 
-    return $PosCopyWith<$Res>(_value.endPos!, (value) {
+    return $ExtendedPosCopyWith<$Res>(_value.endPos!, (value) {
       return _then(_value.copyWith(endPos: value) as $Val);
     });
   }
@@ -149,18 +149,18 @@ abstract class _$$WorkoutImplCopyWith<$Res> implements $WorkoutCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'start_pos') Pos startPos,
+      @JsonKey(name: 'start_pos') ExtendedPos startPos,
       @JsonKey(name: 'user_id') String userId,
       @JsonKey(name: 'status') WorkoutState status,
-      @JsonKey(name: 'end_pos') Pos? endPos,
+      @JsonKey(name: 'end_pos') ExtendedPos? endPos,
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'start_at') DateTime? startAt,
       @JsonKey(name: 'stop_at') DateTime? stopAt});
 
   @override
-  $PosCopyWith<$Res> get startPos;
+  $ExtendedPosCopyWith<$Res> get startPos;
   @override
-  $PosCopyWith<$Res>? get endPos;
+  $ExtendedPosCopyWith<$Res>? get endPos;
 }
 
 /// @nodoc
@@ -191,7 +191,7 @@ class __$$WorkoutImplCopyWithImpl<$Res>
       startPos: null == startPos
           ? _value.startPos
           : startPos // ignore: cast_nullable_to_non_nullable
-              as Pos,
+              as ExtendedPos,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -203,7 +203,7 @@ class __$$WorkoutImplCopyWithImpl<$Res>
       endPos: freezed == endPos
           ? _value.endPos
           : endPos // ignore: cast_nullable_to_non_nullable
-              as Pos?,
+              as ExtendedPos?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -241,7 +241,7 @@ class _$WorkoutImpl with DiagnosticableTreeMixin implements _Workout {
   final int id;
   @override
   @JsonKey(name: 'start_pos')
-  final Pos startPos;
+  final ExtendedPos startPos;
   @override
   @JsonKey(name: 'user_id')
   final String userId;
@@ -250,7 +250,7 @@ class _$WorkoutImpl with DiagnosticableTreeMixin implements _Workout {
   final WorkoutState status;
   @override
   @JsonKey(name: 'end_pos')
-  final Pos? endPos;
+  final ExtendedPos? endPos;
   @override
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
@@ -320,10 +320,10 @@ class _$WorkoutImpl with DiagnosticableTreeMixin implements _Workout {
 abstract class _Workout implements Workout {
   const factory _Workout(
       {@JsonKey(name: 'id') required final int id,
-      @JsonKey(name: 'start_pos') required final Pos startPos,
+      @JsonKey(name: 'start_pos') required final ExtendedPos startPos,
       @JsonKey(name: 'user_id') required final String userId,
       @JsonKey(name: 'status') required final WorkoutState status,
-      @JsonKey(name: 'end_pos') final Pos? endPos,
+      @JsonKey(name: 'end_pos') final ExtendedPos? endPos,
       @JsonKey(name: 'created_at') required final DateTime createdAt,
       @JsonKey(name: 'start_at') final DateTime? startAt,
       @JsonKey(name: 'stop_at') final DateTime? stopAt}) = _$WorkoutImpl;
@@ -335,7 +335,7 @@ abstract class _Workout implements Workout {
   int get id;
   @override
   @JsonKey(name: 'start_pos')
-  Pos get startPos;
+  ExtendedPos get startPos;
   @override
   @JsonKey(name: 'user_id')
   String get userId;
@@ -344,7 +344,7 @@ abstract class _Workout implements Workout {
   WorkoutState get status;
   @override
   @JsonKey(name: 'end_pos')
-  Pos? get endPos;
+  ExtendedPos? get endPos;
   @override
   @JsonKey(name: 'created_at')
   DateTime get createdAt;

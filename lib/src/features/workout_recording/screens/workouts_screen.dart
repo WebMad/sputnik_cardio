@@ -34,35 +34,40 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
     final workoutsListStateHolder =
         workoutLifecycleDepsNode.workoutsListStateHolder;
 
+    final workoutListManager = workoutLifecycleDepsNode.workoutListManager;
+
     return SpukiScaffold(
       body: SafeArea(
-        child: StreamBuilder<List<Workout>?>(
-            initialData: workoutsListStateHolder.state,
-            stream: workoutsListStateHolder.stream,
-            builder: (context, snapshot) {
-              final workouts = snapshot.data;
+        child: RefreshIndicator(
+          onRefresh: () => workoutListManager.load(),
+          child: StreamBuilder<List<Workout>?>(
+              initialData: workoutsListStateHolder.state,
+              stream: workoutsListStateHolder.stream,
+              builder: (context, snapshot) {
+                final workouts = snapshot.data;
 
-              if (workouts == null) {
-                return Center(
-                  child: SpukiText(context.tr.workoutListLoading),
+                if (workouts == null) {
+                  return Center(
+                    child: SpukiText(context.tr.workoutListLoading),
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: workouts.length,
+                  itemBuilder: (context, index) => Container(
+                    padding: EdgeInsets.only(
+                      bottom: SpukiTheme.of(context).puk(4),
+                    ),
+                    child: Column(
+                      children: [
+                        const SpukiText.h2('Тренировка'),
+                        SpukiText(workouts[index].startAt.toString()),
+                      ],
+                    ),
+                  ),
                 );
-              }
-
-              return ListView.builder(
-                itemCount: workouts.length,
-                itemBuilder: (context, index) => Container(
-                  padding: EdgeInsets.only(
-                    bottom: SpukiTheme.of(context).puk(4),
-                  ),
-                  child: Column(
-                    children: [
-                      const SpukiText.h2('Тренировка'),
-                      SpukiText(workouts[index].startAt.toString()),
-                    ],
-                  ),
-                ),
-              );
-            }),
+              }),
+        ),
       ),
     );
   }

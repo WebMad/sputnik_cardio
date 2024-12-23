@@ -8,7 +8,7 @@ import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
 class MapsDepsNode extends DepsNode implements Lifecycle {
   final LocationDepsNode _locationDepsNode;
 
-  late final _mapsCenteringManager = bind(
+  late final mapsCenteringManager = bind(
     () => MapsCenteringManager(
       _locationDepsNode.locationManager,
       mapCenterStateHolder,
@@ -23,11 +23,11 @@ class MapsDepsNode extends DepsNode implements Lifecycle {
 
   @override
   FutureOr<void> init() async {
-    await _mapsCenteringManager.init();
+    await mapsCenteringManager.init();
   }
 
   @override
   Future<FutureOr<void>> dispose() async {
-    await _mapsCenteringManager.dispose();
+    await mapsCenteringManager.dispose();
   }
 }

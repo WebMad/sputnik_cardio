@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/realtime_metrics_deps_node.dart';
 
 import '../../../maps/widgets/sputnik_map.dart';
+import '../../../workout_recording/widgets/realtime_metrics_view.dart';
 
 class TrackingScreen extends StatelessWidget {
   const TrackingScreen({super.key});
@@ -13,14 +16,32 @@ class TrackingScreen extends StatelessWidget {
     final trackingDataDepsNode =
         context.depsNode<TrackingDataDepsNode>(listen: true);
 
+    final realtimeMetricsDepsNode = context.depsNode<RealtimeMetricsDepsNode>();
+
     final trackingHolder = trackingDataDepsNode.trackingHolder;
     final trackingPresenter = trackingDepsNode.trackingPresenter;
 
     return Scaffold(
       body: Column(
         children: [
-          const Expanded(
-            child: SputnikMap(),
+          Expanded(
+            child: Stack(
+              children: [
+                const SputnikMap(),
+                Container(
+                  color: Colors.white,
+                  width: double.infinity,
+                  child: FutureBuilder(
+                      future: realtimeMetricsDepsNode.initializeFuture,
+                      builder: (context, snapshot) {
+                        if (realtimeMetricsDepsNode.isInitialized) {
+                          return const RealtimeMetricsView();
+                        }
+                        return const SizedBox.shrink();
+                      }),
+                ),
+              ],
+            ),
           ),
           StreamBuilder(
             initialData: trackingHolder.state,

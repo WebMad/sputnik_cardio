@@ -5,6 +5,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/data_sources/worko
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_coords_recording_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_lifecycle_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_list_manager.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/providers/workout_track_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'state_holders/workouts_list_state_holder.dart';
@@ -35,6 +36,7 @@ class WorkoutLifecycleDepsNode extends DepsNode {
       _locationDepsNode.locationManager,
       _trackingDataDepsNode.trackingHolder,
       _workoutRemoteDataSource,
+      workoutTrackProvider,
     ),
   );
 
@@ -47,6 +49,10 @@ class WorkoutLifecycleDepsNode extends DepsNode {
 
   late final workoutsListStateHolder = bind(
     () => WorkoutsListStateHolder(),
+  );
+
+  late final workoutTrackProvider = bind(
+    () => WorkoutTrackProvider(),
   );
 
   WorkoutLifecycleDepsNode(

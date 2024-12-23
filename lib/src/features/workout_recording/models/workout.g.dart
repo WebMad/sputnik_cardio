@@ -9,12 +9,12 @@ part of 'workout.dart';
 _$WorkoutImpl _$$WorkoutImplFromJson(Map<String, dynamic> json) =>
     _$WorkoutImpl(
       id: (json['id'] as num).toInt(),
-      startPos: Pos.fromJson(json['start_pos'] as Map<String, dynamic>),
+      startPos: ExtendedPos.fromJson(json['start_pos'] as Map<String, dynamic>),
       userId: json['user_id'] as String,
       status: $enumDecode(_$WorkoutStateEnumMap, json['status']),
       endPos: json['end_pos'] == null
           ? null
-          : Pos.fromJson(json['end_pos'] as Map<String, dynamic>),
+          : ExtendedPos.fromJson(json['end_pos'] as Map<String, dynamic>),
       createdAt: DateTime.parse(json['created_at'] as String),
       startAt: json['start_at'] == null
           ? null

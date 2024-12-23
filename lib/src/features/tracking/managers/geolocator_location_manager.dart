@@ -1,9 +1,12 @@
 import 'package:geolocator/geolocator.dart';
 
+import '../models/extended_pos.dart';
 import '../models/pos.dart';
 import 'location_manager.dart';
 
 class GeolocatorLocationManager implements LocationManager {
+  ExtendedPos? _lastLocation;
+
   @override
   Future<bool> get checkPermissions async {
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -31,7 +34,7 @@ class GeolocatorLocationManager implements LocationManager {
   }
 
   @override
-  Future<Pos> get location async {
+  Future<ExtendedPos> get location async {
     final res = await checkPermissions;
 
     if (res) {
@@ -43,19 +46,34 @@ class GeolocatorLocationManager implements LocationManager {
   }
 
   @override
-  Stream<Pos> get locationStream async* {
+  Stream<ExtendedPos> get locationStream async* {
     final res = await checkPermissions;
 
     if (res) {
-      yield* Geolocator.getPositionStream().map((pos) => pos.pos);
+      yield* Geolocator.getPositionStream().map((pos) {
+        final position = pos.pos;
+
+        _lastLocation = position;
+
+        return position;
+      });
       return;
     }
 
     /// todo: надо делать логи
     yield* Stream.value(LocationManager.moscowPosition);
   }
+
+  @override
+  ExtendedPos get lastLocation =>
+      _lastLocation ?? LocationManager.moscowPosition;
 }
 
 extension on Position {
-  Pos get pos => Pos(lat: latitude, lon: longitude);
+  ExtendedPos get pos => ExtendedPos(
+        lat: latitude,
+        lon: longitude,
+        alt: altitude,
+        fetchedAt: DateTime.now(),
+      );
 }

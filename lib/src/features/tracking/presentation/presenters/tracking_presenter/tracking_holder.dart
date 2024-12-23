@@ -11,6 +11,8 @@ class TrackingHolder extends StateHolder<TrackingModel> {
 
   bool get isPlayedOrPaused => isPaused || isPlayed;
 
+  bool get isStopped => state.mapOrNull(stopped: (value) => true) ?? false;
+
   bool get isInitial => state.mapOrNull(initial: (value) => true) ?? false;
 
   void update(TrackingModel model) {

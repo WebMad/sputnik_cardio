@@ -23,6 +23,7 @@ class CurrentLocationLayer extends StatelessWidget {
         context.depsNode<LocationDepsNode>().locationDataMarker;
 
     return StreamBuilder<Pos>(
+      initialData: locationDataMarker.location,
       stream: locationDataMarker.locationStream,
       builder: (context, snapshot) {
         final pos = snapshot.data;
@@ -69,5 +70,7 @@ class CurrentLocationLayer extends StatelessWidget {
 }
 
 abstract class LocationDataMarker {
+  Pos get location;
+
   Stream<Pos> get locationStream;
 }

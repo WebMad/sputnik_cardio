@@ -9,5 +9,8 @@ class LocationDataMarkerImpl implements LocationDataMarker {
   LocationDataMarkerImpl(this._locationManager);
 
   @override
+  Pos get location => _locationManager.lastLocation;
+
+  @override
   Stream<Pos> get locationStream => _locationManager.locationStream;
 }

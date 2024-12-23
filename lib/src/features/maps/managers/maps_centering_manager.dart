@@ -8,6 +8,7 @@ import '../state_holders/map_center_state_holder.dart';
 
 enum CenterPositionStrategy {
   centerUserLocation,
+  disabled,
 }
 
 class MapsCenteringManager implements Lifecycle {
@@ -27,9 +28,17 @@ class MapsCenteringManager implements Lifecycle {
 
   @override
   FutureOr<void> init() => _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (timer) => _handleUpdateMap(),
-    );
+        const Duration(seconds: 1),
+        (timer) => _handleUpdateMap(),
+      );
+
+  void onUserInteract() {
+    _centerPositionStrategy = CenterPositionStrategy.disabled;
+  }
+
+  void onUserLocationTap() {
+    _centerPositionStrategy = CenterPositionStrategy.centerUserLocation;
+  }
 
   Future<void> _handleUpdateMap() async {
     if (_centerPositionStrategy == CenterPositionStrategy.centerUserLocation) {

@@ -4,6 +4,7 @@ import 'package:sputnik_auth/sputnik_auth.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/workout.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../tracking/models/extended_pos.dart';
 import '../../tracking/models/pos.dart';
 
 class WorkoutRemoteDataSource {
@@ -22,10 +23,14 @@ class WorkoutRemoteDataSource {
       ),
     )!;
 
-    final workouts = await _supabaseClient.from('workouts').select().eq(
+    final workouts = await _supabaseClient
+        .from('workouts')
+        .select()
+        .eq(
           'user_id',
           userId,
-        );
+        )
+        .order('created_at');
 
     return workouts.map((e) => Workout.fromJson(e)).toList();
   }
@@ -70,11 +75,13 @@ class WorkoutRemoteDataSource {
     return Workout.fromJson(res);
   }
 
-  Future<void> recordWorkoutCoord(int id, Pos pos) async {
+  Future<void> recordWorkoutCoord(int id, ExtendedPos pos) async {
     await _supabaseClient.rest.from('workout_coords').insert({
       'workout_id': id,
       'lat': pos.lat,
       'lon': pos.lon,
+      'alt': pos.alt,
+      'fetched_at': pos.fetchedAt.toIso8601String(),
     });
   }
 }

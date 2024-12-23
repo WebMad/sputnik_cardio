@@ -14,31 +14,33 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Pos _$PosFromJson(Map<String, dynamic> json) {
-  return _Pos.fromJson(json);
+LatLonPos _$LatLonPosFromJson(Map<String, dynamic> json) {
+  return _LatLonPos.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Pos {
+mixin _$LatLonPos {
   double get lat => throw _privateConstructorUsedError;
   double get lon => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PosCopyWith<Pos> get copyWith => throw _privateConstructorUsedError;
+  $LatLonPosCopyWith<LatLonPos> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PosCopyWith<$Res> {
-  factory $PosCopyWith(Pos value, $Res Function(Pos) then) =
-      _$PosCopyWithImpl<$Res, Pos>;
+abstract class $LatLonPosCopyWith<$Res> {
+  factory $LatLonPosCopyWith(LatLonPos value, $Res Function(LatLonPos) then) =
+      _$LatLonPosCopyWithImpl<$Res, LatLonPos>;
   @useResult
   $Res call({double lat, double lon});
 }
 
 /// @nodoc
-class _$PosCopyWithImpl<$Res, $Val extends Pos> implements $PosCopyWith<$Res> {
-  _$PosCopyWithImpl(this._value, this._then);
+class _$LatLonPosCopyWithImpl<$Res, $Val extends LatLonPos>
+    implements $LatLonPosCopyWith<$Res> {
+  _$LatLonPosCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -65,18 +67,22 @@ class _$PosCopyWithImpl<$Res, $Val extends Pos> implements $PosCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$PosImplCopyWith<$Res> implements $PosCopyWith<$Res> {
-  factory _$$PosImplCopyWith(_$PosImpl value, $Res Function(_$PosImpl) then) =
-      __$$PosImplCopyWithImpl<$Res>;
+abstract class _$$LatLonPosImplCopyWith<$Res>
+    implements $LatLonPosCopyWith<$Res> {
+  factory _$$LatLonPosImplCopyWith(
+          _$LatLonPosImpl value, $Res Function(_$LatLonPosImpl) then) =
+      __$$LatLonPosImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double lat, double lon});
 }
 
 /// @nodoc
-class __$$PosImplCopyWithImpl<$Res> extends _$PosCopyWithImpl<$Res, _$PosImpl>
-    implements _$$PosImplCopyWith<$Res> {
-  __$$PosImplCopyWithImpl(_$PosImpl _value, $Res Function(_$PosImpl) _then)
+class __$$LatLonPosImplCopyWithImpl<$Res>
+    extends _$LatLonPosCopyWithImpl<$Res, _$LatLonPosImpl>
+    implements _$$LatLonPosImplCopyWith<$Res> {
+  __$$LatLonPosImplCopyWithImpl(
+      _$LatLonPosImpl _value, $Res Function(_$LatLonPosImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -85,7 +91,7 @@ class __$$PosImplCopyWithImpl<$Res> extends _$PosCopyWithImpl<$Res, _$PosImpl>
     Object? lat = null,
     Object? lon = null,
   }) {
-    return _then(_$PosImpl(
+    return _then(_$LatLonPosImpl(
       lat: null == lat
           ? _value.lat
           : lat // ignore: cast_nullable_to_non_nullable
@@ -100,11 +106,11 @@ class __$$PosImplCopyWithImpl<$Res> extends _$PosCopyWithImpl<$Res, _$PosImpl>
 
 /// @nodoc
 @JsonSerializable()
-class _$PosImpl with DiagnosticableTreeMixin implements _Pos {
-  const _$PosImpl({required this.lat, required this.lon});
+class _$LatLonPosImpl with DiagnosticableTreeMixin implements _LatLonPos {
+  const _$LatLonPosImpl({required this.lat, required this.lon});
 
-  factory _$PosImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PosImplFromJson(json);
+  factory _$LatLonPosImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LatLonPosImplFromJson(json);
 
   @override
   final double lat;
@@ -113,14 +119,14 @@ class _$PosImpl with DiagnosticableTreeMixin implements _Pos {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Pos(lat: $lat, lon: $lon)';
+    return 'LatLonPos(lat: $lat, lon: $lon)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'Pos'))
+      ..add(DiagnosticsProperty('type', 'LatLonPos'))
       ..add(DiagnosticsProperty('lat', lat))
       ..add(DiagnosticsProperty('lon', lon));
   }
@@ -129,7 +135,7 @@ class _$PosImpl with DiagnosticableTreeMixin implements _Pos {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PosImpl &&
+            other is _$LatLonPosImpl &&
             (identical(other.lat, lat) || other.lat == lat) &&
             (identical(other.lon, lon) || other.lon == lon));
   }
@@ -141,22 +147,23 @@ class _$PosImpl with DiagnosticableTreeMixin implements _Pos {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PosImplCopyWith<_$PosImpl> get copyWith =>
-      __$$PosImplCopyWithImpl<_$PosImpl>(this, _$identity);
+  _$$LatLonPosImplCopyWith<_$LatLonPosImpl> get copyWith =>
+      __$$LatLonPosImplCopyWithImpl<_$LatLonPosImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PosImplToJson(
+    return _$$LatLonPosImplToJson(
       this,
     );
   }
 }
 
-abstract class _Pos implements Pos {
-  const factory _Pos({required final double lat, required final double lon}) =
-      _$PosImpl;
+abstract class _LatLonPos implements LatLonPos {
+  const factory _LatLonPos(
+      {required final double lat, required final double lon}) = _$LatLonPosImpl;
 
-  factory _Pos.fromJson(Map<String, dynamic> json) = _$PosImpl.fromJson;
+  factory _LatLonPos.fromJson(Map<String, dynamic> json) =
+      _$LatLonPosImpl.fromJson;
 
   @override
   double get lat;
@@ -164,6 +171,6 @@ abstract class _Pos implements Pos {
   double get lon;
   @override
   @JsonKey(ignore: true)
-  _$$PosImplCopyWith<_$PosImpl> get copyWith =>
+  _$$LatLonPosImplCopyWith<_$LatLonPosImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

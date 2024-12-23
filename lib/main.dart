@@ -7,6 +7,7 @@ import 'package:sputnik_cardio/src/features/auth/auth_di.dart';
 import 'package:sputnik_cardio/src/common/app_initialize_wrapper.dart';
 import 'package:sputnik_cardio/src/features/maps/maps_deps_node.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/realtime_metrics_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_lifecycle_deps_node.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
@@ -47,17 +48,21 @@ class _MyAppState extends State<MyApp> {
   );
   late final _appDepsNode = AppDepsNode(_authDi);
   late final _mapsDepsNode = MapsDepsNode(_locationDepsNode);
+  late final _realtimeMetricsDepsNode =
+      RealtimeMetricsDepsNode(_locationDepsNode);
 
   @override
   void initState() {
     super.initState();
 
     _mapsDepsNode.init();
+    _realtimeMetricsDepsNode.init();
   }
 
   @override
   void dispose() {
     _mapsDepsNode.dispose();
+    _realtimeMetricsDepsNode.dispose();
     super.dispose();
   }
 
@@ -82,12 +87,15 @@ class _MyAppState extends State<MyApp> {
                   depsNode: () => _locationDepsNode,
                   child: DepsNodeBinder(
                     depsNode: () => _mapsDepsNode,
-                    child: SpukiTheme(
-                      spukiThemeData: isLightMode
-                          ? const SpukiThemeData.light()
-                          : const SpukiThemeData.dark(),
-                      child: const AppInitializeWrapper(
-                        child: SputnikMaterial(),
+                    child: DepsNodeBinder(
+                      depsNode: () => _realtimeMetricsDepsNode,
+                      child: SpukiTheme(
+                        spukiThemeData: isLightMode
+                            ? const SpukiThemeData.light()
+                            : const SpukiThemeData.dark(),
+                        child: const AppInitializeWrapper(
+                          child: SputnikMaterial(),
+                        ),
                       ),
                     ),
                   ),
