@@ -48,7 +48,7 @@ class _SputnikMapState extends State<SputnikMap> {
     _centerPosSub = null;
 
     _centerPosSub = DepsNodeBinder.of<MapsDepsNode>(context)
-        .mapCenterStateHolder
+        .mapCenterStateHolder()
         .stream
         .listen((center) {
       if (isReady && mounted) {
@@ -78,7 +78,7 @@ class _SputnikMapState extends State<SputnikMap> {
         DepsNodeBinder.of<WorkoutLifecycleDepsNode>(context);
 
     final trackingHolder =
-        DepsNodeBinder.of<TrackingDataDepsNode>(context).trackingHolder;
+        DepsNodeBinder.of<TrackingDataDepsNode>(context).trackingHolder();
 
     return Stack(
       children: [
@@ -92,7 +92,7 @@ class _SputnikMapState extends State<SputnikMap> {
                   isReady = true;
                 },
                 onPointerDown: (event, point) {
-                  mapsDepsNode.mapsCenteringManager.onUserInteract();
+                  mapsDepsNode.mapsCenteringManager().onUserInteract();
                 },
               ),
               mapController: flutterMapController,
@@ -108,7 +108,7 @@ class _SputnikMapState extends State<SputnikMap> {
                 if (trackingHolder.isPlayedOrPaused)
                   TrackLayer(
                     trackProvider:
-                        workoutLifecycleDepsNode.workoutTrackProvider,
+                        workoutLifecycleDepsNode.workoutTrackProvider(),
                   ),
                 const CurrentLocationLayer(size: 12),
               ],
@@ -120,7 +120,7 @@ class _SputnikMapState extends State<SputnikMap> {
           right: 10,
           child: GestureDetector(
             onTap: () {
-              mapsDepsNode.mapsCenteringManager.onUserLocationTap();
+              mapsDepsNode.mapsCenteringManager().onUserLocationTap();
             },
             child: Container(
               padding: EdgeInsets.all(theme.puk(2)),

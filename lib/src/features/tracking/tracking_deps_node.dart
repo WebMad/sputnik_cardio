@@ -17,8 +17,8 @@ class TrackingDepsNode extends DepsNode {
 
   late final trackingPresenter = bind(
     () => TrackingPresenter(
-      _trackingDataDepsNode.trackingHolder,
-      _workoutLifecycleDepsNode.workoutLifecycleManager,
+      _trackingDataDepsNode.trackingHolder(),
+      _workoutLifecycleDepsNode.workoutLifecycleManager(),
     ),
   );
 
@@ -38,5 +38,5 @@ class LocationDepsNode extends DepsNode {
       bind<LocationManager>(() => GeolocatorLocationManager());
 
   late final locationDataMarker =
-      bind<LocationDataMarker>(() => LocationDataMarkerImpl(locationManager));
+      bind<LocationDataMarker>(() => LocationDataMarkerImpl(locationManager()));
 }

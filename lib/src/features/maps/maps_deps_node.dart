@@ -10,8 +10,8 @@ class MapsDepsNode extends DepsNode implements Lifecycle {
 
   late final mapsCenteringManager = bind(
     () => MapsCenteringManager(
-      _locationDepsNode.locationManager,
-      mapCenterStateHolder,
+      _locationDepsNode.locationManager(),
+      mapCenterStateHolder(),
     ),
   );
 
@@ -22,12 +22,9 @@ class MapsDepsNode extends DepsNode implements Lifecycle {
   MapsDepsNode(this._locationDepsNode);
 
   @override
-  FutureOr<void> init() async {
-    await mapsCenteringManager.init();
-  }
-
-  @override
-  Future<FutureOr<void>> dispose() async {
-    await mapsCenteringManager.dispose();
-  }
+  List<Set<Lifecycle Function()>> get initializeQueue => [
+        {
+          mapsCenteringManager,
+        },
+      ];
 }

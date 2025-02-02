@@ -26,7 +26,7 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
     super.didChangeDependencies();
 
     DepsNodeBinder.of<WorkoutLifecycleDepsNode>(context)
-        .workoutListManager
+        .workoutListManager()
         .load();
   }
 
@@ -35,9 +35,9 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
     final workoutLifecycleDepsNode =
         DepsNodeBinder.of<WorkoutLifecycleDepsNode>(context);
     final workoutsListStateHolder =
-        workoutLifecycleDepsNode.workoutsListStateHolder;
+        workoutLifecycleDepsNode.workoutsListStateHolder();
 
-    final workoutListManager = workoutLifecycleDepsNode.workoutListManager;
+    final workoutListManager = workoutLifecycleDepsNode.workoutListManager();
 
     return SpukiScaffold(
       body: SafeArea(

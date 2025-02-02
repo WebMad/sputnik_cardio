@@ -19,7 +19,7 @@ class RealtimeMetricsManager implements Lifecycle {
   );
 
   @override
-  FutureOr<void> init() {
+  Future<void> init() async {
     _sub = _locationManager.locationStream.listen(
       (pos) => _handleLocation(pos),
     );
@@ -43,7 +43,7 @@ class RealtimeMetricsManager implements Lifecycle {
   }
 
   @override
-  FutureOr<void> dispose() async {
+  Future<void> dispose() async {
     await _sub?.cancel();
     _sub = null;
   }

@@ -47,8 +47,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     final authDi = DepsNodeBinder.of<AuthDepsNode>(context);
 
-    final signUpStateHolder = authDi.signUpStateHolder;
-    final signUpManager = authDi.signUpManager;
+    final signUpStateHolder = authDi.signUpStateHolderDep();
+    final signUpManager = authDi.signUpManager();
 
     final theme = SpukiTheme.of(context);
     final puk = theme.puk;
@@ -102,6 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 key: const ValueKey('password'),
                 placeholder: 'Password',
                 controller: _passController,
+                obscureText: true,
                 onChanged: (value) {
                   signUpManager.validatePassword(_passController.text);
                   setState(() {});
@@ -121,6 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 key: const ValueKey('repeat_password'),
                 placeholder: 'Repeat password',
                 controller: _repeatPassController,
+                obscureText: true,
                 onChanged: (value) {
                   signUpManager.validateRepeatPassword(
                     _passController.text,

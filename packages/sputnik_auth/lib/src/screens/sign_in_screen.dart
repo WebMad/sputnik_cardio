@@ -36,8 +36,8 @@ class _SignInScreenState extends State<SignInScreen> {
     final puk = theme.puk;
 
     final authDi = DepsNodeBinder.of<AuthDepsNode>(context);
-    final signInStateHolder = authDi.signInStateHolder;
-    final signInManager = authDi.signInManager;
+    final signInStateHolder = authDi.signInStateHolderDep();
+    final signInManager = authDi.signInManagerDep();
 
     return StreamBuilder<SignInState>(
         initialData: signInStateHolder.state,
@@ -83,6 +83,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 SpukiTextField(
                   key: const ValueKey('password'),
                   placeholder: 'Password',
+                  obscureText: true,
                   controller: _passController,
                   onChanged: (value) {
                     signInManager.validatePassword(_passController.text);

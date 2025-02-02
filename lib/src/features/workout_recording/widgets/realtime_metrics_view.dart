@@ -11,7 +11,7 @@ class RealtimeMetricsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final realtimeMetricsManager =
         DepsNodeBinder.of<RealtimeMetricsDepsNode>(context)
-            .realtimeMetricsManager;
+            .realtimeMetricsManager();
 
     return SafeArea(
       child: StreamBuilder<List<RealtimeMetric>>(

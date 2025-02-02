@@ -25,12 +25,12 @@ abstract class RealtimeMetricCalculator<T extends RealtimeMetric>
   }
 
   @override
-  FutureOr<void> init() async {
+  Future<void> init() async {
     _streamController = StreamController<T>.broadcast();
   }
 
   @override
-  FutureOr<void> dispose() async {
+  Future<void> dispose() async {
     await _streamController?.close();
     _streamController = null;
   }

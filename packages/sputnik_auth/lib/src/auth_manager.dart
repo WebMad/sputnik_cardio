@@ -17,13 +17,13 @@ class AuthManager extends Lifecycle {
   );
 
   @override
-  FutureOr<void> init() {
+  Future<void> init() async {
     // ignore: unawaited_futures
     checkAuth();
   }
 
   @override
-  FutureOr<void> dispose() {}
+  Future<void> dispose() async {}
 
   Future<void> checkAuth() async {
     bool isAuthed = false;

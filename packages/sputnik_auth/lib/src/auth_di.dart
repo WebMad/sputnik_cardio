@@ -1,3 +1,4 @@
+import 'package:sputnik_auth/sputnik_auth.dart';
 import 'package:sputnik_auth/src/auth_manager.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_auth/src/sign_in/sign_in_state_holder.dart';
@@ -11,37 +12,44 @@ import 'state_holders/auth_state_holder.dart';
 class AuthDepsNode extends DepsNode {
   final SupabaseClient _supabaseClient;
 
-  late final authStateHolder = bind(() => AuthStateHolder());
+  AuthDepsNode(this._supabaseClient);
 
-  late final signUpStateHolder = bind(() => SignUpStateHolder());
+  late final authStateHolderDep = bind(() => AuthStateHolder());
+
+  late final signUpStateHolderDep = bind(() => SignUpStateHolder());
 
   late final signUpManager = bind(
     () => SignUpManager(
       _supabaseClient,
-      authManager,
-      signUpStateHolder,
-      signInManager,
+      authManagerDep(),
+      signUpStateHolderDep(),
+      signInManagerDep(),
     ),
   );
 
-  late final signInManager = bind(
+  late final signInManagerDep = bind(
     () => SignInManager(
       _supabaseClient,
-      authManager,
-      signInStateHolder,
+      authManagerDep(),
+      signInStateHolderDep(),
     ),
   );
 
-  late final signInStateHolder = bind(
+  late final signInStateHolderDep = bind(
     () => SignInStateHolder(),
   );
 
-  late final authManager = bind(
+  late final authManagerDep = bind(
     () => AuthManager(
-      authStateHolder,
+      authStateHolderDep(),
       _supabaseClient,
     ),
   );
 
-  AuthDepsNode(this._supabaseClient);
+  @override
+  List<Set<Lifecycle Function()>> get initializeQueue => [
+        {
+          authManagerDep,
+        },
+      ];
 }

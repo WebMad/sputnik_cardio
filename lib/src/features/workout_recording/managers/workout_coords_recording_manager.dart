@@ -27,7 +27,7 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
   );
 
   @override
-  FutureOr<void> init() {}
+  Future<void> init() async {}
 
   Future<void> startRecord(Workout workout) async {
     if (_locationSub != null) {
@@ -51,7 +51,7 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
   }
 
   @override
-  FutureOr<void> dispose() async {
+  Future<void> dispose() async {
     await stopRecord();
   }
 }

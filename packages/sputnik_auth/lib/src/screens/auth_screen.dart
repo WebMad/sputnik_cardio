@@ -33,7 +33,7 @@ class _AuthScreenState extends State<AuthScreen> {
       authController: widget.authController,
       builder: (context) {
         final authStateHolder =
-            DepsNodeBinder.of<AuthDepsNode>(context).authStateHolder;
+            DepsNodeBinder.of<AuthDepsNode>(context).authStateHolderDep();
 
         return StateHolderListener<AuthStateHolder, AuthState>(
           listener: (data) {

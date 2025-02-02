@@ -43,7 +43,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   }
 
   Future<void> _load() async {
-    await _workoutCoordsDepsNode.workoutCoordsLoaderManager
+    await _workoutCoordsDepsNode
+        .workoutCoordsLoaderManager()
         .load(widget.workoutSummary.workout.id);
 
     if (mounted) {
@@ -53,7 +54,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   }
 
   void _centerMap() {
-    final track = _workoutCoordsDepsNode.workoutTrackProvider.track;
+    final track = _workoutCoordsDepsNode.workoutTrackProvider().track;
 
     if (track.isNotEmpty && _isReady) {
       flutterMapController.fitCamera(
@@ -139,7 +140,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                     ),
                     TrackLayer(
                       trackProvider:
-                          _workoutCoordsDepsNode.workoutTrackProvider,
+                          _workoutCoordsDepsNode.workoutTrackProvider(),
                     ),
                   ],
                 ),

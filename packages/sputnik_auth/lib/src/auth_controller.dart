@@ -24,19 +24,20 @@ class AuthController implements Lifecycle {
     return depsNode;
   }
 
-  AuthState get authState => depsNode.authStateHolder.state;
+  AuthState get authState => depsNode.authStateHolderDep().state;
 
-  Stream<AuthState> get authStateStream => depsNode.authStateHolder.asStream;
+  Stream<AuthState> get authStateStream =>
+      depsNode.authStateHolderDep().asStream;
 
   @override
-  FutureOr<void> init() async {
+  Future<void> init() async {
     __depsNode = AuthDepsNode(_supabaseClient);
-    await depsNode.authManager.init();
+    await __depsNode?.init();
   }
 
   @override
-  FutureOr<void> dispose() async {
-    await depsNode.authManager.dispose();
+  Future<void> dispose() async {
+    await __depsNode?.dispose();
     __depsNode = null;
   }
 }

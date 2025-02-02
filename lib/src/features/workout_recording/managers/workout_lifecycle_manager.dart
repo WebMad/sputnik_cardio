@@ -1,3 +1,4 @@
+import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/tracking/presentation/presenters/tracking_presenter/tracking_holder.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_remote_data_source.dart';
@@ -38,7 +39,8 @@ class WorkoutLifecycleManager {
     final workout = await _workoutRemoteDataSource.create(startPos: location);
 
     await _workoutCoordsRecordingManager.startRecord(workout);
-    _realtimeMetricsDepsNode = RealtimeMetricsDepsNode(
+
+    final realtimeMetricsContainer = RealtimeMetricsDepsNode(
       _locationDepsNode,
     );
 

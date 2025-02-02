@@ -27,7 +27,7 @@ class MapsCenteringManager implements Lifecycle {
   );
 
   @override
-  FutureOr<void> init() => _timer = Timer.periodic(
+  Future<void> init() async => _timer = Timer.periodic(
         const Duration(seconds: 1),
         (timer) => _handleUpdateMap(),
       );
@@ -49,7 +49,7 @@ class MapsCenteringManager implements Lifecycle {
   }
 
   @override
-  FutureOr<void> dispose() {
+  Future<void> dispose() async {
     _timer?.cancel();
     _timer = null;
   }

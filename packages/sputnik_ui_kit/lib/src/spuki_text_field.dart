@@ -4,12 +4,14 @@ class SpukiTextField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final String? placeholder;
   final TextEditingController? controller;
+  final bool obscureText;
 
   const SpukiTextField({
     super.key,
     this.onChanged,
     this.placeholder,
     this.controller,
+    this.obscureText = false,
   });
 
   @override
@@ -17,6 +19,7 @@ class SpukiTextField extends StatelessWidget {
     return TextFormField(
       onChanged: (value) => onChanged?.call(value),
       controller: controller,
+      obscureText: obscureText,
       decoration: InputDecoration(
         hintText: placeholder,
       ),

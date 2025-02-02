@@ -12,8 +12,8 @@ class WorkoutCoordsDepsNode extends DepsNode {
 
   late final workoutCoordsLoaderManager = bind(
     () => WorkoutCoordsLoaderManager(
-      _workoutLifecycleDepsNode.workoutRemoteDataSource,
-      workoutTrackProvider,
+      _workoutLifecycleDepsNode.workoutRemoteDataSource(),
+      workoutTrackProvider(),
     ),
   );
 

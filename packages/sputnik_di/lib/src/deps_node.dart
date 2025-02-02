@@ -3,56 +3,82 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:sputnik_di/sputnik_di.dart';
 
-abstract class DepsNode {
+enum DepsNodeStatus {
+  idle,
+  initializing,
+  initialized,
+  disposing,
+  disposed,
+}
+
+abstract class DepsNode implements Lifecycle {
   @protected
-  R bind<R>(R Function() creator) {
-    final object = creator();
+  List<Set<Lifecycle Function()>> initializeQueue = [];
 
-    return object;
-  }
-}
+  final StreamController<DepsNodeStatus> _statusController =
+      StreamController<DepsNodeStatus>.broadcast();
 
-abstract class DepsNodeWithLifecycle extends DepsNode implements Lifecycle {
-  bool _isInitialized = false;
-  Completer<void> _initializeCompleter = Completer<void>();
+  bool _initGetDepsLock = false;
 
-  bool get isInitialized => _isInitialized;
+  DepsNodeStatus _status = DepsNodeStatus.idle;
 
-  Future<void> get initializeFuture => _initializeCompleter.future;
+  Stream<DepsNodeStatus> get statusStream => _statusController.stream;
 
-  @override
-  @mustCallSuper
-  FutureOr<void> init() async {
-    _isInitialized = true;
-    _initializeCompleter.complete();
+  DepsNodeStatus get status => _status;
+
+  void _setStatus(DepsNodeStatus newStatus) {
+    if (_status != newStatus) {
+      _status = newStatus;
+      _statusController.add(newStatus);
+    }
   }
 
   @override
   @mustCallSuper
-  FutureOr<void> dispose() async {
-    _initializeCompleter = Completer<void>();
-    _isInitialized = false;
-  }
-}
+  Future<void> init() async {
+    _setStatus(DepsNodeStatus.initializing);
+    _initGetDepsLock = true;
+    for (final initializeBatch in initializeQueue) {
+      final futures = <Future>[];
 
-mixin AutoDisposableDepsNode on DepsNode implements Disposable {
-  final List<Disposable> disposable = [];
+      for (final obj in initializeBatch) {
+        futures.add(obj().init());
+      }
 
-  @override
-  R bind<R>(R Function() creator) {
-    final dep = super.bind(creator);
-
-    if (dep is Disposable) {
-      disposable.add(dep);
+      await Future.wait(futures);
     }
-
-    return dep;
+    _initGetDepsLock = false;
+    _setStatus(DepsNodeStatus.initialized);
   }
 
   @override
-  FutureOr<void> dispose() {
-    for (final dep in disposable.reversed) {
-      dep.dispose();
+  @mustCallSuper
+  Future<void> dispose() async {
+    _setStatus(DepsNodeStatus.disposing);
+    for (final initializeBatch in initializeQueue.reversed) {
+      final futures = <Future>[];
+
+      for (final obj in initializeBatch) {
+        futures.add(obj().dispose());
+      }
+
+      await Future.wait(futures);
     }
+    _setStatus(DepsNodeStatus.disposed);
+    _statusController.close();
+  }
+
+  @protected
+  R Function() bind<R>(R Function() creator) {
+    final dep = creator();
+
+    return () {
+      assert(
+        _status == DepsNodeStatus.initialized || _initGetDepsLock,
+        'Invalid state while getting dependency',
+      );
+
+      return dep;
+    };
   }
 }

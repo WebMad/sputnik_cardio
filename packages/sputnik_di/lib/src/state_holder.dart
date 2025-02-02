@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sputnik_di/sputnik_di.dart';
 
 import 'lifecycle/disposable.dart';
 
-abstract class StateHolder<T> implements Disposable {
+abstract class StateHolder<T> implements Lifecycle {
   final _streamController = StreamController<T>.broadcast();
 
   T _state;
@@ -26,7 +27,11 @@ abstract class StateHolder<T> implements Disposable {
 
   @override
   @mustCallSuper
-  FutureOr<void> dispose() async {
+  Future<void> init() async {}
+
+  @override
+  @mustCallSuper
+  Future<void> dispose() async {
     await _streamController.close();
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
+import 'package:sputnik_cardio/src/common/app_scope_deps_node.dart';
+import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
 import 'package:sputnik_cardio/src/features/tracking/presentation/presenters/tracking_presenter/tracking_model.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/realtime_metrics_deps_node.dart';
@@ -14,15 +16,15 @@ class TrackingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final trackingDepsNode = context.depsNode<TrackingDepsNode>(listen: true);
-    final trackingDataDepsNode =
-        context.depsNode<TrackingDataDepsNode>(listen: true);
+    final authScope = context.depsNode<AuthScopeDepsNode>(listen: true);
 
-    final workoutLifecycleDepsNode =
-        context.depsNode<WorkoutLifecycleDepsNode>();
+    final trackingDepsNode = authScope.trackingDepsNode();
+    final trackingDataDepsNode = authScope.trackingDataDepsNode();
 
-    final trackingHolder = trackingDataDepsNode.trackingHolder;
-    final trackingPresenter = trackingDepsNode.trackingPresenter;
+    final workoutLifecycleContainer = authScope.workoutLifecycleDepsNode();
+
+    final trackingHolder = trackingDataDepsNode.trackingHolder();
+    final trackingPresenter = trackingDepsNode.trackingPresenter();
 
     return Scaffold(
       body: Column(
@@ -32,29 +34,41 @@ class TrackingScreen extends StatelessWidget {
               children: [
                 const SputnikMap(),
                 StreamBuilder<TrackingModel>(
-                    initialData: trackingHolder.state,
-                    stream: trackingHolder.stream,
-                    builder: (context, snapshot) {
-                      return Container(
-                        color: Colors.white,
-                        width: double.infinity,
-                        child: Builder(
-                          builder: (context) {
-                            final realtimeMetricsDepsNode =
-                                workoutLifecycleDepsNode.workoutLifecycleManager
-                                    .realtimeMetricsDepsNode;
-                            if (realtimeMetricsDepsNode != null &&
-                                realtimeMetricsDepsNode.isInitialized) {
+                  initialData: trackingHolder.state,
+                  stream: trackingHolder.stream,
+                  builder: (context, snapshot) {
+                    return Container(
+                      color: Colors.white,
+                      width: double.infinity,
+                      child: DepsNodeBuilder<WorkoutLifecycleDepsNode>(
+                        depsNode: workoutLifecycleContainer,
+                        initialized: (context, depsNode) {
+                          final realtimeMetricsDepsNode = depsNode
+                              .workoutLifecycleManager()
+                              .realtimeMetricsDepsNode;
+
+                          if (realtimeMetricsDepsNode == null) {
+                            return const SizedBox.shrink();
+                          }
+
+                          return DepsNodeBuilder(
+                            depsNode: realtimeMetricsDepsNode,
+                            initialized: (context, depsNode) {
                               return DepsNodeBinder(
                                 depsNode: () => realtimeMetricsDepsNode,
                                 child: const RealtimeMetricsView(),
                               );
-                            }
-                            return const SizedBox.shrink();
-                          },
-                        ),
-                      );
-                    }),
+                            },
+                            orElse: (context, depsNode) {
+                              return const SizedBox.shrink();
+                            },
+                          );
+                        },
+                        orElse: (context, depsNode) => const SizedBox.shrink(),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),

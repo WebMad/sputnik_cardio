@@ -3,5 +3,5 @@ import 'dart:async';
 import 'package:sputnik_di/src/lifecycle/part_of_lifecycle.dart';
 
 abstract class Disposable implements PartOfLifecycle {
-  FutureOr<void> dispose();
+  Future<void> dispose();
 }

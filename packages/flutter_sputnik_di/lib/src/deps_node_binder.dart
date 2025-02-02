@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:nested/nested.dart';
 import 'package:sputnik_di/sputnik_di.dart';
 
 class _DepsNodeBinderInh<T extends DepsNode> extends InheritedWidget {
@@ -23,40 +24,35 @@ class _DepsNodeBinderInh<T extends DepsNode> extends InheritedWidget {
   bool updateShouldNotify(_DepsNodeBinderInh old) => old.depsNode != depsNode;
 }
 
-class DepsNodeBinder<T extends DepsNode> extends StatefulWidget {
+class DepsNodeBinder<T extends DepsNode> extends SingleChildStatefulWidget {
   final T Function() depsNode;
-  final Widget child;
-  final bool bindToTree;
 
   const DepsNodeBinder._({
     super.key,
-    required this.child,
+    super.child,
     required this.depsNode,
-    this.bindToTree = true,
   });
 
   factory DepsNodeBinder({
     Key? key,
     required T Function() depsNode,
-    required Widget child,
+    Widget? child,
   }) =>
       DepsNodeBinder<T>._(
         child: child,
         key: key,
         depsNode: depsNode,
-        bindToTree: true,
       );
 
   factory DepsNodeBinder.value({
     Key? key,
     required T depsNode,
-    required Widget child,
+    Widget? child,
   }) =>
       DepsNodeBinder<T>._(
         key: key,
         depsNode: () => depsNode,
         child: child,
-        bindToTree: false,
       );
 
   static R of<R extends DepsNode>(
@@ -70,7 +66,7 @@ class DepsNodeBinder<T extends DepsNode> extends StatefulWidget {
 }
 
 class _DepsNodeBinderState<T extends DepsNode>
-    extends State<DepsNodeBinder<T>> {
+    extends SingleChildState<DepsNodeBinder<T>> {
   late final T depsNode;
 
   @override
@@ -86,12 +82,20 @@ class _DepsNodeBinderState<T extends DepsNode>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWithChild(BuildContext context, Widget? child) {
     return _DepsNodeBinderInh<T>(
       depsNode: depsNode,
-      child: widget.child,
+      child: child ?? SizedBox.shrink(),
     );
   }
+}
+
+class MultiDepsNodeBinder extends Nested {
+  MultiDepsNodeBinder({
+    super.key,
+    super.child,
+    required List<SingleChildWidget> depsNodeBinders,
+  }) : super(children: depsNodeBinders);
 }
 
 extension DepsNodeBuildContextEx on BuildContext {

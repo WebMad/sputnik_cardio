@@ -23,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
       builder: (context) {
         final authDepsNode = DepsNodeBinder.of<AuthDepsNode>(context);
 
-        final authStateHolder = authDepsNode.authStateHolder;
+        final authStateHolder = authDepsNode.authStateHolderDep();
 
         final theme = SpukiTheme.of(context);
 
@@ -63,7 +63,7 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(height: theme.puk(4)),
                   SpukiButton(
                     onPressed: () {
-                      authDepsNode.authManager.logout();
+                      authDepsNode.authManagerDep().logout();
                     },
                     child: SpukiText(context.tr.logout),
                   ),
