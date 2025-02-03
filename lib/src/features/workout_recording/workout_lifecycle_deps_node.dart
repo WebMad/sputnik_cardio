@@ -13,7 +13,7 @@ import 'state_holders/workouts_list_state_holder.dart';
 class WorkoutLifecycleDepsNode extends DepsNode {
   final TrackingDataDepsNode _trackingDataDepsNode;
   final LocationDepsNode _locationDepsNode;
-  final AuthDepsNode _authDi;
+  final AuthDepsNode _authDepsNode;
 
   late final workoutLifecycleManager = bind(
     () => WorkoutLifecycleManager(
@@ -29,7 +29,7 @@ class WorkoutLifecycleDepsNode extends DepsNode {
   late final workoutRemoteDataSource = bind(
     () => WorkoutRemoteDataSource(
       Supabase.instance.client,
-      _authDi.authController(),
+      _authDepsNode.authController(),
     ),
   );
 
@@ -60,6 +60,13 @@ class WorkoutLifecycleDepsNode extends DepsNode {
   WorkoutLifecycleDepsNode(
     this._trackingDataDepsNode,
     this._locationDepsNode,
-    this._authDi,
+    this._authDepsNode,
   );
+
+  @override
+  List<Set<LifecycleDependency>> get initializeQueue => [
+        {
+          workoutsListStateHolder,
+        },
+      ];
 }

@@ -6,7 +6,7 @@ import 'package:sputnik_auth/src/auth_wrapper.dart';
 import 'package:sputnik_localization/sputnik_localization.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
-import '../auth_di.dart';
+import '../auth_deps_node.dart';
 
 class ProfileScreen extends StatelessWidget {
   final AuthController authController;
@@ -23,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
       builder: (context) {
         final authDepsNode = DepsNodeBinder.of<AuthDepsNode>(context);
 
-        final authStateHolder = authDepsNode.authStateHolderDep();
+        final authStateHolder = authDepsNode.authStateHolder();
 
         final theme = SpukiTheme.of(context);
 
@@ -63,7 +63,7 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(height: theme.puk(4)),
                   SpukiButton(
                     onPressed: () {
-                      authDepsNode.authManagerDep().logout();
+                      authDepsNode.authManager().logout();
                     },
                     child: SpukiText(context.tr.logout),
                   ),

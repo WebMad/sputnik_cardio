@@ -14,42 +14,47 @@ class AuthDepsNode extends DepsNode {
 
   AuthDepsNode(this._supabaseClient);
 
-  late final authStateHolderDep = bind(() => AuthStateHolder());
+  late final authStateHolder = bind(() => AuthStateHolder());
 
-  late final signUpStateHolderDep = bind(() => SignUpStateHolder());
+  late final signUpStateHolder = bind(() => SignUpStateHolder());
 
   late final signUpManager = bind(
     () => SignUpManager(
       _supabaseClient,
-      authManagerDep(),
-      signUpStateHolderDep(),
-      signInManagerDep(),
+      authManager(),
+      signUpStateHolder(),
+      signInManager(),
     ),
   );
 
-  late final signInManagerDep = bind(
+  late final signInManager = bind(
     () => SignInManager(
       _supabaseClient,
-      authManagerDep(),
-      signInStateHolderDep(),
+      authManager(),
+      signInStateHolder(),
     ),
   );
 
-  late final signInStateHolderDep = bind(
+  late final signInStateHolder = bind(
     () => SignInStateHolder(),
   );
 
-  late final authManagerDep = bind(
+  late final authManager = bind(
     () => AuthManager(
-      authStateHolderDep(),
+      authStateHolder(),
       _supabaseClient,
     ),
   );
 
   @override
-  List<Set<Lifecycle Function()>> get initializeQueue => [
+  List<Set<LifecycleDependency>> get initializeQueue => [
         {
-          authManagerDep,
+          signInStateHolder,
+          signUpStateHolder,
+          authStateHolder,
+        },
+        {
+          authManager,
         },
       ];
 }

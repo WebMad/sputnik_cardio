@@ -31,6 +31,13 @@ class TrackingDepsNode extends DepsNode {
 
 class TrackingDataDepsNode extends DepsNode {
   late final trackingHolder = bind(() => TrackingHolder());
+
+  @override
+  List<Set<LifecycleDependency>> get initializeQueue => [
+        {
+          trackingHolder,
+        },
+      ];
 }
 
 class LocationDepsNode extends DepsNode {

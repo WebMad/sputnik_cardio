@@ -21,19 +21,19 @@ class StateHolderListener<T extends StateHolder<R>, R> extends StatefulWidget {
 
 class _StateHolderListenerState<T extends StateHolder<R>, R>
     extends State<StateHolderListener<T, R>> {
-  StreamSubscription<R>? sub;
+  StreamSubscription<R>? _sub;
 
   @override
   void initState() {
     super.initState();
 
-    sub = widget.stateHolder.stream.listen((event) => widget.listener(event));
+    _sub = widget.stateHolder.stream.listen((event) => widget.listener(event));
   }
 
   @override
   void dispose() {
-    sub?.cancel();
-    sub = null;
+    _sub?.cancel();
+    _sub = null;
     super.dispose();
   }
 

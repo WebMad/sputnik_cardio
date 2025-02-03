@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:sputnik_di/sputnik_di.dart';
 
+typedef LifecycleDependency = Lifecycle Function();
+
 enum DepsNodeStatus {
   idle,
   initializing,
@@ -13,12 +15,12 @@ enum DepsNodeStatus {
 
 abstract class DepsNode implements Lifecycle {
   @protected
-  List<Set<Lifecycle Function()>> initializeQueue = [];
+  List<Set<LifecycleDependency>> initializeQueue = [];
 
   final StreamController<DepsNodeStatus> _statusController =
       StreamController<DepsNodeStatus>.broadcast();
 
-  bool _initGetDepsLock = false;
+  bool _getDepsLock = false;
 
   DepsNodeStatus _status = DepsNodeStatus.idle;
 
@@ -37,17 +39,17 @@ abstract class DepsNode implements Lifecycle {
   @mustCallSuper
   Future<void> init() async {
     _setStatus(DepsNodeStatus.initializing);
-    _initGetDepsLock = true;
     for (final initializeBatch in initializeQueue) {
       final futures = <Future>[];
 
+      _getDepsLock = true;
       for (final obj in initializeBatch) {
         futures.add(obj().init());
       }
+      _getDepsLock = false;
 
       await Future.wait(futures);
     }
-    _initGetDepsLock = false;
     _setStatus(DepsNodeStatus.initialized);
   }
 
@@ -58,9 +60,11 @@ abstract class DepsNode implements Lifecycle {
     for (final initializeBatch in initializeQueue.reversed) {
       final futures = <Future>[];
 
+      _getDepsLock = true;
       for (final obj in initializeBatch) {
         futures.add(obj().dispose());
       }
+      _getDepsLock = false;
 
       await Future.wait(futures);
     }
@@ -74,8 +78,10 @@ abstract class DepsNode implements Lifecycle {
 
     return () {
       assert(
-        _status == DepsNodeStatus.initialized || _initGetDepsLock,
-        'Invalid state while getting dependency',
+        _status == DepsNodeStatus.initialized || _getDepsLock,
+        'Incorrect DepsNode status while retrieving dependency.\n'
+        'A dependency can only be retrieved when the status '
+        'is "initialized" or during the initialization of the initializeQueue.',
       );
 
       return dep;

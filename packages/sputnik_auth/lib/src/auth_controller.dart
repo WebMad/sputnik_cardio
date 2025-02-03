@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:sputnik_auth/src/auth_di.dart';
+import 'package:sputnik_auth/src/auth_deps_node.dart';
 import 'package:sputnik_auth/src/models/auth_state.dart';
 import 'package:sputnik_di/sputnik_di.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
@@ -24,10 +24,10 @@ class AuthController implements Lifecycle {
     return depsNode;
   }
 
-  AuthState get authState => depsNode.authStateHolderDep().state;
+  AuthState get authState => depsNode.authStateHolder().state;
 
   Stream<AuthState> get authStateStream =>
-      depsNode.authStateHolderDep().asStream;
+      depsNode.authStateHolder().asStream;
 
   @override
   Future<void> init() async {

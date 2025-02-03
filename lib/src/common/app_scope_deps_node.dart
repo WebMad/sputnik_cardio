@@ -9,7 +9,7 @@ import 'navigation_deps_node.dart';
 class AppScopeDepsNode extends DepsNode {
   @override
   @protected
-  List<Set<Lifecycle Function()>> get initializeQueue => [
+  List<Set<LifecycleDependency>> get initializeQueue => [
         {
           navigationDepsNode,
           locationDepsNode,

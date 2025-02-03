@@ -4,7 +4,7 @@ import 'package:sputnik_auth/src/models/sign_up_state.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 import 'package:sputnik_localization/sputnik_localization.dart';
 
-import '../auth_di.dart';
+import '../auth_deps_node.dart';
 
 class SignUpScreen extends StatefulWidget {
   final VoidCallback onSignInPressed;
@@ -47,7 +47,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     final authDi = DepsNodeBinder.of<AuthDepsNode>(context);
 
-    final signUpStateHolder = authDi.signUpStateHolderDep();
+    final signUpStateHolder = authDi.signUpStateHolder();
     final signUpManager = authDi.signUpManager();
 
     final theme = SpukiTheme.of(context);

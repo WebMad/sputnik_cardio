@@ -16,7 +16,7 @@ class AuthDepsNode extends DepsNode {
   );
 
   @override
-  List<Set<Lifecycle Function()>> get initializeQueue => [
+  List<Set<LifecycleDependency>> get initializeQueue => [
         {
           authController,
         },

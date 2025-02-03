@@ -13,7 +13,7 @@ class RealtimeMetricsDepsNode extends DepsNode {
   RealtimeMetricsDepsNode(this._locationDepsNode);
 
   @override
-  List<Set<Lifecycle Function()>> get initializeQueue => [
+  List<Set<LifecycleDependency>> get initializeQueue => [
         {
           _speedRealtimeMetricCalculator,
           _kmRealtimeMetricCalculator,

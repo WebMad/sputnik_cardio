@@ -4,8 +4,6 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sputnik_di/sputnik_di.dart';
 
-import 'lifecycle/disposable.dart';
-
 abstract class StateHolder<T> implements Lifecycle {
   final _streamController = StreamController<T>.broadcast();
 

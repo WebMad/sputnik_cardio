@@ -22,7 +22,10 @@ class MapsDepsNode extends DepsNode implements Lifecycle {
   MapsDepsNode(this._locationDepsNode);
 
   @override
-  List<Set<Lifecycle Function()>> get initializeQueue => [
+  List<Set<LifecycleDependency>> get initializeQueue => [
+        {
+          mapCenterStateHolder,
+        },
         {
           mapsCenteringManager,
         },

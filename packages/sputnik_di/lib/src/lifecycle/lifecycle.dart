@@ -1,4 +1,5 @@
-import 'package:sputnik_di/src/lifecycle/disposable.dart';
-import 'package:sputnik_di/src/lifecycle/initializable.dart';
+abstract class Lifecycle {
+  Future<void> init();
 
-abstract class Lifecycle implements Disposable, Initializable {}
+  Future<void> dispose();
+}
