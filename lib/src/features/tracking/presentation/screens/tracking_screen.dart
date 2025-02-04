@@ -21,7 +21,8 @@ class TrackingScreen extends StatelessWidget {
     final trackingDepsNode = authScope.trackingDepsNode();
     final trackingDataDepsNode = authScope.trackingDataDepsNode();
 
-    final workoutLifecycleContainer = authScope.workoutLifecycleDepsNode();
+    final workoutLifecycleContainer =
+        authScope.workoutDepsNode().workoutLifecycleDepsNode();
 
     final trackingHolder = trackingDataDepsNode.trackingHolder();
     final trackingPresenter = trackingDepsNode.trackingPresenter();

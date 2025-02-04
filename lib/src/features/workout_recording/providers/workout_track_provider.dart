@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/pos.dart';
 
 import '../../maps/providers/track_provider.dart';
 
-class WorkoutTrackProvider extends TrackProvider {
+class WorkoutTrackProvider extends ChangeNotifier
+    implements TrackProvider {
   final _track = <ExtendedPos>[];
   final _controller = StreamController<ExtendedPos>.broadcast();
 
@@ -14,15 +17,18 @@ class WorkoutTrackProvider extends TrackProvider {
     if (coords.isNotEmpty) {
       _controller.add(coords.last);
     }
+    notifyListeners();
   }
 
   void push(ExtendedPos pos) {
     _track.add(pos);
     _controller.add(pos);
+    notifyListeners();
   }
 
   void clear() {
     _track.clear();
+    notifyListeners();
   }
 
   @override

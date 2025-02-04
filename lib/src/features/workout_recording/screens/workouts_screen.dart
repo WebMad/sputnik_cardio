@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:intl/intl.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/models/workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/workout_summary.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/screens/workout_screen.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_lifecycle_deps_node.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/workout_screen_deps_node.dart';
 import 'package:sputnik_localization/sputnik_localization.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
@@ -32,6 +33,8 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final workoutDepsNode = DepsNodeBinder.of<WorkoutDepsNode>(context);
+
     final workoutLifecycleDepsNode =
         DepsNodeBinder.of<WorkoutLifecycleDepsNode>(context);
     final workoutsListStateHolder =
@@ -141,12 +144,21 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
                               alignment: Alignment.centerRight,
                               child: SpukiButton(
                                 onPressed: () {
+                                  final workoutScreenDepsNode =
+                                      workoutDepsNode.workoutScreenDepsNode()(
+                                    workout.workout.id,
+                                  );
+
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => WorkoutScreen(
-                                        workoutSummary: workout,
-                                        workoutLifecycleDepsNode:
-                                            workoutLifecycleDepsNode,
+                                      builder: (context) => DepsNodeBinder<
+                                          WorkoutScreenDepsNode>.value(
+                                        depsNode: workoutScreenDepsNode,
+                                        child: WorkoutScreen(
+                                          workoutSummary: workout,
+                                          workoutLifecycleDepsNode:
+                                              workoutLifecycleDepsNode,
+                                        ),
                                       ),
                                     ),
                                   );

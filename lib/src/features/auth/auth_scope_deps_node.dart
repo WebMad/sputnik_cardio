@@ -3,7 +3,7 @@ import 'package:sputnik_cardio/src/common/app_scope_deps_node.dart';
 
 import '../maps/maps_deps_node.dart';
 import '../tracking/tracking_deps_node.dart';
-import '../workout_recording/workout_lifecycle_deps_node.dart';
+import '../workout_recording/workout_deps_node.dart';
 
 class AuthScopeDepsNode extends DepsNode {
   final AppScopeDepsNode _appDepsNode;
@@ -16,7 +16,7 @@ class AuthScopeDepsNode extends DepsNode {
           trackingDataDepsNode,
         },
         {
-          workoutLifecycleDepsNode,
+          workoutDepsNode,
         },
         {
           trackingDepsNode,
@@ -30,11 +30,11 @@ class AuthScopeDepsNode extends DepsNode {
 
   late final trackingDataDepsNode = bind(() => TrackingDataDepsNode());
 
-  late final workoutLifecycleDepsNode = bind(
-    () => WorkoutLifecycleDepsNode(
-      trackingDataDepsNode(),
+  late final workoutDepsNode = bind(
+    () => WorkoutDepsNode(
       _appDepsNode.locationDepsNode(),
       _appDepsNode.authDepsNode(),
+      trackingDataDepsNode(),
     ),
   );
 
@@ -42,7 +42,7 @@ class AuthScopeDepsNode extends DepsNode {
     () => TrackingDepsNode(
       trackingDataDepsNode(),
       _appDepsNode.locationDepsNode(),
-      workoutLifecycleDepsNode(),
+      workoutDepsNode().workoutLifecycleDepsNode(),
     ),
   );
 }

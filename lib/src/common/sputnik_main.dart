@@ -41,9 +41,6 @@ class _SputnikMainState extends State<SputnikMain> {
           return MultiDepsNodeBinder(
             depsNodeBinders: [
               DepsNodeBinder.value(
-                depsNode: depsNode.workoutLifecycleDepsNode(),
-              ),
-              DepsNodeBinder.value(
                 depsNode: depsNode.trackingDataDepsNode(),
               ),
               DepsNodeBinder.value(
@@ -52,37 +49,51 @@ class _SputnikMainState extends State<SputnikMain> {
               DepsNodeBinder.value(
                 depsNode: depsNode.mapsDepsNode(),
               ),
+              DepsNodeBinder.value(
+                depsNode: depsNode.workoutDepsNode(),
+              ),
             ],
             child: DefaultTabController(
               length: 3,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: TabBarView(
+              child: DepsNodeBuilder(
+                depsNode: depsNode.workoutDepsNode(),
+                initialized: (context, workoutDepsNode) {
+                  return DepsNodeBinder(
+                    depsNode: workoutDepsNode.workoutLifecycleDepsNode,
+                    child: Column(
                       children: [
-                        const TrackingScreen(),
-                        const WorkoutsScreen(),
-                        ProfileScreen(authController: authController),
+                        Expanded(
+                          child: TabBarView(
+                            children: [
+                              const TrackingScreen(),
+                              const WorkoutsScreen(),
+                              ProfileScreen(authController: authController),
+                            ],
+                          ),
+                        ),
+                        TabBar(
+                          tabs: [
+                            Tab(
+                              icon: const Icon(Icons.fiber_manual_record),
+                              text: context.tr.recordTrain,
+                            ),
+                            Tab(
+                              icon: const Icon(Icons.run_circle_outlined),
+                              text: context.tr.workouts,
+                            ),
+                            Tab(
+                              icon: const Icon(Icons.person),
+                              text: context.tr.profile,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                  ),
-                  TabBar(
-                    tabs: [
-                      Tab(
-                        icon: const Icon(Icons.fiber_manual_record),
-                        text: context.tr.recordTrain,
-                      ),
-                      Tab(
-                        icon: const Icon(Icons.run_circle_outlined),
-                        text: context.tr.workouts,
-                      ),
-                      Tab(
-                        icon: const Icon(Icons.person),
-                        text: context.tr.profile,
-                      ),
-                    ],
-                  ),
-                ],
+                  );
+                },
+                orElse: (context, depsNode) => const Center(
+                  child: Text('Загрузка...'),
+                ),
               ),
             ),
           );
