@@ -38,11 +38,12 @@ class MapsCenteringManager implements Lifecycle {
 
   void onUserLocationTap() {
     _centerPositionStrategy = CenterPositionStrategy.centerUserLocation;
+    _handleUpdateMap();
   }
 
   Future<void> _handleUpdateMap() async {
     if (_centerPositionStrategy == CenterPositionStrategy.centerUserLocation) {
-      final location = await _locationManager.location;
+      final location = _locationManager.lastLocation;
 
       _mapCenterStateHolder.update(location);
     }

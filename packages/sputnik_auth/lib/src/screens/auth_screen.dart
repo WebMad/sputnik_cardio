@@ -43,7 +43,7 @@ class _AuthScreenState extends State<AuthScreen> {
               },
             );
           },
-          stateHolder: authStateHolder,
+          holder: authStateHolder,
           child: SpukiScaffold(
             body: Center(
               child: StreamBuilder(

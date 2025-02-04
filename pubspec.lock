@@ -278,10 +278,10 @@ packages:
   flutter_sputnik_di:
     dependency: "direct main"
     description:
-      path: "packages/flutter_sputnik_di"
+      path: "../sputnik_di/packages/flutter_sputnik_di"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "0.0.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -857,12 +857,12 @@ packages:
     source: path
     version: "0.0.1"
   sputnik_di:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      path: "packages/sputnik_di"
+      path: "../sputnik_di/packages/sputnik_di"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "0.0.2"
   sputnik_localization:
     dependency: "direct main"
     description:

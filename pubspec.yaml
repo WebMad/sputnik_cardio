@@ -38,7 +38,7 @@ dependencies:
   sputnik_auth:
     path: packages/sputnik_auth
   flutter_sputnik_di:
-    path: packages/flutter_sputnik_di
+    path: ../sputnik_di/packages/flutter_sputnik_di
   sputnik_ui_kit:
     path: packages/sputnik_ui_kit
   sputnik_localization:
@@ -53,6 +53,10 @@ dependencies:
   rxdart: ^0.28.0
   uuid: ^4.5.1
   intl: ^0.19.0
+
+dependency_overrides:
+  sputnik_di:
+    path: ../sputnik_di/packages/sputnik_di
 
 dev_dependencies:
   flutter_test:

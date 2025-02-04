@@ -91,9 +91,12 @@ class _SputnikMapState extends State<SputnikMap> {
                 onMapReady: () {
                   isReady = true;
                 },
-                onPointerDown: (event, point) {
-                  mapsDepsNode.mapsCenteringManager().onUserInteract();
+                onPositionChanged: (camera, hasGesture) {
+                  if (hasGesture) {
+                    mapsDepsNode.mapsCenteringManager().onUserInteract();
+                  }
                 },
+                // onPointerDown: (event, point) {},
               ),
               mapController: flutterMapController,
               children: [
