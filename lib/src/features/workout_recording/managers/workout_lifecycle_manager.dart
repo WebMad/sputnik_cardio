@@ -19,7 +19,6 @@ class WorkoutLifecycleManager {
   final LocationManager _locationManager;
   final TrackingHolder _trackingHolder;
   final WorkoutCoordsRecordingManager _workoutCoordsRecordingManager;
-  final LocationDepsNode _locationDepsNode;
   final WorkoutTrackProvider _workoutTrackProvider;
 
   RealtimeMetricsDepsNode? _realtimeMetricsDepsNode;
@@ -29,7 +28,6 @@ class WorkoutLifecycleManager {
     this._locationManager,
     this._trackingHolder,
     this._workoutCoordsRecordingManager,
-    this._locationDepsNode,
     this._workoutTrackProvider,
   );
 
@@ -39,10 +37,6 @@ class WorkoutLifecycleManager {
     final workout = await _workoutRemoteDataSource.create(startPos: location);
 
     await _workoutCoordsRecordingManager.startRecord(workout);
-
-    final realtimeMetricsContainer = RealtimeMetricsDepsNode(
-      _locationDepsNode,
-    );
 
     await _realtimeMetricsDepsNode?.init();
 

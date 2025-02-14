@@ -28,8 +28,8 @@ class _SputnikMainState extends State<SputnikMain> {
   @override
   Widget build(BuildContext context) {
     final authScopeDepsNode = DepsNodeBinder.of<AuthScopeDepsNode>(context);
-    final authController =
-        context.depsNode<AppScopeDepsNode>().authDepsNode().authController();
+    final appScopeDepsNode = context.depsNode<AppScopeDepsNode>();
+    final authController = appScopeDepsNode.authDepsNode().authController();
 
     return Scaffold(
       body: DepsNodeBuilder(
@@ -38,13 +38,15 @@ class _SputnikMainState extends State<SputnikMain> {
           child: Text('Загрузка...'),
         ),
         initialized: (context, depsNode) {
+          final workoutDepsNode = authScopeDepsNode.workoutDepsNode();
+
           return MultiDepsNodeBinder(
             depsNodeBinders: [
               DepsNodeBinder.value(
-                depsNode: depsNode.trackingDataDepsNode(),
+                depsNode: workoutDepsNode.trackingDataDepsNode(),
               ),
               DepsNodeBinder.value(
-                depsNode: depsNode.trackingDepsNode(),
+                depsNode: workoutDepsNode.trackingDepsNode(),
               ),
               DepsNodeBinder.value(
                 depsNode: depsNode.mapsDepsNode(),
@@ -58,8 +60,10 @@ class _SputnikMainState extends State<SputnikMain> {
               child: DepsNodeBuilder(
                 depsNode: depsNode.workoutDepsNode(),
                 initialized: (context, workoutDepsNode) {
-                  return DepsNodeBinder(
-                    depsNode: workoutDepsNode.workoutLifecycleDepsNode,
+                  final workoutLifecycleDepsNode =
+                      workoutDepsNode.workoutLifecycleDepsNode();
+                  return DepsNodeBinder.value(
+                    depsNode: workoutLifecycleDepsNode,
                     child: Column(
                       children: [
                         Expanded(

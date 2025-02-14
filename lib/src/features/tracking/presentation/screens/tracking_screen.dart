@@ -18,11 +18,13 @@ class TrackingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final authScope = context.depsNode<AuthScopeDepsNode>(listen: true);
 
-    final trackingDepsNode = authScope.trackingDepsNode();
-    final trackingDataDepsNode = authScope.trackingDataDepsNode();
+    final workoutDepsNode = authScope.workoutDepsNode();
+
+    final trackingDepsNode = workoutDepsNode.trackingDepsNode();
+    final trackingDataDepsNode = workoutDepsNode.trackingDataDepsNode();
 
     final workoutLifecycleContainer =
-        authScope.workoutDepsNode().workoutLifecycleDepsNode();
+        workoutDepsNode.workoutLifecycleDepsNode();
 
     final trackingHolder = trackingDataDepsNode.trackingHolder();
     final trackingPresenter = trackingDepsNode.trackingPresenter();
@@ -54,11 +56,9 @@ class TrackingScreen extends StatelessWidget {
 
                           return DepsNodeBuilder(
                             depsNode: realtimeMetricsDepsNode,
+                            bindOnInitialized: true,
                             initialized: (context, depsNode) {
-                              return DepsNodeBinder(
-                                depsNode: () => realtimeMetricsDepsNode,
-                                child: const RealtimeMetricsView(),
-                              );
+                              return const RealtimeMetricsView();
                             },
                             orElse: (context, depsNode) {
                               return const SizedBox.shrink();

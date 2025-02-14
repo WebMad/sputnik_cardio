@@ -62,6 +62,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   void dispose() {
     _workoutScreenDepsNode.dispose();
+    _workoutScreenDepsNode.clear();
     super.dispose();
   }
 

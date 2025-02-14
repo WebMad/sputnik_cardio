@@ -61,6 +61,8 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sputnik_di_graph_visualizer:
+    path: ../sputnik_di/packages/sputnik_di_graph_visualizer
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

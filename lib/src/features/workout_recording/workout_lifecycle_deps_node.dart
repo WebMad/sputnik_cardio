@@ -21,7 +21,6 @@ class WorkoutLifecycleDepsNode extends DepsNode {
       _locationDepsNode.locationManager(),
       _trackingDataDepsNode.trackingHolder(),
       _workoutCoordsRecordingManager(),
-      _locationDepsNode,
       workoutTrackProvider(),
     ),
   );

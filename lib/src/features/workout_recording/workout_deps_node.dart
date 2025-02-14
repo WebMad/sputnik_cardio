@@ -8,33 +8,47 @@ import 'workout_screen_deps_node.dart';
 class WorkoutDepsNode extends DepsNode {
   final LocationDepsNode _locationDepsNode;
   final AuthDepsNode _authDepsNode;
-  final TrackingDataDepsNode _trackingDataDepsNode;
 
   late final workoutLifecycleDepsNode = bind(
     () => WorkoutLifecycleDepsNode(
-      _trackingDataDepsNode,
+      trackingDataDepsNode(),
       _locationDepsNode,
       _authDepsNode,
     ),
   );
 
-  late final workoutScreenDepsNode = bind(
-    () => (int workoutId) => WorkoutScreenDepsNode(
-          workoutId,
-          workoutLifecycleDepsNode(),
-        ),
+  late final trackingDataDepsNode = bind(() => TrackingDataDepsNode());
+
+  late final trackingDepsNode = bind(
+    () => TrackingDepsNode(
+      trackingDataDepsNode(),
+      _locationDepsNode,
+      workoutLifecycleDepsNode(),
+    ),
+  );
+
+  late final workoutScreenDepsNode = bindSingletonFactory(
+    (int workoutId) => WorkoutScreenDepsNode(
+      workoutId,
+      workoutLifecycleDepsNode(),
+    ),
   );
 
   WorkoutDepsNode(
     this._locationDepsNode,
     this._authDepsNode,
-    this._trackingDataDepsNode,
   );
 
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [
         {
           workoutLifecycleDepsNode,
+        },
+        {
+          trackingDataDepsNode,
+        },
+        {
+          trackingDepsNode,
         },
       ];
 }

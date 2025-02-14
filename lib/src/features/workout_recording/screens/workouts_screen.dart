@@ -145,7 +145,7 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
                               child: SpukiButton(
                                 onPressed: () {
                                   final workoutScreenDepsNode =
-                                      workoutDepsNode.workoutScreenDepsNode()(
+                                      workoutDepsNode.workoutScreenDepsNode(
                                     workout.workout.id,
                                   );
 

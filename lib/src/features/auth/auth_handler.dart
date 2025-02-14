@@ -23,17 +23,22 @@ class AuthHandler implements Lifecycle {
     _sub = _authController.authStateStream.listen(
       (event) {
         event.mapOrNull(
-          unauthorized: (value) {
-            _navigationManager.openAuthPage();
-            _authScopeDepsNode.dispose();
-          },
-          authorized: (value) {
-            _authScopeDepsNode.init();
-            _navigationManager.openMainPage();
-          },
+          unauthorized: (_) => _onUnAuthorized(),
+          authorized: (_) => _onAuthorized(),
         );
       },
     );
+  }
+
+  Future<void> _onAuthorized() async {
+    await _authScopeDepsNode.init();
+    _navigationManager.openMainPage();
+  }
+
+  Future<void> _onUnAuthorized() async {
+    _navigationManager.openAuthPage();
+    await _authScopeDepsNode.dispose();
+    _authScopeDepsNode.clear();
   }
 
   @override
