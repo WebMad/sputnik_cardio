@@ -1,81 +1,102 @@
-import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
-import 'package:sputnik_cardio/src/features/tracking/presentation/presenters/tracking_presenter/tracking_holder.dart';
-import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_remote_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_managing/managers/workout_manager.dart';
+import 'package:sputnik_cardio/src/features/workout_managing/models/workout.dart';
+import 'package:sputnik_cardio/src/features/workout_managing/models/workout_segment.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_coords_recording_manager.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/avg_speed_calculator.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/km_metric_calculator.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/models/workout.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/models/workout_metrics.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/realtime_metrics_deps_node.dart';
-import 'package:uuid/uuid.dart';
 
-import '../../tracking/managers/location_manager.dart';
-import '../../tracking/presentation/presenters/tracking_presenter/tracking_model.dart';
-import '../providers/workout_track_provider.dart';
+import '../state_holders/workout_state_holder.dart';
 
 class WorkoutLifecycleManager {
-  final WorkoutRemoteDataSource _workoutRemoteDataSource;
-  final LocationManager _locationManager;
-  final TrackingHolder _trackingHolder;
+  final WorkoutStateHolder _workoutStateHolder;
+  final WorkoutManager _workoutManager;
   final WorkoutCoordsRecordingManager _workoutCoordsRecordingManager;
-  final WorkoutTrackProvider _workoutTrackProvider;
-
-  RealtimeMetricsDepsNode? _realtimeMetricsDepsNode;
 
   WorkoutLifecycleManager(
-    this._workoutRemoteDataSource,
-    this._locationManager,
-    this._trackingHolder,
+    this._workoutStateHolder,
+    this._workoutManager,
     this._workoutCoordsRecordingManager,
-    this._workoutTrackProvider,
   );
 
   Future<void> start() async {
-    final location = await _locationManager.location;
+    final workout = _workoutManager.addSegment(
+      workout: _workoutManager.create().copyWith(
+            state: WorkoutState.inProcess,
+          ),
+      segment: WorkoutSegment(
+        type: WorkoutSegmentType.run,
+        startAt: DateTime.now(),
+      ),
+    );
+    _workoutStateHolder.updateState(workout);
 
-    final workout = await _workoutRemoteDataSource.create(startPos: location);
-
-    await _workoutCoordsRecordingManager.startRecord(workout);
-
-    await _realtimeMetricsDepsNode?.init();
-
-    _trackingHolder.update(TrackingModel.played(
-      workout: workout,
-    ));
+    _workoutCoordsRecordingManager.startRecord(workout);
   }
 
-  RealtimeMetricsDepsNode? get realtimeMetricsDepsNode =>
-      _realtimeMetricsDepsNode;
+  Future<void> pause() async {
+    final workout = _workoutStateHolder.state?.copyWith(
+      state: WorkoutState.paused,
+    );
+
+    if (workout == null) {
+      return;
+    }
+
+    _workoutCoordsRecordingManager.pauseRecord();
+    _workoutStateHolder.updateState(
+      _workoutManager.addSegment(
+        workout: workout,
+        segment: WorkoutSegment(
+          type: WorkoutSegmentType.pause,
+          startAt: DateTime.now(),
+        ),
+      ),
+    );
+  }
+
+  Future<void> resume() async {
+    final workout = _workoutStateHolder.state?.copyWith(
+      state: WorkoutState.inProcess,
+    );
+
+    if (workout == null) {
+      return;
+    }
+
+    _workoutCoordsRecordingManager.resumeRecord();
+    _workoutStateHolder.updateState(
+      _workoutManager.addSegment(
+        workout: workout,
+        segment: WorkoutSegment(
+          type: WorkoutSegmentType.run,
+          startAt: DateTime.now(),
+        ),
+      ),
+    );
+  }
 
   Future<void> stop() async {
-    final location = await _locationManager.location;
-
-    final workout = _trackingHolder.state.getWorkout.copyWith(
-      endPos: location,
-      status: WorkoutState.stopped,
-      stopAt: DateTime.now(),
+    final workout = _workoutStateHolder.state?.copyWith(
+      state: WorkoutState.stopped,
     );
 
-    await _workoutRemoteDataSource.createWorkoutMetrics(
-      WorkoutMetrics(
-        kms: KmMetricCalculator().calc(_workoutTrackProvider.track),
-        avgSpeed: AvgSpeedCalculator().calc(_workoutTrackProvider.track),
-        workoutId: workout.id,
+    if (workout == null) {
+      return;
+    }
+
+    _workoutStateHolder.updateState(
+      workout.copyWith(
+        segments: [
+          if (workout.segments.isNotEmpty) ...[
+            ...workout.segments.sublist(0, workout.segments.length - 1),
+            workout.segments.last.copyWith(endAt: DateTime.now()),
+          ] else
+            ...workout.segments
+        ],
       ),
     );
-
-    await _workoutRemoteDataSource.update(workout);
-
-    await _realtimeMetricsDepsNode?.dispose();
-    _realtimeMetricsDepsNode = null;
-
     await _workoutCoordsRecordingManager.stopRecord();
+  }
 
-    _trackingHolder.update(
-      TrackingModel.stopped(
-        workout: workout,
-      ),
-    );
+  Future<void> reset() async {
+    _workoutStateHolder.updateState(null);
   }
 }

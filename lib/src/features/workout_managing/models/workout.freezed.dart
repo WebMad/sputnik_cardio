@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Workout {
   String get uuid => throw _privateConstructorUsedError;
+  WorkoutState get state => throw _privateConstructorUsedError;
   List<WorkoutSegment> get segments => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -28,7 +29,7 @@ abstract class $WorkoutCopyWith<$Res> {
   factory $WorkoutCopyWith(Workout value, $Res Function(Workout) then) =
       _$WorkoutCopyWithImpl<$Res, Workout>;
   @useResult
-  $Res call({String uuid, List<WorkoutSegment> segments});
+  $Res call({String uuid, WorkoutState state, List<WorkoutSegment> segments});
 }
 
 /// @nodoc
@@ -45,6 +46,7 @@ class _$WorkoutCopyWithImpl<$Res, $Val extends Workout>
   @override
   $Res call({
     Object? uuid = null,
+    Object? state = null,
     Object? segments = null,
   }) {
     return _then(_value.copyWith(
@@ -52,6 +54,10 @@ class _$WorkoutCopyWithImpl<$Res, $Val extends Workout>
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as WorkoutState,
       segments: null == segments
           ? _value.segments
           : segments // ignore: cast_nullable_to_non_nullable
@@ -67,7 +73,7 @@ abstract class _$$WorkoutImplCopyWith<$Res> implements $WorkoutCopyWith<$Res> {
       __$$WorkoutImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String uuid, List<WorkoutSegment> segments});
+  $Res call({String uuid, WorkoutState state, List<WorkoutSegment> segments});
 }
 
 /// @nodoc
@@ -82,6 +88,7 @@ class __$$WorkoutImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uuid = null,
+    Object? state = null,
     Object? segments = null,
   }) {
     return _then(_$WorkoutImpl(
@@ -89,6 +96,10 @@ class __$$WorkoutImplCopyWithImpl<$Res>
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as WorkoutState,
       segments: null == segments
           ? _value._segments
           : segments // ignore: cast_nullable_to_non_nullable
@@ -101,11 +112,15 @@ class __$$WorkoutImplCopyWithImpl<$Res>
 
 class _$WorkoutImpl implements _Workout {
   const _$WorkoutImpl(
-      {required this.uuid, required final List<WorkoutSegment> segments})
+      {required this.uuid,
+      required this.state,
+      required final List<WorkoutSegment> segments})
       : _segments = segments;
 
   @override
   final String uuid;
+  @override
+  final WorkoutState state;
   final List<WorkoutSegment> _segments;
   @override
   List<WorkoutSegment> get segments {
@@ -116,7 +131,7 @@ class _$WorkoutImpl implements _Workout {
 
   @override
   String toString() {
-    return 'Workout(uuid: $uuid, segments: $segments)';
+    return 'Workout(uuid: $uuid, state: $state, segments: $segments)';
   }
 
   @override
@@ -125,12 +140,13 @@ class _$WorkoutImpl implements _Workout {
         (other.runtimeType == runtimeType &&
             other is _$WorkoutImpl &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
+            (identical(other.state, state) || other.state == state) &&
             const DeepCollectionEquality().equals(other._segments, _segments));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, uuid, const DeepCollectionEquality().hash(_segments));
+      runtimeType, uuid, state, const DeepCollectionEquality().hash(_segments));
 
   @JsonKey(ignore: true)
   @override
@@ -142,10 +158,13 @@ class _$WorkoutImpl implements _Workout {
 abstract class _Workout implements Workout {
   const factory _Workout(
       {required final String uuid,
+      required final WorkoutState state,
       required final List<WorkoutSegment> segments}) = _$WorkoutImpl;
 
   @override
   String get uuid;
+  @override
+  WorkoutState get state;
   @override
   List<WorkoutSegment> get segments;
   @override

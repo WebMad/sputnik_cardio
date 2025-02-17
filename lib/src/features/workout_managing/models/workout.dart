@@ -8,10 +8,14 @@ part 'workout.freezed.dart';
 class Workout with _$Workout {
   const factory Workout({
     required String uuid,
+    required WorkoutState state,
     required List<WorkoutSegment> segments,
   }) = _Workout;
 }
 
 enum WorkoutState {
+  idle,
   inProcess,
+  paused,
+  stopped,
 }

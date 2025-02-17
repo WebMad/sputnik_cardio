@@ -6,14 +6,12 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:sputnik_cardio/src/features/maps/maps_deps_node.dart';
 import 'package:sputnik_cardio/src/features/maps/widgets/track_layer.dart';
-import 'package:sputnik_cardio/src/features/tracking/presentation/presenters/tracking_presenter/tracking_holder.dart';
-import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/providers/workout_track_provider.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/workout_lifecycle_deps_node.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
 import '../../tracking/models/pos.dart';
-import '../../tracking/presentation/presenters/tracking_presenter/tracking_model.dart';
+import '../../workout_managing/models/workout.dart';
 import 'current_location_layer.dart';
 
 class SputnikMap extends StatefulWidget {
@@ -74,18 +72,17 @@ class _SputnikMapState extends State<SputnikMap> {
 
     final mapsDepsNode = DepsNodeBinder.of<MapsDepsNode>(context);
 
-    final workoutLifecycleDepsNode =
-        DepsNodeBinder.of<WorkoutLifecycleDepsNode>(context);
+    final workoutDepsNode = context.depsNode<WorkoutDepsNode>(listen: true);
 
-    final trackingHolder =
-        DepsNodeBinder.of<TrackingDataDepsNode>(context).trackingHolder();
+    final workoutStateHolder = workoutDepsNode.workoutStateHolder();
 
     return Stack(
       children: [
-        StreamBuilder<TrackingModel>(
-          initialData: trackingHolder.state,
-          stream: trackingHolder.stream,
+        StreamBuilder<Workout?>(
+          initialData: workoutStateHolder.state,
+          stream: workoutStateHolder.stream,
           builder: (context, snapshot) {
+            final workout = snapshot.data;
             return FlutterMap(
               options: MapOptions(
                 onMapReady: () {
@@ -108,10 +105,9 @@ class _SputnikMapState extends State<SputnikMap> {
                   // tileProvider: CancellableNetworkTileProvider(),
                   // tileUpdateTransformer: _animatedMoveTileUpdateTransformer,
                 ),
-                if (trackingHolder.isPlayedOrPaused)
+                if (workout != null)
                   TrackLayer(
-                    trackProvider:
-                        workoutLifecycleDepsNode.workoutTrackProvider(),
+                    trackProvider: workoutDepsNode.workoutTrackProvider(),
                   ),
                 const CurrentLocationLayer(size: 12),
               ],

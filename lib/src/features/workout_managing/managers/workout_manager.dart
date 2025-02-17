@@ -12,6 +12,7 @@ class WorkoutManager {
     final workoutUuid = uuid.v4();
     return Workout(
       uuid: workoutUuid,
+      state: WorkoutState.idle,
       segments: [],
     );
   }

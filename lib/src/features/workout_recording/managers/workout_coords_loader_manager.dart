@@ -17,10 +17,10 @@ class WorkoutCoordsLoaderManager implements Lifecycle {
   );
 
   Future<void> load() async {
-    final workoutCoords =
-        await _workoutRemoteDataSource.getWorkoutCoords(_workoutId);
-
-    _workoutTrackProvider.pushAll(workoutCoords);
+    // final workoutCoords =
+    //     await _workoutRemoteDataSource.getWorkoutCoords(_workoutId);
+    //
+    // _workoutTrackProvider.pushAll(workoutCoords);
   }
 
   @override
