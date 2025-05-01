@@ -14,6 +14,30 @@ class WorkoutDataSource {
 
   String _getWorkoutKey(String uuid) => 'workout_recording_workout_$uuid';
 
+  Future<void> addActiveWorkout(String workoutUuid) async {
+    final activeWorkouts = await getActiveWorkouts();
+
+    if (activeWorkouts.contains(workoutUuid)) {
+      return;
+    }
+
+    final workouts = [...activeWorkouts, workoutUuid];
+
+    await _sharedPreferences.setString(
+      _workoutRecordingWorkoutsKey,
+      jsonEncode(workouts),
+    );
+  }
+
+  Future<void> removeActiveWorkout(String uuid) async {
+    final activeWorkouts = [...(await getActiveWorkouts())]..remove(uuid);
+
+    await _sharedPreferences.setString(
+      _workoutRecordingWorkoutsKey,
+      jsonEncode(activeWorkouts),
+    );
+  }
+
   Future<List<String>> getActiveWorkouts() async {
     final workouts = _sharedPreferences.getString(_workoutRecordingWorkoutsKey);
 
@@ -25,6 +49,8 @@ class WorkoutDataSource {
   }
 
   Future<void> setWorkout(Workout workout) async {
+    addActiveWorkout(workout.uuid);
+
     await _sharedPreferences.setString(
       _getWorkoutKey(workout.uuid),
       jsonEncode(workout.toJson()),
@@ -47,5 +73,7 @@ class WorkoutDataSource {
 
   Future<void> clearWorkout(String uuid) async {
     await _sharedPreferences.remove(uuid);
+
+    removeActiveWorkout(uuid);
   }
 }

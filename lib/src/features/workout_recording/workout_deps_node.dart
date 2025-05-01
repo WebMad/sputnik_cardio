@@ -5,6 +5,7 @@ import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_track_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_retrive_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -25,13 +26,6 @@ class WorkoutDepsNode extends DepsNode {
   final AuthDepsNode _authDepsNode;
   final SharedPrefsManager _sharedPrefsManager;
 
-  // late final workoutScreenDepsNode = bindSingletonFactory(
-  //   (int workoutId) => WorkoutInfoScreenDepsNode(
-  //     workoutId,
-  //     workoutLifecycleDepsNode(),
-  //   ),
-  // );
-
   late final workoutStateHolder = bind(
     () => WorkoutStateHolder(),
   );
@@ -44,6 +38,14 @@ class WorkoutDepsNode extends DepsNode {
       const Uuid(),
       workoutTrackDepsNode(),
       workoutDataSource(),
+      workoutTrackDataSource(),
+    ),
+  );
+
+  late final workoutRetriveManager = bind(
+    () => WorkoutRetriveManager(
+      workoutDataSource(),
+      workoutLifecycleManager(),
     ),
   );
 
@@ -112,6 +114,9 @@ class WorkoutDepsNode extends DepsNode {
         {
           workoutManagingDepsNode,
           _workoutCoordsRecordingManager,
+        },
+        {
+          workoutRetriveManager,
         },
       ];
 }

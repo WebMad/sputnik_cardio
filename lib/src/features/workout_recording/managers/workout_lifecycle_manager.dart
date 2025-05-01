@@ -1,6 +1,8 @@
+import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_managing/managers/workout_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_managing/models/workout.dart';
 import 'package:sputnik_cardio/src/features/workout_managing/models/workout_segment.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_coords_recording_manager.dart';
 import 'package:uuid/uuid.dart';
 
@@ -15,6 +17,7 @@ class WorkoutLifecycleManager {
   final Uuid _uuid;
   final WorkoutTrackDepsNode _workoutTrackDepsNode;
   final WorkoutDataSource _workoutDataSource;
+  final WorkoutTrackDataSource _workoutTrackDataSource;
 
   WorkoutLifecycleManager(
     this._workoutStateHolder,
@@ -23,7 +26,37 @@ class WorkoutLifecycleManager {
     this._uuid,
     this._workoutTrackDepsNode,
     this._workoutDataSource,
+    this._workoutTrackDataSource,
   );
+
+  Future<void> retrive(Workout workout) async {
+    await _workoutTrackDepsNode.init();
+
+    final pauseRouteUuid = _uuid.v4();
+
+    final newWorkout = _workoutManager.addSegment(
+      workout: workout.copyWith(state: WorkoutState.paused),
+      segment: WorkoutSegment(
+        type: WorkoutSegmentType.pause,
+        startAt: DateTime.now(),
+        routeUuid: pauseRouteUuid,
+      ),
+    );
+
+    final routes = newWorkout.segments.map((e) => e.routeUuid);
+
+    for (final route in routes) {
+      final trackProvider = _workoutTrackDepsNode.trackProvider(route);
+
+      final track = await _workoutTrackDataSource.getTrack(route);
+
+      trackProvider.pushAll(track);
+    }
+
+    _workoutDataSource.setWorkout(newWorkout);
+    _workoutStateHolder.updateState(newWorkout);
+    await _workoutCoordsRecordingManager.startRecord(newWorkout);
+  }
 
   Future<void> start() async {
     await _workoutTrackDepsNode.init();
