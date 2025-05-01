@@ -1,5 +1,6 @@
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/common/app_scope_deps_node.dart';
+import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
 import '../maps/maps_deps_node.dart';
 import '../workout_recording/workout_deps_node.dart';
 
@@ -10,6 +11,9 @@ class AuthScopeDepsNode extends DepsNode {
 
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [
+        {
+          sharedPrefsManager,
+        },
         {
           workoutDepsNode,
         },
@@ -27,6 +31,11 @@ class AuthScopeDepsNode extends DepsNode {
       this,
       _appDepsNode.locationDepsNode(),
       _appDepsNode.authDepsNode(),
+      sharedPrefsManager(),
     ),
+  );
+
+  late final sharedPrefsManager = bind(
+    () => SharedPrefsManager(),
   );
 }

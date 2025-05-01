@@ -25,10 +25,12 @@ class AppScopeDepsNode extends DepsNode {
 
   late final navigationDepsNode = bind(() => NavigationDepsNode());
 
-  late final authDepsNode = bind(() => AuthDepsNode(
-        navigationDepsNode(),
-        authScopeDepsNode(),
-      ));
+  late final authDepsNode = bind(
+    () => AuthDepsNode(
+      navigationDepsNode(),
+      authScopeDepsNode(),
+    ),
+  );
 
   late final locationDepsNode = bind(() => LocationDepsNode());
 }

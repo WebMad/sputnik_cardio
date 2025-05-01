@@ -37,7 +37,9 @@ class AuthHandler implements Lifecycle {
 
   Future<void> _onUnAuthorized() async {
     _navigationManager.openAuthPage();
-    await _authScopeDepsNode.dispose();
+    if (_authScopeDepsNode.status == DepsNodeStatus.initialized) {
+      await _authScopeDepsNode.dispose();
+    }
     _authScopeDepsNode.clear();
   }
 

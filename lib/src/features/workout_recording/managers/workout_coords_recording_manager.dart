@@ -4,6 +4,7 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 
@@ -14,6 +15,7 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
   final LocationManager _locationManager;
   final WorkoutTrackDepsNode _workoutTrackDepsNode;
   final WorkoutStateHolder _workoutStateHolder;
+  final WorkoutTrackDataSource _workoutTrackDataSource;
 
   bool isPaused = false;
 
@@ -23,6 +25,7 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
     this._locationManager,
     this._workoutTrackDepsNode,
     this._workoutStateHolder,
+    this._workoutTrackDataSource,
   );
 
   @override
@@ -33,8 +36,8 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
       return;
     }
 
-    _locationSub = _locationManager.locationStream
-        .listen((pos) => _recordCoords(pos));
+    _locationSub =
+        _locationManager.locationStream.listen((pos) => _recordCoords(pos));
 
     _recordCoords(_locationManager.lastLocation);
   }
@@ -51,6 +54,9 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
     final workoutTrackProvider = _workoutTrackDepsNode.trackProvider(routeUuid);
 
     workoutTrackProvider.push(pos);
+    /// TODO: тут может случиться гонка, между двумя сохранениями, поэтому
+    /// в будущем надо будет предусмотреть очередь/блокировка (lock)
+    _workoutTrackDataSource.pushPos(routeUuid, pos);
   }
 
   void pauseRecord() {
