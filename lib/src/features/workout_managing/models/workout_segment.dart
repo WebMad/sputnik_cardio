@@ -4,6 +4,8 @@ import 'sputnik_route.dart';
 
 part 'workout_segment.freezed.dart';
 
+part 'workout_segment.g.dart';
+
 @freezed
 class WorkoutSegment with _$WorkoutSegment {
   const factory WorkoutSegment({
@@ -12,6 +14,9 @@ class WorkoutSegment with _$WorkoutSegment {
     required String routeUuid,
     DateTime? endAt,
   }) = _WorkoutSegment;
+
+  factory WorkoutSegment.fromJson(Map<String, dynamic> json) =>
+      _$WorkoutSegmentFromJson(json);
 }
 
 enum WorkoutSegmentType {

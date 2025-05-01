@@ -14,12 +14,17 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+Workout _$WorkoutFromJson(Map<String, dynamic> json) {
+  return _Workout.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Workout {
   String get uuid => throw _privateConstructorUsedError;
   WorkoutState get state => throw _privateConstructorUsedError;
   List<WorkoutSegment> get segments => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $WorkoutCopyWith<Workout> get copyWith => throw _privateConstructorUsedError;
 }
@@ -109,13 +114,16 @@ class __$$WorkoutImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$WorkoutImpl implements _Workout {
   const _$WorkoutImpl(
       {required this.uuid,
       required this.state,
       required final List<WorkoutSegment> segments})
       : _segments = segments;
+
+  factory _$WorkoutImpl.fromJson(Map<String, dynamic> json) =>
+      _$$WorkoutImplFromJson(json);
 
   @override
   final String uuid;
@@ -144,6 +152,7 @@ class _$WorkoutImpl implements _Workout {
             const DeepCollectionEquality().equals(other._segments, _segments));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, uuid, state, const DeepCollectionEquality().hash(_segments));
@@ -153,6 +162,13 @@ class _$WorkoutImpl implements _Workout {
   @pragma('vm:prefer-inline')
   _$$WorkoutImplCopyWith<_$WorkoutImpl> get copyWith =>
       __$$WorkoutImplCopyWithImpl<_$WorkoutImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$WorkoutImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Workout implements Workout {
@@ -160,6 +176,8 @@ abstract class _Workout implements Workout {
       {required final String uuid,
       required final WorkoutState state,
       required final List<WorkoutSegment> segments}) = _$WorkoutImpl;
+
+  factory _Workout.fromJson(Map<String, dynamic> json) = _$WorkoutImpl.fromJson;
 
   @override
   String get uuid;

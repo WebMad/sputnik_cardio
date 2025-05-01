@@ -3,6 +3,7 @@ import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_deps_node.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
@@ -42,6 +43,7 @@ class WorkoutDepsNode extends DepsNode {
       _workoutCoordsRecordingManager(),
       const Uuid(),
       workoutTrackDepsNode(),
+      workoutDataSource(),
     ),
   );
 
@@ -88,6 +90,10 @@ class WorkoutDepsNode extends DepsNode {
     () => WorkoutTrackDataSource(
       _sharedPrefsManager.sharedPreferences,
     ),
+  );
+
+  late final workoutDataSource = bind(
+    () => WorkoutDataSource(_sharedPrefsManager.sharedPreferences),
   );
 
   WorkoutDepsNode(

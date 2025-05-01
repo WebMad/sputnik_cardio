@@ -1,0 +1,51 @@
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
+
+import '../../workout_managing/models/workout.dart';
+
+class WorkoutDataSource {
+  static const _workoutRecordingWorkoutsKey = 'workout_recording_workouts';
+
+  final SharedPreferences _sharedPreferences;
+
+  WorkoutDataSource(this._sharedPreferences);
+
+  String _getWorkoutKey(String uuid) => 'workout_recording_workout_$uuid';
+
+  Future<List<String>> getActiveWorkouts() async {
+    final workouts = _sharedPreferences.getString(_workoutRecordingWorkoutsKey);
+
+    if (workouts == null) {
+      return [];
+    }
+
+    return (jsonDecode(workouts) as List<dynamic>).cast<String>();
+  }
+
+  Future<void> setWorkout(Workout workout) async {
+    await _sharedPreferences.setString(
+      _getWorkoutKey(workout.uuid),
+      jsonEncode(workout.toJson()),
+    );
+  }
+
+  Future<Workout?> getWorkout(String uuid) async {
+    final workout = _sharedPreferences.getString(
+      _getWorkoutKey(uuid),
+    );
+
+    if (workout == null) {
+      return null;
+    }
+
+    return Workout.fromJson(
+      (jsonDecode(workout) as Map<dynamic, dynamic>).cast<String, dynamic>(),
+    );
+  }
+
+  Future<void> clearWorkout(String uuid) async {
+    await _sharedPreferences.remove(uuid);
+  }
+}

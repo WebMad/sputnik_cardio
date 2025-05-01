@@ -5,6 +5,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_c
 import 'package:uuid/uuid.dart';
 
 import '../../workout_track/workout_track_deps_node.dart';
+import '../data_sources/workout_data_source.dart';
 import '../state_holders/workout_state_holder.dart';
 
 class WorkoutLifecycleManager {
@@ -13,6 +14,7 @@ class WorkoutLifecycleManager {
   final WorkoutCoordsRecordingManager _workoutCoordsRecordingManager;
   final Uuid _uuid;
   final WorkoutTrackDepsNode _workoutTrackDepsNode;
+  final WorkoutDataSource _workoutDataSource;
 
   WorkoutLifecycleManager(
     this._workoutStateHolder,
@@ -20,6 +22,7 @@ class WorkoutLifecycleManager {
     this._workoutCoordsRecordingManager,
     this._uuid,
     this._workoutTrackDepsNode,
+    this._workoutDataSource,
   );
 
   Future<void> start() async {
@@ -39,6 +42,8 @@ class WorkoutLifecycleManager {
     await _workoutCoordsRecordingManager.startRecord(workout);
 
     _workoutStateHolder.updateState(workout);
+
+    _workoutDataSource.setWorkout(workout);
   }
 
   Future<void> pause() async {
@@ -71,13 +76,14 @@ class WorkoutLifecycleManager {
       }
     }
 
-    _workoutStateHolder.updateState(
-      _workoutManager.addSegment(
-        workout: workout,
-        segment: newSegment,
-      ),
+    final newWorkout = _workoutManager.addSegment(
+      workout: workout,
+      segment: newSegment,
     );
     _workoutCoordsRecordingManager.pauseRecord();
+
+    _workoutStateHolder.updateState(newWorkout);
+    _workoutDataSource.setWorkout(newWorkout);
   }
 
   Future<void> resume() async {
@@ -112,12 +118,14 @@ class WorkoutLifecycleManager {
 
     _workoutCoordsRecordingManager.resumeRecord();
 
-    _workoutStateHolder.updateState(
-      _workoutManager.addSegment(
-        workout: workout,
-        segment: workoutSegment,
-      ),
+    final newWorkout = _workoutManager.addSegment(
+      workout: workout,
+      segment: workoutSegment,
     );
+
+    _workoutStateHolder.updateState(newWorkout);
+
+    _workoutDataSource.setWorkout(newWorkout);
   }
 
   Future<void> stop() async {
@@ -134,6 +142,8 @@ class WorkoutLifecycleManager {
     );
 
     await _workoutCoordsRecordingManager.stopRecord();
+
+    _workoutDataSource.clearWorkout(workout.uuid);
   }
 
   Future<void> reset() async {

@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+WorkoutSegment _$WorkoutSegmentFromJson(Map<String, dynamic> json) {
+  return _WorkoutSegment.fromJson(json);
+}
+
 /// @nodoc
 mixin _$WorkoutSegment {
   WorkoutSegmentType get type => throw _privateConstructorUsedError;
@@ -21,6 +25,7 @@ mixin _$WorkoutSegment {
   String get routeUuid => throw _privateConstructorUsedError;
   DateTime? get endAt => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $WorkoutSegmentCopyWith<WorkoutSegment> get copyWith =>
       throw _privateConstructorUsedError;
@@ -131,13 +136,16 @@ class __$$WorkoutSegmentImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$WorkoutSegmentImpl implements _WorkoutSegment {
   const _$WorkoutSegmentImpl(
       {required this.type,
       required this.startAt,
       required this.routeUuid,
       this.endAt});
+
+  factory _$WorkoutSegmentImpl.fromJson(Map<String, dynamic> json) =>
+      _$$WorkoutSegmentImplFromJson(json);
 
   @override
   final WorkoutSegmentType type;
@@ -165,6 +173,7 @@ class _$WorkoutSegmentImpl implements _WorkoutSegment {
             (identical(other.endAt, endAt) || other.endAt == endAt));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, type, startAt, routeUuid, endAt);
 
@@ -174,6 +183,13 @@ class _$WorkoutSegmentImpl implements _WorkoutSegment {
   _$$WorkoutSegmentImplCopyWith<_$WorkoutSegmentImpl> get copyWith =>
       __$$WorkoutSegmentImplCopyWithImpl<_$WorkoutSegmentImpl>(
           this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$WorkoutSegmentImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _WorkoutSegment implements WorkoutSegment {
@@ -182,6 +198,9 @@ abstract class _WorkoutSegment implements WorkoutSegment {
       required final DateTime startAt,
       required final String routeUuid,
       final DateTime? endAt}) = _$WorkoutSegmentImpl;
+
+  factory _WorkoutSegment.fromJson(Map<String, dynamic> json) =
+      _$WorkoutSegmentImpl.fromJson;
 
   @override
   WorkoutSegmentType get type;

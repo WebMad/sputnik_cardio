@@ -4,6 +4,8 @@ import 'workout_segment.dart';
 
 part 'workout.freezed.dart';
 
+part 'workout.g.dart';
+
 @freezed
 class Workout with _$Workout {
   const factory Workout({
@@ -11,6 +13,9 @@ class Workout with _$Workout {
     required WorkoutState state,
     required List<WorkoutSegment> segments,
   }) = _Workout;
+
+  factory Workout.fromJson(Map<String, dynamic> json) =>
+      _$WorkoutFromJson(json);
 }
 
 extension WorkoutEx on Workout {
