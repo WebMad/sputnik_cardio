@@ -9,8 +9,8 @@ class WorkoutSegment with _$WorkoutSegment {
   const factory WorkoutSegment({
     required WorkoutSegmentType type,
     required DateTime startAt,
+    required String routeUuid,
     DateTime? endAt,
-    String? routeUuid,
   }) = _WorkoutSegment;
 }
 

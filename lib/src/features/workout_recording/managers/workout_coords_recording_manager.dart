@@ -3,15 +3,17 @@ import 'dart:async';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_remote_data_source.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/providers/workout_track_provider.dart';
+import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
+import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 
 import '../../tracking/models/pos.dart';
 import '../../workout_managing/models/workout.dart';
 
 class WorkoutCoordsRecordingManager implements Lifecycle {
   final LocationManager _locationManager;
-  final WorkoutTrackProvider _workoutTrackProvider;
+  final WorkoutTrackDepsNode _workoutTrackDepsNode;
+  final WorkoutStateHolder _workoutStateHolder;
 
   bool isPaused = false;
 
@@ -19,7 +21,8 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
 
   WorkoutCoordsRecordingManager(
     this._locationManager,
-    this._workoutTrackProvider,
+    this._workoutTrackDepsNode,
+    this._workoutStateHolder,
   );
 
   @override
@@ -31,28 +34,36 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
     }
 
     _locationSub = _locationManager.locationStream
-        .throttleTime(const Duration(seconds: 1))
-        .listen(
-      (pos) {
-        if (isPaused) {
-          return;
-        }
+        .listen((pos) => _recordCoords(pos));
 
-        _workoutTrackProvider.push(pos);
-      },
-    );
+    _recordCoords(_locationManager.lastLocation);
+  }
+
+  void _recordCoords(ExtendedPos pos) {
+    final workout = _workoutStateHolder.state;
+
+    if (isPaused || workout == null || workout.segments.isEmpty) {
+      return;
+    }
+
+    final routeUuid = workout.segments.last.routeUuid;
+
+    final workoutTrackProvider = _workoutTrackDepsNode.trackProvider(routeUuid);
+
+    workoutTrackProvider.push(pos);
   }
 
   void pauseRecord() {
-    isPaused = true;
+    _recordCoords(_locationManager.lastLocation);
+    // isPaused = true;
   }
 
   void resumeRecord() {
-    isPaused = false;
+    // isPaused = false;
+    _recordCoords(_locationManager.lastLocation);
   }
 
   Future<void> stopRecord() async {
-    _workoutTrackProvider.clear();
     await _locationSub?.cancel();
     _locationSub = null;
   }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
-import 'package:intl/intl.dart';
 import 'package:sputnik_cardio/src/features/maps/widgets/track_layer.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/pos.dart';
+import 'package:sputnik_cardio/src/features/workout_managing/models/workout_segment.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_info_screen_deps_node.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
@@ -140,6 +140,7 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
                               TrackLayer(
                                 trackProvider: _workoutScreenDepsNode
                                     .workoutTrackProvider(),
+                                segmentType: WorkoutSegmentType.run,
                               ),
                             ],
                           ),

@@ -105,10 +105,15 @@ class _SputnikMapState extends State<SputnikMap> {
                   // tileProvider: CancellableNetworkTileProvider(),
                   // tileUpdateTransformer: _animatedMoveTileUpdateTransformer,
                 ),
-                if (workout != null)
-                  TrackLayer(
-                    trackProvider: workoutDepsNode.workoutTrackProvider(),
-                  ),
+                if (workout != null) ...[
+                  for (final segment in workout.segments)
+                    TrackLayer(
+                      trackProvider: workoutDepsNode
+                          .workoutTrackDepsNode()
+                          .trackProvider(segment.routeUuid),
+                      segmentType: segment.type,
+                    ),
+                ],
                 const CurrentLocationLayer(size: 12),
               ],
             );

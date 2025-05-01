@@ -13,6 +13,10 @@ class Workout with _$Workout {
   }) = _Workout;
 }
 
+extension WorkoutEx on Workout {
+  WorkoutSegment? get lastSegment => segments.lastOrNull;
+}
+
 enum WorkoutState {
   idle,
   inProcess,

@@ -18,8 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$WorkoutSegment {
   WorkoutSegmentType get type => throw _privateConstructorUsedError;
   DateTime get startAt => throw _privateConstructorUsedError;
+  String get routeUuid => throw _privateConstructorUsedError;
   DateTime? get endAt => throw _privateConstructorUsedError;
-  String? get routeUuid => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WorkoutSegmentCopyWith<WorkoutSegment> get copyWith =>
@@ -35,8 +35,8 @@ abstract class $WorkoutSegmentCopyWith<$Res> {
   $Res call(
       {WorkoutSegmentType type,
       DateTime startAt,
-      DateTime? endAt,
-      String? routeUuid});
+      String routeUuid,
+      DateTime? endAt});
 }
 
 /// @nodoc
@@ -54,8 +54,8 @@ class _$WorkoutSegmentCopyWithImpl<$Res, $Val extends WorkoutSegment>
   $Res call({
     Object? type = null,
     Object? startAt = null,
+    Object? routeUuid = null,
     Object? endAt = freezed,
-    Object? routeUuid = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -66,14 +66,14 @@ class _$WorkoutSegmentCopyWithImpl<$Res, $Val extends WorkoutSegment>
           ? _value.startAt
           : startAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      routeUuid: null == routeUuid
+          ? _value.routeUuid
+          : routeUuid // ignore: cast_nullable_to_non_nullable
+              as String,
       endAt: freezed == endAt
           ? _value.endAt
           : endAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      routeUuid: freezed == routeUuid
-          ? _value.routeUuid
-          : routeUuid // ignore: cast_nullable_to_non_nullable
-              as String?,
     ) as $Val);
   }
 }
@@ -89,8 +89,8 @@ abstract class _$$WorkoutSegmentImplCopyWith<$Res>
   $Res call(
       {WorkoutSegmentType type,
       DateTime startAt,
-      DateTime? endAt,
-      String? routeUuid});
+      String routeUuid,
+      DateTime? endAt});
 }
 
 /// @nodoc
@@ -106,8 +106,8 @@ class __$$WorkoutSegmentImplCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
     Object? startAt = null,
+    Object? routeUuid = null,
     Object? endAt = freezed,
-    Object? routeUuid = freezed,
   }) {
     return _then(_$WorkoutSegmentImpl(
       type: null == type
@@ -118,14 +118,14 @@ class __$$WorkoutSegmentImplCopyWithImpl<$Res>
           ? _value.startAt
           : startAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      routeUuid: null == routeUuid
+          ? _value.routeUuid
+          : routeUuid // ignore: cast_nullable_to_non_nullable
+              as String,
       endAt: freezed == endAt
           ? _value.endAt
           : endAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      routeUuid: freezed == routeUuid
-          ? _value.routeUuid
-          : routeUuid // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -134,20 +134,23 @@ class __$$WorkoutSegmentImplCopyWithImpl<$Res>
 
 class _$WorkoutSegmentImpl implements _WorkoutSegment {
   const _$WorkoutSegmentImpl(
-      {required this.type, required this.startAt, this.endAt, this.routeUuid});
+      {required this.type,
+      required this.startAt,
+      required this.routeUuid,
+      this.endAt});
 
   @override
   final WorkoutSegmentType type;
   @override
   final DateTime startAt;
   @override
-  final DateTime? endAt;
+  final String routeUuid;
   @override
-  final String? routeUuid;
+  final DateTime? endAt;
 
   @override
   String toString() {
-    return 'WorkoutSegment(type: $type, startAt: $startAt, endAt: $endAt, routeUuid: $routeUuid)';
+    return 'WorkoutSegment(type: $type, startAt: $startAt, routeUuid: $routeUuid, endAt: $endAt)';
   }
 
   @override
@@ -157,13 +160,13 @@ class _$WorkoutSegmentImpl implements _WorkoutSegment {
             other is _$WorkoutSegmentImpl &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.startAt, startAt) || other.startAt == startAt) &&
-            (identical(other.endAt, endAt) || other.endAt == endAt) &&
             (identical(other.routeUuid, routeUuid) ||
-                other.routeUuid == routeUuid));
+                other.routeUuid == routeUuid) &&
+            (identical(other.endAt, endAt) || other.endAt == endAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, type, startAt, endAt, routeUuid);
+  int get hashCode => Object.hash(runtimeType, type, startAt, routeUuid, endAt);
 
   @JsonKey(ignore: true)
   @override
@@ -177,17 +180,17 @@ abstract class _WorkoutSegment implements WorkoutSegment {
   const factory _WorkoutSegment(
       {required final WorkoutSegmentType type,
       required final DateTime startAt,
-      final DateTime? endAt,
-      final String? routeUuid}) = _$WorkoutSegmentImpl;
+      required final String routeUuid,
+      final DateTime? endAt}) = _$WorkoutSegmentImpl;
 
   @override
   WorkoutSegmentType get type;
   @override
   DateTime get startAt;
   @override
-  DateTime? get endAt;
+  String get routeUuid;
   @override
-  String? get routeUuid;
+  DateTime? get endAt;
   @override
   @JsonKey(ignore: true)
   _$$WorkoutSegmentImplCopyWith<_$WorkoutSegmentImpl> get copyWith =>

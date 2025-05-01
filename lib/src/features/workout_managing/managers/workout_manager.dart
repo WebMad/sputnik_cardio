@@ -31,6 +31,21 @@ class WorkoutManager {
       segments.add(lastSegment);
     }
 
+    segments.add(segment);
+
     return workout.copyWith(segments: segments);
   }
+
+  Workout finishSegment({
+    required Workout workout,
+  }) =>
+      workout.copyWith(
+        segments: [
+          if (workout.segments.isNotEmpty) ...[
+            ...workout.segments.sublist(0, workout.segments.length - 1),
+            workout.segments.last.copyWith(endAt: DateTime.now()),
+          ] else
+            ...workout.segments
+        ],
+      );
 }
