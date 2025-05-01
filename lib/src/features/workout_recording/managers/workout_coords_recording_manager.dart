@@ -36,6 +36,10 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
       return;
     }
 
+    /// TODO: способ не телепортироваться в центр Москвы
+    /// не очень надежный, но задачу решает
+    await _locationManager.location;
+
     _locationSub =
         _locationManager.locationStream.listen((pos) => _recordCoords(pos));
 

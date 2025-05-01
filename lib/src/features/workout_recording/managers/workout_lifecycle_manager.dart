@@ -32,16 +32,16 @@ class WorkoutLifecycleManager {
   Future<void> retrive(Workout workout) async {
     await _workoutTrackDepsNode.init();
 
-    final pauseRouteUuid = _uuid.v4();
-
-    final newWorkout = _workoutManager.addSegment(
-      workout: workout.copyWith(state: WorkoutState.paused),
-      segment: WorkoutSegment(
-        type: WorkoutSegmentType.pause,
-        startAt: DateTime.now(),
-        routeUuid: pauseRouteUuid,
-      ),
-    );
+    final newWorkout = workout.state == WorkoutState.paused
+        ? workout
+        : _workoutManager.addSegment(
+            workout: workout.copyWith(state: WorkoutState.paused),
+            segment: WorkoutSegment(
+              type: WorkoutSegmentType.pause,
+              startAt: DateTime.now(),
+              routeUuid: _uuid.v4(),
+            ),
+          );
 
     final routes = newWorkout.segments.map((e) => e.routeUuid);
 
