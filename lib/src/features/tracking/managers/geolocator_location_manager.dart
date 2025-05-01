@@ -38,7 +38,11 @@ class GeolocatorLocationManager implements LocationManager {
     final res = await checkPermissions;
 
     if (res) {
-      return (await Geolocator.getCurrentPosition()).pos;
+      final currentPosition = (await Geolocator.getCurrentPosition()).pos;
+
+      _lastLocation = currentPosition;
+
+      return currentPosition;
     }
 
     /// todo: надо делать логи

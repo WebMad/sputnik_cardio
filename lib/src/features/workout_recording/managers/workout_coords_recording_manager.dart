@@ -54,6 +54,7 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
     final workoutTrackProvider = _workoutTrackDepsNode.trackProvider(routeUuid);
 
     workoutTrackProvider.push(pos);
+
     /// TODO: тут может случиться гонка, между двумя сохранениями, поэтому
     /// в будущем надо будет предусмотреть очередь/блокировка (lock)
     _workoutTrackDataSource.pushPos(routeUuid, pos);
