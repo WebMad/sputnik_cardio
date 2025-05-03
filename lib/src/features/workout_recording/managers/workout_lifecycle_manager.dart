@@ -1,13 +1,13 @@
-import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_managing/managers/workout_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_managing/models/workout.dart';
 import 'package:sputnik_cardio/src/features/workout_managing/models/workout_segment.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_track_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_coords_recording_manager.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../workout_track/workout_track_deps_node.dart';
-import '../data_sources/workout_data_source.dart';
+import '../data/data_sources/workout_data_source.dart';
+import '../data/repository/workout_repository.dart';
 import '../state_holders/workout_state_holder.dart';
 
 class WorkoutLifecycleManager {
@@ -18,6 +18,7 @@ class WorkoutLifecycleManager {
   final WorkoutTrackDepsNode _workoutTrackDepsNode;
   final WorkoutDataSource _workoutDataSource;
   final WorkoutTrackDataSource _workoutTrackDataSource;
+  final WorkoutRepository _workoutRepository;
 
   WorkoutLifecycleManager(
     this._workoutStateHolder,
@@ -27,6 +28,7 @@ class WorkoutLifecycleManager {
     this._workoutTrackDepsNode,
     this._workoutDataSource,
     this._workoutTrackDataSource,
+    this._workoutRepository,
   );
 
   Future<void> retrive(Workout workout) async {
@@ -41,6 +43,7 @@ class WorkoutLifecycleManager {
         type: WorkoutSegmentType.pause,
         startAt: startAt,
         routeUuid: _uuid.v4(),
+        uuid: _uuid.v4(),
       );
 
       final lastSegment = newWorkout.lastSegment;
@@ -95,6 +98,7 @@ class WorkoutLifecycleManager {
         type: WorkoutSegmentType.run,
         startAt: DateTime.now(),
         routeUuid: _uuid.v4(),
+        uuid: _uuid.v4(),
       ),
     );
 
@@ -122,6 +126,7 @@ class WorkoutLifecycleManager {
       type: WorkoutSegmentType.pause,
       startAt: DateTime.now(),
       routeUuid: newRouteUuid,
+      uuid: _uuid.v4(),
     );
 
     if (routeUuid != null) {
@@ -162,6 +167,7 @@ class WorkoutLifecycleManager {
       type: WorkoutSegmentType.run,
       startAt: DateTime.now(),
       routeUuid: newRouteUuid,
+      uuid: _uuid.v4(),
     );
 
     if (routeUuid != null) {
@@ -196,13 +202,17 @@ class WorkoutLifecycleManager {
       return;
     }
 
-    _workoutStateHolder.updateState(
-      _workoutManager.finishSegment(workout: workout),
-    );
+    final newWorkout = _workoutManager.finishSegment(workout: workout).copyWith(
+          stopAt: DateTime.now(),
+        );
+
+    _workoutStateHolder.updateState(newWorkout);
 
     await _workoutCoordsRecordingManager.stopRecord();
 
     _workoutDataSource.clearWorkout(workout.uuid);
+
+    _workoutRepository.createWorkout(newWorkout);
   }
 
   Future<void> reset() async {

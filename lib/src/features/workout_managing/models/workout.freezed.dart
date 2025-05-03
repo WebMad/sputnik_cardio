@@ -20,8 +20,15 @@ Workout _$WorkoutFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Workout {
+  @JsonKey(name: 'uuid')
   String get uuid => throw _privateConstructorUsedError;
+  @JsonKey(name: 'start_at')
+  DateTime get startAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'stop_at')
+  DateTime? get stopAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'state')
   WorkoutState get state => throw _privateConstructorUsedError;
+  @JsonKey(name: 'segments')
   List<WorkoutSegment> get segments => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -34,7 +41,12 @@ abstract class $WorkoutCopyWith<$Res> {
   factory $WorkoutCopyWith(Workout value, $Res Function(Workout) then) =
       _$WorkoutCopyWithImpl<$Res, Workout>;
   @useResult
-  $Res call({String uuid, WorkoutState state, List<WorkoutSegment> segments});
+  $Res call(
+      {@JsonKey(name: 'uuid') String uuid,
+      @JsonKey(name: 'start_at') DateTime startAt,
+      @JsonKey(name: 'stop_at') DateTime? stopAt,
+      @JsonKey(name: 'state') WorkoutState state,
+      @JsonKey(name: 'segments') List<WorkoutSegment> segments});
 }
 
 /// @nodoc
@@ -51,6 +63,8 @@ class _$WorkoutCopyWithImpl<$Res, $Val extends Workout>
   @override
   $Res call({
     Object? uuid = null,
+    Object? startAt = null,
+    Object? stopAt = freezed,
     Object? state = null,
     Object? segments = null,
   }) {
@@ -59,6 +73,14 @@ class _$WorkoutCopyWithImpl<$Res, $Val extends Workout>
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
+      startAt: null == startAt
+          ? _value.startAt
+          : startAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      stopAt: freezed == stopAt
+          ? _value.stopAt
+          : stopAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       state: null == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
@@ -78,7 +100,12 @@ abstract class _$$WorkoutImplCopyWith<$Res> implements $WorkoutCopyWith<$Res> {
       __$$WorkoutImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String uuid, WorkoutState state, List<WorkoutSegment> segments});
+  $Res call(
+      {@JsonKey(name: 'uuid') String uuid,
+      @JsonKey(name: 'start_at') DateTime startAt,
+      @JsonKey(name: 'stop_at') DateTime? stopAt,
+      @JsonKey(name: 'state') WorkoutState state,
+      @JsonKey(name: 'segments') List<WorkoutSegment> segments});
 }
 
 /// @nodoc
@@ -93,6 +120,8 @@ class __$$WorkoutImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uuid = null,
+    Object? startAt = null,
+    Object? stopAt = freezed,
     Object? state = null,
     Object? segments = null,
   }) {
@@ -101,6 +130,14 @@ class __$$WorkoutImplCopyWithImpl<$Res>
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
+      startAt: null == startAt
+          ? _value.startAt
+          : startAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      stopAt: freezed == stopAt
+          ? _value.stopAt
+          : stopAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       state: null == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
@@ -117,20 +154,32 @@ class __$$WorkoutImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WorkoutImpl implements _Workout {
   const _$WorkoutImpl(
-      {required this.uuid,
-      required this.state,
-      required final List<WorkoutSegment> segments})
+      {@JsonKey(name: 'uuid') required this.uuid,
+      @JsonKey(name: 'start_at') required this.startAt,
+      @JsonKey(name: 'stop_at') this.stopAt,
+      @JsonKey(name: 'state') required this.state,
+      @JsonKey(name: 'segments')
+      final List<WorkoutSegment> segments = const []})
       : _segments = segments;
 
   factory _$WorkoutImpl.fromJson(Map<String, dynamic> json) =>
       _$$WorkoutImplFromJson(json);
 
   @override
+  @JsonKey(name: 'uuid')
   final String uuid;
   @override
+  @JsonKey(name: 'start_at')
+  final DateTime startAt;
+  @override
+  @JsonKey(name: 'stop_at')
+  final DateTime? stopAt;
+  @override
+  @JsonKey(name: 'state')
   final WorkoutState state;
   final List<WorkoutSegment> _segments;
   @override
+  @JsonKey(name: 'segments')
   List<WorkoutSegment> get segments {
     if (_segments is EqualUnmodifiableListView) return _segments;
     // ignore: implicit_dynamic_type
@@ -139,7 +188,7 @@ class _$WorkoutImpl implements _Workout {
 
   @override
   String toString() {
-    return 'Workout(uuid: $uuid, state: $state, segments: $segments)';
+    return 'Workout(uuid: $uuid, startAt: $startAt, stopAt: $stopAt, state: $state, segments: $segments)';
   }
 
   @override
@@ -148,14 +197,16 @@ class _$WorkoutImpl implements _Workout {
         (other.runtimeType == runtimeType &&
             other is _$WorkoutImpl &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
+            (identical(other.startAt, startAt) || other.startAt == startAt) &&
+            (identical(other.stopAt, stopAt) || other.stopAt == stopAt) &&
             (identical(other.state, state) || other.state == state) &&
             const DeepCollectionEquality().equals(other._segments, _segments));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, uuid, state, const DeepCollectionEquality().hash(_segments));
+  int get hashCode => Object.hash(runtimeType, uuid, startAt, stopAt, state,
+      const DeepCollectionEquality().hash(_segments));
 
   @JsonKey(ignore: true)
   @override
@@ -173,17 +224,29 @@ class _$WorkoutImpl implements _Workout {
 
 abstract class _Workout implements Workout {
   const factory _Workout(
-      {required final String uuid,
-      required final WorkoutState state,
-      required final List<WorkoutSegment> segments}) = _$WorkoutImpl;
+          {@JsonKey(name: 'uuid') required final String uuid,
+          @JsonKey(name: 'start_at') required final DateTime startAt,
+          @JsonKey(name: 'stop_at') final DateTime? stopAt,
+          @JsonKey(name: 'state') required final WorkoutState state,
+          @JsonKey(name: 'segments') final List<WorkoutSegment> segments}) =
+      _$WorkoutImpl;
 
   factory _Workout.fromJson(Map<String, dynamic> json) = _$WorkoutImpl.fromJson;
 
   @override
+  @JsonKey(name: 'uuid')
   String get uuid;
   @override
+  @JsonKey(name: 'start_at')
+  DateTime get startAt;
+  @override
+  @JsonKey(name: 'stop_at')
+  DateTime? get stopAt;
+  @override
+  @JsonKey(name: 'state')
   WorkoutState get state;
   @override
+  @JsonKey(name: 'segments')
   List<WorkoutSegment> get segments;
   @override
   @JsonKey(ignore: true)

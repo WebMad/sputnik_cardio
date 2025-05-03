@@ -20,9 +20,15 @@ WorkoutSegment _$WorkoutSegmentFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WorkoutSegment {
+  @JsonKey(name: 'uuid')
+  String get uuid => throw _privateConstructorUsedError;
+  @JsonKey(name: 'type')
   WorkoutSegmentType get type => throw _privateConstructorUsedError;
+  @JsonKey(name: 'start_at')
   DateTime get startAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'route_uuid')
   String get routeUuid => throw _privateConstructorUsedError;
+  @JsonKey(name: 'end_at')
   DateTime? get endAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,10 +44,11 @@ abstract class $WorkoutSegmentCopyWith<$Res> {
       _$WorkoutSegmentCopyWithImpl<$Res, WorkoutSegment>;
   @useResult
   $Res call(
-      {WorkoutSegmentType type,
-      DateTime startAt,
-      String routeUuid,
-      DateTime? endAt});
+      {@JsonKey(name: 'uuid') String uuid,
+      @JsonKey(name: 'type') WorkoutSegmentType type,
+      @JsonKey(name: 'start_at') DateTime startAt,
+      @JsonKey(name: 'route_uuid') String routeUuid,
+      @JsonKey(name: 'end_at') DateTime? endAt});
 }
 
 /// @nodoc
@@ -57,12 +64,17 @@ class _$WorkoutSegmentCopyWithImpl<$Res, $Val extends WorkoutSegment>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uuid = null,
     Object? type = null,
     Object? startAt = null,
     Object? routeUuid = null,
     Object? endAt = freezed,
   }) {
     return _then(_value.copyWith(
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -92,10 +104,11 @@ abstract class _$$WorkoutSegmentImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {WorkoutSegmentType type,
-      DateTime startAt,
-      String routeUuid,
-      DateTime? endAt});
+      {@JsonKey(name: 'uuid') String uuid,
+      @JsonKey(name: 'type') WorkoutSegmentType type,
+      @JsonKey(name: 'start_at') DateTime startAt,
+      @JsonKey(name: 'route_uuid') String routeUuid,
+      @JsonKey(name: 'end_at') DateTime? endAt});
 }
 
 /// @nodoc
@@ -109,12 +122,17 @@ class __$$WorkoutSegmentImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uuid = null,
     Object? type = null,
     Object? startAt = null,
     Object? routeUuid = null,
     Object? endAt = freezed,
   }) {
     return _then(_$WorkoutSegmentImpl(
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -139,26 +157,34 @@ class __$$WorkoutSegmentImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WorkoutSegmentImpl implements _WorkoutSegment {
   const _$WorkoutSegmentImpl(
-      {required this.type,
-      required this.startAt,
-      required this.routeUuid,
-      this.endAt});
+      {@JsonKey(name: 'uuid') required this.uuid,
+      @JsonKey(name: 'type') required this.type,
+      @JsonKey(name: 'start_at') required this.startAt,
+      @JsonKey(name: 'route_uuid') required this.routeUuid,
+      @JsonKey(name: 'end_at') this.endAt});
 
   factory _$WorkoutSegmentImpl.fromJson(Map<String, dynamic> json) =>
       _$$WorkoutSegmentImplFromJson(json);
 
   @override
+  @JsonKey(name: 'uuid')
+  final String uuid;
+  @override
+  @JsonKey(name: 'type')
   final WorkoutSegmentType type;
   @override
+  @JsonKey(name: 'start_at')
   final DateTime startAt;
   @override
+  @JsonKey(name: 'route_uuid')
   final String routeUuid;
   @override
+  @JsonKey(name: 'end_at')
   final DateTime? endAt;
 
   @override
   String toString() {
-    return 'WorkoutSegment(type: $type, startAt: $startAt, routeUuid: $routeUuid, endAt: $endAt)';
+    return 'WorkoutSegment(uuid: $uuid, type: $type, startAt: $startAt, routeUuid: $routeUuid, endAt: $endAt)';
   }
 
   @override
@@ -166,6 +192,7 @@ class _$WorkoutSegmentImpl implements _WorkoutSegment {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WorkoutSegmentImpl &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.startAt, startAt) || other.startAt == startAt) &&
             (identical(other.routeUuid, routeUuid) ||
@@ -175,7 +202,8 @@ class _$WorkoutSegmentImpl implements _WorkoutSegment {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, type, startAt, routeUuid, endAt);
+  int get hashCode =>
+      Object.hash(runtimeType, uuid, type, startAt, routeUuid, endAt);
 
   @JsonKey(ignore: true)
   @override
@@ -194,21 +222,29 @@ class _$WorkoutSegmentImpl implements _WorkoutSegment {
 
 abstract class _WorkoutSegment implements WorkoutSegment {
   const factory _WorkoutSegment(
-      {required final WorkoutSegmentType type,
-      required final DateTime startAt,
-      required final String routeUuid,
-      final DateTime? endAt}) = _$WorkoutSegmentImpl;
+      {@JsonKey(name: 'uuid') required final String uuid,
+      @JsonKey(name: 'type') required final WorkoutSegmentType type,
+      @JsonKey(name: 'start_at') required final DateTime startAt,
+      @JsonKey(name: 'route_uuid') required final String routeUuid,
+      @JsonKey(name: 'end_at') final DateTime? endAt}) = _$WorkoutSegmentImpl;
 
   factory _WorkoutSegment.fromJson(Map<String, dynamic> json) =
       _$WorkoutSegmentImpl.fromJson;
 
   @override
+  @JsonKey(name: 'uuid')
+  String get uuid;
+  @override
+  @JsonKey(name: 'type')
   WorkoutSegmentType get type;
   @override
+  @JsonKey(name: 'start_at')
   DateTime get startAt;
   @override
+  @JsonKey(name: 'route_uuid')
   String get routeUuid;
   @override
+  @JsonKey(name: 'end_at')
   DateTime? get endAt;
   @override
   @JsonKey(ignore: true)

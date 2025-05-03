@@ -3,8 +3,9 @@ import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_deps_node.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_data_source.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_track_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data/repository/workout_repository.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_retrive_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
@@ -12,13 +13,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 import '../workout_managing/di/workout_managing_deps_node.dart';
-import 'data_sources/workout_remote_data_source.dart';
+import 'data/data_sources/workout_remote_data_source.dart';
 import 'managers/workout_coords_recording_manager.dart';
 import 'managers/workout_lifecycle_manager.dart';
 import 'managers/workout_list_manager.dart';
 import 'providers/workout_track_provider.dart';
 import 'state_holders/workouts_list_state_holder.dart';
-import 'workout_info_screen_deps_node.dart';
 
 class WorkoutDepsNode extends DepsNode {
   final AuthScopeDepsNode parent;
@@ -39,6 +39,7 @@ class WorkoutDepsNode extends DepsNode {
       workoutTrackDepsNode(),
       workoutDataSource(),
       workoutTrackDataSource(),
+      workoutRepository(),
     ),
   );
 
@@ -53,6 +54,13 @@ class WorkoutDepsNode extends DepsNode {
     () => WorkoutRemoteDataSource(
       Supabase.instance.client,
       _authDepsNode.authController(),
+    ),
+  );
+
+  late final workoutRepository = bind(
+    () => WorkoutRepository(
+      workoutRemoteDataSource(),
+      workoutTrackDataSource(),
     ),
   );
 

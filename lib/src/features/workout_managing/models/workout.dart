@@ -9,9 +9,11 @@ part 'workout.g.dart';
 @freezed
 class Workout with _$Workout {
   const factory Workout({
-    required String uuid,
-    required WorkoutState state,
-    required List<WorkoutSegment> segments,
+    @JsonKey(name: 'uuid') required String uuid,
+    @JsonKey(name: 'start_at') required DateTime startAt,
+    @JsonKey(name: 'stop_at') DateTime? stopAt,
+    @JsonKey(name: 'state') required WorkoutState state,
+    @JsonKey(name: 'segments') @Default([]) List<WorkoutSegment> segments,
   }) = _Workout;
 
   factory Workout.fromJson(Map<String, dynamic> json) =>

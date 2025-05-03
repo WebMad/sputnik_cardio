@@ -1,9 +1,11 @@
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 
-class WorkoutsListStateHolder extends StateHolder<Object?> {
+import '../../workout_managing/models/workout.dart';
+
+class WorkoutsListStateHolder extends StateHolder<List<Workout>?> {
   WorkoutsListStateHolder() : super(null);
 
-  // void update(List<WorkoutSummary> workouts) {
-  //   state = workouts;
-  // }
+  void update(List<Workout> workouts) {
+    state = workouts;
+  }
 }

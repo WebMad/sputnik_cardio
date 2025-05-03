@@ -14,6 +14,7 @@ class WorkoutManager {
       uuid: workoutUuid,
       state: WorkoutState.idle,
       segments: [],
+      startAt: DateTime.now(),
     );
   }
 

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
 
-import '../../workout_managing/models/workout.dart';
+import '../../../workout_managing/models/workout.dart';
 
 class WorkoutDataSource {
   static const _workoutRecordingWorkoutsKey = 'workout_recording_workouts';

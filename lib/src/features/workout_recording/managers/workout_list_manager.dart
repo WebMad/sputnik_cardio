@@ -1,5 +1,7 @@
-import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_remote_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_remote_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workouts_list_state_holder.dart';
+
+import '../../workout_managing/models/workout.dart';
 
 class WorkoutListManager {
   final WorkoutRemoteDataSource _workoutRemoteDataSource;
@@ -11,21 +13,9 @@ class WorkoutListManager {
   );
 
   Future<void> load() async {
-    // final workouts = await _workoutRemoteDataSource.list();
-    //
-    // final res = <WorkoutSummary>[];
-    // for (final workout in workouts) {
-    //   final workoutMetric =
-    //       await _workoutRemoteDataSource.workoutMetrics(workout.id);
-    //   res.add(
-    //     WorkoutSummary(
-    //       workout: workout,
-    //       metrics: workoutMetric,
-    //     ),
-    //   );
-    // }
+    final workouts = await _workoutRemoteDataSource.list();
 
-    // _workoutsListStateHolder.update(res);
+    _workoutsListStateHolder.update(workouts);
   }
 
   Future<void> removeWorkout(int workoutId) async {

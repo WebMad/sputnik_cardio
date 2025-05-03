@@ -4,7 +4,7 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/data_sources/workout_track_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 
