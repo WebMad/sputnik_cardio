@@ -9,7 +9,7 @@ part of 'workout_route.dart';
 _$WorkoutRouteImpl _$$WorkoutRouteImplFromJson(Map<String, dynamic> json) =>
     _$WorkoutRouteImpl(
       uuid: json['uuid'] as String,
-      poses: (json['poses'] as List<dynamic>)
+      routeData: (json['route_data'] as List<dynamic>)
           .map((e) => ExtendedPos.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -17,5 +17,5 @@ _$WorkoutRouteImpl _$$WorkoutRouteImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$WorkoutRouteImplToJson(_$WorkoutRouteImpl instance) =>
     <String, dynamic>{
       'uuid': instance.uuid,
-      'poses': instance.poses,
+      'route_data': instance.routeData,
     };

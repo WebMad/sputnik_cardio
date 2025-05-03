@@ -11,7 +11,7 @@ part 'workout_route.g.dart';
 class WorkoutRoute with _$WorkoutRoute {
   const factory WorkoutRoute({
     required String uuid,
-    required List<ExtendedPos> poses,
+    @JsonKey(name: 'route_data') required List<ExtendedPos> routeData,
   }) = _WorkoutRoute;
 
   factory WorkoutRoute.fromJson(Map<String, dynamic> json) =>

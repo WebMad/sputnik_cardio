@@ -21,7 +21,8 @@ WorkoutRoute _$WorkoutRouteFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$WorkoutRoute {
   String get uuid => throw _privateConstructorUsedError;
-  List<ExtendedPos> get poses => throw _privateConstructorUsedError;
+  @JsonKey(name: 'route_data')
+  List<ExtendedPos> get routeData => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,8 @@ abstract class $WorkoutRouteCopyWith<$Res> {
           WorkoutRoute value, $Res Function(WorkoutRoute) then) =
       _$WorkoutRouteCopyWithImpl<$Res, WorkoutRoute>;
   @useResult
-  $Res call({String uuid, List<ExtendedPos> poses});
+  $Res call(
+      {String uuid, @JsonKey(name: 'route_data') List<ExtendedPos> routeData});
 }
 
 /// @nodoc
@@ -52,16 +54,16 @@ class _$WorkoutRouteCopyWithImpl<$Res, $Val extends WorkoutRoute>
   @override
   $Res call({
     Object? uuid = null,
-    Object? poses = null,
+    Object? routeData = null,
   }) {
     return _then(_value.copyWith(
       uuid: null == uuid
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
-      poses: null == poses
-          ? _value.poses
-          : poses // ignore: cast_nullable_to_non_nullable
+      routeData: null == routeData
+          ? _value.routeData
+          : routeData // ignore: cast_nullable_to_non_nullable
               as List<ExtendedPos>,
     ) as $Val);
   }
@@ -75,7 +77,8 @@ abstract class _$$WorkoutRouteImplCopyWith<$Res>
       __$$WorkoutRouteImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String uuid, List<ExtendedPos> poses});
+  $Res call(
+      {String uuid, @JsonKey(name: 'route_data') List<ExtendedPos> routeData});
 }
 
 /// @nodoc
@@ -90,16 +93,16 @@ class __$$WorkoutRouteImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uuid = null,
-    Object? poses = null,
+    Object? routeData = null,
   }) {
     return _then(_$WorkoutRouteImpl(
       uuid: null == uuid
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
-      poses: null == poses
-          ? _value._poses
-          : poses // ignore: cast_nullable_to_non_nullable
+      routeData: null == routeData
+          ? _value._routeData
+          : routeData // ignore: cast_nullable_to_non_nullable
               as List<ExtendedPos>,
     ));
   }
@@ -109,25 +112,27 @@ class __$$WorkoutRouteImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WorkoutRouteImpl with DiagnosticableTreeMixin implements _WorkoutRoute {
   const _$WorkoutRouteImpl(
-      {required this.uuid, required final List<ExtendedPos> poses})
-      : _poses = poses;
+      {required this.uuid,
+      @JsonKey(name: 'route_data') required final List<ExtendedPos> routeData})
+      : _routeData = routeData;
 
   factory _$WorkoutRouteImpl.fromJson(Map<String, dynamic> json) =>
       _$$WorkoutRouteImplFromJson(json);
 
   @override
   final String uuid;
-  final List<ExtendedPos> _poses;
+  final List<ExtendedPos> _routeData;
   @override
-  List<ExtendedPos> get poses {
-    if (_poses is EqualUnmodifiableListView) return _poses;
+  @JsonKey(name: 'route_data')
+  List<ExtendedPos> get routeData {
+    if (_routeData is EqualUnmodifiableListView) return _routeData;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_poses);
+    return EqualUnmodifiableListView(_routeData);
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'WorkoutRoute(uuid: $uuid, poses: $poses)';
+    return 'WorkoutRoute(uuid: $uuid, routeData: $routeData)';
   }
 
   @override
@@ -136,7 +141,7 @@ class _$WorkoutRouteImpl with DiagnosticableTreeMixin implements _WorkoutRoute {
     properties
       ..add(DiagnosticsProperty('type', 'WorkoutRoute'))
       ..add(DiagnosticsProperty('uuid', uuid))
-      ..add(DiagnosticsProperty('poses', poses));
+      ..add(DiagnosticsProperty('routeData', routeData));
   }
 
   @override
@@ -145,13 +150,14 @@ class _$WorkoutRouteImpl with DiagnosticableTreeMixin implements _WorkoutRoute {
         (other.runtimeType == runtimeType &&
             other is _$WorkoutRouteImpl &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
-            const DeepCollectionEquality().equals(other._poses, _poses));
+            const DeepCollectionEquality()
+                .equals(other._routeData, _routeData));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, uuid, const DeepCollectionEquality().hash(_poses));
+      runtimeType, uuid, const DeepCollectionEquality().hash(_routeData));
 
   @JsonKey(ignore: true)
   @override
@@ -170,7 +176,8 @@ class _$WorkoutRouteImpl with DiagnosticableTreeMixin implements _WorkoutRoute {
 abstract class _WorkoutRoute implements WorkoutRoute {
   const factory _WorkoutRoute(
       {required final String uuid,
-      required final List<ExtendedPos> poses}) = _$WorkoutRouteImpl;
+      @JsonKey(name: 'route_data')
+      required final List<ExtendedPos> routeData}) = _$WorkoutRouteImpl;
 
   factory _WorkoutRoute.fromJson(Map<String, dynamic> json) =
       _$WorkoutRouteImpl.fromJson;
@@ -178,7 +185,8 @@ abstract class _WorkoutRoute implements WorkoutRoute {
   @override
   String get uuid;
   @override
-  List<ExtendedPos> get poses;
+  @JsonKey(name: 'route_data')
+  List<ExtendedPos> get routeData;
   @override
   @JsonKey(ignore: true)
   _$$WorkoutRouteImplCopyWith<_$WorkoutRouteImpl> get copyWith =>

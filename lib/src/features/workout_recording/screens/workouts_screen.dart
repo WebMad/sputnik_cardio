@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:intl/intl.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.dart';
 import 'package:sputnik_localization/sputnik_localization.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
@@ -38,7 +39,7 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () => workoutListManager.load(),
-          child: StreamBuilder<List<Workout>?>(
+          child: StreamBuilder<List<DetailedWorkout>?>(
             initialData: workoutsListStateHolder.state,
             stream: workoutsListStateHolder.stream,
             builder: (context, snapshot) {
@@ -53,9 +54,10 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
               return ListView.builder(
                 itemCount: workouts.length,
                 itemBuilder: (context, index) {
-                  final workout = workouts[index];
+                  final detailedWorkout = workouts[index];
+                  final workout = detailedWorkout.workout;
 
-                  final startAt = workouts[index].startAt;
+                  final startAt = workout.startAt;
                   return Column(
                     children: [
                       Container(
@@ -73,11 +75,10 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const SpukiText.h2('Тренировка'),
-                                    if (startAt != null)
-                                      SpukiText(
-                                        DateFormat('HH:MM dd.MM.yyyy')
-                                            .format(startAt),
-                                      ),
+                                    SpukiText(
+                                      DateFormat('HH:MM dd.MM.yyyy')
+                                          .format(startAt),
+                                    ),
                                   ],
                                 ),
                                 PopupMenuButton<int>(

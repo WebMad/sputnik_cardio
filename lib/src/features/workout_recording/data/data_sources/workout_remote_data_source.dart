@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:sputnik_auth/sputnik_auth.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../tracking/models/extended_pos.dart';
@@ -18,11 +19,43 @@ class WorkoutRemoteDataSource {
     this._authController,
   );
 
-  Future<List<Workout>> list() async {
-    final workouts =
-        await _supabaseClient.from('workouts').select().order('created_at');
+  Future<List<DetailedWorkout>> list() async {
+    final workouts = await _supabaseClient.from('workouts').select('''
+          *,
+          workout_segments (
+            *,
+            workout_routes (
+              *
+            )
+          )
+        ''').order('created_at');
 
-    return workouts.map((e) => Workout.fromJson(e)).toList();
+    final Map<String, List<ExtendedPos>> routesMap = {};
+
+    return workouts.map((e) {
+      Workout workout = Workout.fromJson(e);
+      final segments =
+          (e['workout_segments'] as List<dynamic>?)?.map((segment) {
+        final segmentJson = segment as Map<String, dynamic>;
+        final workoutSegment = WorkoutSegment.fromJson(segmentJson);
+
+        final routeData =
+            segmentJson['workout_routes'] as Map<String, dynamic>?;
+
+        if (routeData != null) {
+          final route = WorkoutRoute.fromJson(routeData);
+          routesMap[route.uuid] = route.routeData;
+        }
+        return workoutSegment;
+      }).toList();
+
+      workout = workout.copyWith(segments: segments ?? []);
+
+      return DetailedWorkout(
+        workout: workout,
+        routes: routesMap,
+      );
+    }).toList();
   }
 
   /// сохраняет тренировку в базе данных
@@ -60,7 +93,7 @@ class WorkoutRemoteDataSource {
     final routesJson = routes
         .map((route) => {
               'uuid': route.uuid,
-              'route_data': route.poses.map((pos) => pos.toJson()).toList(),
+              'route_data': route.routeData.map((pos) => pos.toJson()).toList(),
             })
         .toList();
 

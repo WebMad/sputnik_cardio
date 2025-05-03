@@ -11,7 +11,9 @@ class WorkoutRepository {
   final WorkoutTrackDataSource _workoutTrackDataSource;
 
   WorkoutRepository(
-      this._workoutRemoteDataSource, this._workoutTrackDataSource);
+    this._workoutRemoteDataSource,
+    this._workoutTrackDataSource,
+  );
 
   Future<void> createWorkout(Workout workout) async {
     final routeUuids = workout.segments.map((e) => e.routeUuid);
@@ -23,7 +25,7 @@ class WorkoutRepository {
       routes.add(
         WorkoutRoute(
           uuid: routeUuid,
-          poses: route,
+          routeData: route,
         ),
       );
     }
