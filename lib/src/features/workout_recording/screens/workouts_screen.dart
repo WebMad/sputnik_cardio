@@ -89,9 +89,9 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
                                   initialValue: -1,
                                   onSelected: (int item) {
                                     if (item == 0) {
-                                      // workoutListManager.removeWorkout(
-                                      //   workouts[index].uuid,
-                                      // );
+                                      workoutListManager.removeWorkout(
+                                        workout.uuid,
+                                      );
                                     }
                                   },
                                   itemBuilder: (BuildContext context) =>

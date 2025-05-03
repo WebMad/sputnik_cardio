@@ -18,8 +18,8 @@ class WorkoutListManager {
     _workoutsListStateHolder.update(workouts);
   }
 
-  Future<void> removeWorkout(int workoutId) async {
-    // await _workoutRemoteDataSource.removeWorkout(workoutId);
-    // await load();
+  Future<void> removeWorkout(String workoutUuid) async {
+    await _workoutRemoteDataSource.deleteWorkout(workoutUuid);
+    await load();
   }
 }

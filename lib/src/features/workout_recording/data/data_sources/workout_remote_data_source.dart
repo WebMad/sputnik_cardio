@@ -112,6 +112,10 @@ class WorkoutRemoteDataSource {
 //   return Workout.fromJson(res);
 // }
 //
+  Future<void> deleteWorkout(String workoutUuid) async {
+    await _supabaseClient.from('workouts').delete().eq('uuid', workoutUuid);
+  }
+
   Future<Workout> getByUuid(String uuid) async {
     final res = await _supabaseClient.rest
         .from('workouts')
