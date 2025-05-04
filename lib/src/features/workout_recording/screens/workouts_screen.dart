@@ -3,10 +3,12 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:intl/intl.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/workout_info_screen_deps_node.dart';
 import 'package:sputnik_localization/sputnik_localization.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
 import '../../workout_managing/models/workout.dart';
+import 'workout_info_screen.dart';
 
 class WorkoutsScreen extends StatefulWidget {
   const WorkoutsScreen({super.key});
@@ -137,24 +139,20 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
                               alignment: Alignment.centerRight,
                               child: SpukiButton(
                                 onPressed: () {
-                                  // final workoutScreenDepsNode =
-                                  //     workoutDepsNodeScreenDepsNode(
-                                  //   workout.id,
-                                  // );
-                                  //
-                                  // Navigator.of(context).push(
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => DepsNodeBinder<
-                                  //         WorkoutInfoScreenDepsNode>.value(
-                                  //       depsNode: workoutScreenDepsNode,
-                                  //       child: WorkoutInfoScreen(
-                                  //         workoutSummary: workout,
-                                  //         workoutLifecycleDepsNode:
-                                  //             workoutLifecycleDepsNode,
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // );
+                                  final workoutScreenDepsNode =
+                                      workoutDepsNode.workoutInfoScreenDepsNode(
+                                    detailedWorkout,
+                                  );
+
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => DepsNodeBinder<
+                                          WorkoutInfoScreenDepsNode>.value(
+                                        depsNode: workoutScreenDepsNode,
+                                        child: const WorkoutInfoScreen(),
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: const SpukiText('Подробнее'),
                               ),

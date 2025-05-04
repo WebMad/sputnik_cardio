@@ -7,7 +7,9 @@ import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/repository/workout_repository.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_retrive_manager.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/workout_info_screen_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
@@ -104,6 +106,11 @@ class WorkoutDepsNode extends DepsNode {
 
   late final workoutDataSource = bind(
     () => WorkoutDataSource(_sharedPrefsManager.sharedPreferences),
+  );
+
+  late final workoutInfoScreenDepsNode = bindSingletonFactory(
+    (DetailedWorkout detailedWorkout) =>
+        WorkoutInfoScreenDepsNode(detailedWorkout),
   );
 
   WorkoutDepsNode(

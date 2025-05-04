@@ -1,46 +1,38 @@
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_coords_loader_manager.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/providers/workout_track_provider.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_screen_state_holder.dart';
+
+import 'managers/workout_screen_manager.dart';
 
 class WorkoutInfoScreenDepsNode extends DepsNode {
-  // final WorkoutLifecycleDepsNode _workoutLifecycleDepsNode;
-  // final int workoutId;
+  final DetailedWorkout _detailedWorkout;
 
-  late final workoutTrackProvider = bind(
-    () => WorkoutTrackProvider(),
+  late final workoutTrackProvider = bindSingletonFactory(
+    (String routeUuid) => WorkoutTrackProvider(),
   );
 
-  late final _workoutTrackProviderWithLifecycle = bind(
-    () {
-      final provider = workoutTrackProvider();
+  WorkoutInfoScreenDepsNode(this._detailedWorkout);
 
-      return RawLifecycle(
-        onInit: () async {},
-        onDispose: () async => provider.dispose(),
-      );
-    },
+  late final workoutScreenStateHolder = bind(
+    () => WorkoutScreenStateHolder(_detailedWorkout),
   );
 
-  // late final workoutCoordsLoaderManager = bind(
-  //   () => WorkoutCoordsLoaderManager(
-  //     workoutId,
-  //     _workoutLifecycleDepsNode.workoutRemoteDataSource(),
-  //     workoutTrackProvider(),
-  //   ),
-  // );
+  late final workoutScreenManager = bind(
+    () => WorkoutScreenManager(
+      workoutScreenStateHolder(),
+      (String routeUuid) => workoutTrackProvider(routeUuid),
+    ),
+  );
 
-  // WorkoutInfoScreenDepsNode(
-  //   this.workoutId,
-  //   this._workoutLifecycleDepsNode,
-  // );
-  //
-  // @override
-  // List<Set<LifecycleDependency>> get initializeQueue => [
-  //       {
-  //         _workoutTrackProviderWithLifecycle,
-  //       },
-  //       {
-  //         workoutCoordsLoaderManager,
-  //       }
-  //     ];
+  @override
+  List<Set<LifecycleDependency>> get initializeQueue => [
+        {
+          workoutScreenStateHolder,
+        },
+        {
+          workoutScreenManager,
+        }
+      ];
 }
