@@ -7,7 +7,9 @@ import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/repository/workout_repository.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_retrive_manager.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/avg_speed_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_metrics_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_info_screen_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
@@ -19,6 +21,8 @@ import 'data/data_sources/workout_remote_data_source.dart';
 import 'managers/workout_coords_recording_manager.dart';
 import 'managers/workout_lifecycle_manager.dart';
 import 'managers/workout_list_manager.dart';
+import 'managers/workout_metrics_manager.dart';
+import 'metrics_calculators/km_metric_calculator.dart';
 import 'providers/workout_track_provider.dart';
 import 'state_holders/workouts_list_state_holder.dart';
 
@@ -86,10 +90,6 @@ class WorkoutDepsNode extends DepsNode {
     () => WorkoutsListStateHolder(),
   );
 
-  late final workoutTrackProvider = bind(
-    () => WorkoutTrackProvider(),
-  );
-
   late final workoutManagingDepsNode = bind(
     () => WorkoutManagingDepsNode(),
   );
@@ -108,6 +108,30 @@ class WorkoutDepsNode extends DepsNode {
     () => WorkoutDataSource(_sharedPrefsManager.sharedPreferences),
   );
 
+  late final workoutMetricsManager = bind(
+    () => WorkoutMetricsManager(
+      workoutStateHolder(),
+      (String routeUuid) => workoutTrackDepsNode().trackProvider(routeUuid),
+      kmMetricCalculator(),
+      workoutMetricsStateHolder(),
+      avgSpeedCalculator(),
+    ),
+  );
+
+  late final workoutMetricsStateHolder = bind(
+    () => WorkoutMetricsStateHolder(),
+  );
+
+  late final kmMetricCalculator = bind(
+    () => KmMetricCalculator(
+      (String routeUuid) => workoutTrackDepsNode().trackProvider(routeUuid),
+    ),
+  );
+
+  late final avgSpeedCalculator = bind(
+    () => const AvgSpeedCalculator(),
+  );
+
   late final workoutInfoScreenDepsNode = bindSingletonFactory(
     (DetailedWorkout detailedWorkout) =>
         WorkoutInfoScreenDepsNode(detailedWorkout),
@@ -123,10 +147,12 @@ class WorkoutDepsNode extends DepsNode {
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [
         {
+          workoutMetricsStateHolder,
           workoutsListStateHolder,
           workoutStateHolder,
         },
         {
+          workoutMetricsManager,
           workoutManagingDepsNode,
           _workoutCoordsRecordingManager,
         },

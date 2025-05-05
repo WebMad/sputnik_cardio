@@ -21,10 +21,7 @@ WorkoutMetrics _$WorkoutMetricsFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$WorkoutMetrics {
   double get kms => throw _privateConstructorUsedError;
-  @JsonKey(name: 'avg_speed')
   double get avgSpeed => throw _privateConstructorUsedError;
-  @JsonKey(name: 'workout_id')
-  int get workoutId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,10 +35,7 @@ abstract class $WorkoutMetricsCopyWith<$Res> {
           WorkoutMetrics value, $Res Function(WorkoutMetrics) then) =
       _$WorkoutMetricsCopyWithImpl<$Res, WorkoutMetrics>;
   @useResult
-  $Res call(
-      {double kms,
-      @JsonKey(name: 'avg_speed') double avgSpeed,
-      @JsonKey(name: 'workout_id') int workoutId});
+  $Res call({double kms, double avgSpeed});
 }
 
 /// @nodoc
@@ -59,7 +53,6 @@ class _$WorkoutMetricsCopyWithImpl<$Res, $Val extends WorkoutMetrics>
   $Res call({
     Object? kms = null,
     Object? avgSpeed = null,
-    Object? workoutId = null,
   }) {
     return _then(_value.copyWith(
       kms: null == kms
@@ -70,10 +63,6 @@ class _$WorkoutMetricsCopyWithImpl<$Res, $Val extends WorkoutMetrics>
           ? _value.avgSpeed
           : avgSpeed // ignore: cast_nullable_to_non_nullable
               as double,
-      workoutId: null == workoutId
-          ? _value.workoutId
-          : workoutId // ignore: cast_nullable_to_non_nullable
-              as int,
     ) as $Val);
   }
 }
@@ -86,10 +75,7 @@ abstract class _$$WorkoutMetricsImplCopyWith<$Res>
       __$$WorkoutMetricsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {double kms,
-      @JsonKey(name: 'avg_speed') double avgSpeed,
-      @JsonKey(name: 'workout_id') int workoutId});
+  $Res call({double kms, double avgSpeed});
 }
 
 /// @nodoc
@@ -105,7 +91,6 @@ class __$$WorkoutMetricsImplCopyWithImpl<$Res>
   $Res call({
     Object? kms = null,
     Object? avgSpeed = null,
-    Object? workoutId = null,
   }) {
     return _then(_$WorkoutMetricsImpl(
       kms: null == kms
@@ -116,10 +101,6 @@ class __$$WorkoutMetricsImplCopyWithImpl<$Res>
           ? _value.avgSpeed
           : avgSpeed // ignore: cast_nullable_to_non_nullable
               as double,
-      workoutId: null == workoutId
-          ? _value.workoutId
-          : workoutId // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
@@ -129,10 +110,7 @@ class __$$WorkoutMetricsImplCopyWithImpl<$Res>
 class _$WorkoutMetricsImpl
     with DiagnosticableTreeMixin
     implements _WorkoutMetrics {
-  const _$WorkoutMetricsImpl(
-      {required this.kms,
-      @JsonKey(name: 'avg_speed') required this.avgSpeed,
-      @JsonKey(name: 'workout_id') required this.workoutId});
+  const _$WorkoutMetricsImpl({required this.kms, required this.avgSpeed});
 
   factory _$WorkoutMetricsImpl.fromJson(Map<String, dynamic> json) =>
       _$$WorkoutMetricsImplFromJson(json);
@@ -140,15 +118,11 @@ class _$WorkoutMetricsImpl
   @override
   final double kms;
   @override
-  @JsonKey(name: 'avg_speed')
   final double avgSpeed;
-  @override
-  @JsonKey(name: 'workout_id')
-  final int workoutId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'WorkoutMetrics(kms: $kms, avgSpeed: $avgSpeed, workoutId: $workoutId)';
+    return 'WorkoutMetrics(kms: $kms, avgSpeed: $avgSpeed)';
   }
 
   @override
@@ -157,8 +131,7 @@ class _$WorkoutMetricsImpl
     properties
       ..add(DiagnosticsProperty('type', 'WorkoutMetrics'))
       ..add(DiagnosticsProperty('kms', kms))
-      ..add(DiagnosticsProperty('avgSpeed', avgSpeed))
-      ..add(DiagnosticsProperty('workoutId', workoutId));
+      ..add(DiagnosticsProperty('avgSpeed', avgSpeed));
   }
 
   @override
@@ -168,14 +141,12 @@ class _$WorkoutMetricsImpl
             other is _$WorkoutMetricsImpl &&
             (identical(other.kms, kms) || other.kms == kms) &&
             (identical(other.avgSpeed, avgSpeed) ||
-                other.avgSpeed == avgSpeed) &&
-            (identical(other.workoutId, workoutId) ||
-                other.workoutId == workoutId));
+                other.avgSpeed == avgSpeed));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, kms, avgSpeed, workoutId);
+  int get hashCode => Object.hash(runtimeType, kms, avgSpeed);
 
   @JsonKey(ignore: true)
   @override
@@ -194,10 +165,8 @@ class _$WorkoutMetricsImpl
 
 abstract class _WorkoutMetrics implements WorkoutMetrics {
   const factory _WorkoutMetrics(
-          {required final double kms,
-          @JsonKey(name: 'avg_speed') required final double avgSpeed,
-          @JsonKey(name: 'workout_id') required final int workoutId}) =
-      _$WorkoutMetricsImpl;
+      {required final double kms,
+      required final double avgSpeed}) = _$WorkoutMetricsImpl;
 
   factory _WorkoutMetrics.fromJson(Map<String, dynamic> json) =
       _$WorkoutMetricsImpl.fromJson;
@@ -205,11 +174,7 @@ abstract class _WorkoutMetrics implements WorkoutMetrics {
   @override
   double get kms;
   @override
-  @JsonKey(name: 'avg_speed')
   double get avgSpeed;
-  @override
-  @JsonKey(name: 'workout_id')
-  int get workoutId;
   @override
   @JsonKey(ignore: true)
   _$$WorkoutMetricsImplCopyWith<_$WorkoutMetricsImpl> get copyWith =>

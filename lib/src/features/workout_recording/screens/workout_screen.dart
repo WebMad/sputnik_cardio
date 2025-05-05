@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:intl/intl.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/models/workout_metrics.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
@@ -49,6 +50,79 @@ class WorkoutScreen extends StatelessWidget {
                 //         ),
                 //       );
                 //     }),
+                StreamBuilder<Workout?>(
+                  initialData: workoutDepsNode.workoutStateHolder().state,
+                  stream: workoutDepsNode.workoutStateHolder().stream,
+                  builder: (context, snapshot) {
+                    final workout = snapshot.data;
+
+                    if (workout == null) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: ColoredBox(
+                        color: SpukiTheme.of(context).scaffoldBackgroundColor,
+                        child: SafeArea(
+                          child: StreamBuilder<WorkoutMetrics>(
+                            initialData: workoutDepsNode
+                                .workoutMetricsStateHolder()
+                                .state,
+                            stream: workoutDepsNode
+                                .workoutMetricsStateHolder()
+                                .stream,
+                            builder: (context, snapshot) {
+                              final metrics = snapshot.requireData;
+                              return Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                                    // width: 100,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const SizedBox(height: 5),
+                                        const SpukiText('Расстояние'),
+                                        SpukiText(
+                                          "${metrics.kms.toStringAsFixed(2)} км",
+                                          spukiFontType: SpukiFontType.h3,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    // width: 100,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        const SizedBox(height: 5),
+                                        const SpukiText('Средняя скорость'),
+                                        SpukiText(
+                                          "${metrics.avgSpeed.toStringAsFixed(2)} км/ч",
+                                          spukiFontType: SpukiFontType.h3,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
                 Positioned(
                   bottom: 10,
                   child: StreamBuilder<Workout?>(

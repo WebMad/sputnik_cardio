@@ -1,22 +1,29 @@
-import '../../tracking/models/extended_pos.dart';
+import 'package:sputnik_cardio/src/features/workout_managing/models/workout.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/providers/workout_track_provider.dart';
+
+import '../../workout_managing/models/workout_segment.dart';
 
 class AvgSpeedCalculator {
-  double calc(List<ExtendedPos> coords) {
-    if (coords.isEmpty || coords.length == 1) return 0;
+  const AvgSpeedCalculator();
 
-    double kms = 0;
-    for (int i = 1; i < coords.length; i++) {
-      kms += coords[i - 1].distanceTo(coords[i]);
+  double calcSpeed(double kms, Workout workout) {
+    final segments = workout.segments
+        .where((segment) => WorkoutSegment.activeTypes.contains(segment.type));
+
+    Duration duration = Duration.zero;
+
+    for (final segment in segments) {
+      final endAt = segment.endAt ?? DateTime.now();
+
+      duration = duration + endAt.difference(segment.startAt);
     }
 
-    double time = coords[coords.length - 1]
-            .fetchedAt
-            .difference(coords[0].fetchedAt)
-            .inSeconds /
-        (60 * 60);
+    final hours = duration.inSeconds / 60 / 60;
 
-    if (time == 0) return 0;
+    if (hours == 0) {
+      return 0;
+    }
 
-    return kms / time;
+    return kms / hours;
   }
 }

@@ -1,14 +1,38 @@
 import '../../tracking/models/extended_pos.dart';
+import '../../workout_managing/models/workout.dart';
+import '../../workout_managing/models/workout_segment.dart';
+import '../providers/workout_track_provider.dart';
 
 class KmMetricCalculator {
-  double calc(List<ExtendedPos> coords) {
-    if (coords.isEmpty || coords.length == 1) return 0;
+  final WorkoutTrackProvider Function(String uuid) workoutTrackProviderFactory;
 
-    double kms = 0;
-    for (int i = 1; i < coords.length; i++) {
-      kms += coords[i - 1].distanceTo(coords[i]);
+  KmMetricCalculator(this.workoutTrackProviderFactory);
+
+  double calcDistanceForWorkout(Workout workout) {
+    final segments = workout.segments;
+
+    double distance = 0;
+
+    for (final segment in segments) {
+      if (WorkoutSegment.activeTypes.contains(segment.type)) {
+        distance += _calcDistanceForRoute(segment.routeUuid);
+      }
     }
 
-    return kms;
+    return distance;
+  }
+
+  double _calcDistanceForRoute(String routeUuid) {
+    final trackProvider = workoutTrackProviderFactory(routeUuid);
+
+    final track = trackProvider.track;
+
+    double distance = 0;
+
+    for (int i = 1; i < track.length; i++) {
+      distance += track[i - 1].distanceTo(track[i]);
+    }
+
+    return distance;
   }
 }

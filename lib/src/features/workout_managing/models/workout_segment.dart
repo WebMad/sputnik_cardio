@@ -6,6 +6,11 @@ part 'workout_segment.g.dart';
 
 @freezed
 class WorkoutSegment with _$WorkoutSegment {
+  static final activeTypes = {
+    WorkoutSegmentType.run,
+    WorkoutSegmentType.cycling,
+  };
+
   const factory WorkoutSegment({
     @JsonKey(name: 'uuid') required String uuid,
     @JsonKey(name: 'type') required WorkoutSegmentType type,

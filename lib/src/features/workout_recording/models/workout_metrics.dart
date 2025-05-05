@@ -9,8 +9,8 @@ part 'workout_metrics.g.dart';
 class WorkoutMetrics with _$WorkoutMetrics {
   const factory WorkoutMetrics({
     required double kms,
-    @JsonKey(name: 'avg_speed') required double avgSpeed,
-    @JsonKey(name: 'workout_id') required int workoutId,
+    required double avgSpeed,
+    // @JsonKey(name: 'workout_id') required int workoutId,
   }) = _WorkoutMetrics;
 
   factory WorkoutMetrics.fromJson(Map<String, dynamic> json) =>
