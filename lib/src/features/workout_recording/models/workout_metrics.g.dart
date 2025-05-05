@@ -10,6 +10,7 @@ _$WorkoutMetricsImpl _$$WorkoutMetricsImplFromJson(Map<String, dynamic> json) =>
     _$WorkoutMetricsImpl(
       kms: (json['kms'] as num).toDouble(),
       avgSpeed: (json['avgSpeed'] as num).toDouble(),
+      speed: (json['speed'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$WorkoutMetricsImplToJson(
@@ -17,4 +18,5 @@ Map<String, dynamic> _$$WorkoutMetricsImplToJson(
     <String, dynamic>{
       'kms': instance.kms,
       'avgSpeed': instance.avgSpeed,
+      'speed': instance.speed,
     };

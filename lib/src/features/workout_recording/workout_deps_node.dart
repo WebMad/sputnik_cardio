@@ -8,6 +8,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/
 import 'package:sputnik_cardio/src/features/workout_recording/data/repository/workout_repository.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_retrive_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/avg_speed_calculator.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/speed_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_metrics_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
@@ -115,6 +116,7 @@ class WorkoutDepsNode extends DepsNode {
       kmMetricCalculator(),
       workoutMetricsStateHolder(),
       avgSpeedCalculator(),
+      speedCalculator(),
     ),
   );
 
@@ -135,6 +137,12 @@ class WorkoutDepsNode extends DepsNode {
   late final workoutInfoScreenDepsNode = bindSingletonFactory(
     (DetailedWorkout detailedWorkout) =>
         WorkoutInfoScreenDepsNode(detailedWorkout),
+  );
+
+  late final speedCalculator = bind(
+    () => SpeedCalculator(
+      (String routeUuid) => workoutTrackDepsNode().trackProvider(routeUuid),
+    ),
   );
 
   WorkoutDepsNode(

@@ -78,7 +78,8 @@ class WorkoutScreen extends StatelessWidget {
                               final metrics = snapshot.requireData;
                               return Row(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   SizedBox(
                                     // width: 100,
@@ -98,17 +99,32 @@ class WorkoutScreen extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(
-                                    // width: 100,
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         const SizedBox(height: 5),
                                         const SpukiText('Средняя скорость'),
                                         SpukiText(
                                           "${metrics.avgSpeed.toStringAsFixed(2)} км/ч",
+                                          spukiFontType: SpukiFontType.h3,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const SizedBox(height: 5),
+                                        const SpukiText('Скорость'),
+                                        SpukiText(
+                                          "${metrics.speed.toStringAsFixed(2)} км/ч",
                                           spukiFontType: SpukiFontType.h3,
                                         ),
                                       ],

@@ -10,6 +10,7 @@ class WorkoutMetrics with _$WorkoutMetrics {
   const factory WorkoutMetrics({
     required double kms,
     required double avgSpeed,
+    required double speed,
     // @JsonKey(name: 'workout_id') required int workoutId,
   }) = _WorkoutMetrics;
 
