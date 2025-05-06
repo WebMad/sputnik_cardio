@@ -6,6 +6,7 @@ import 'package:sputnik_cardio/src/features/workout_managing/models/workout.dart
 import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/avg_speed_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/km_metric_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/speed_calculator.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/time_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/providers/workout_track_provider.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_metrics_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
@@ -17,9 +18,12 @@ class WorkoutMetricsManager implements Lifecycle {
   final KmMetricCalculator _kmMetricCalculator;
   final AvgSpeedCalculator _avgSpeedCalculator;
   final SpeedCalculator _speedCalculator;
+  final TimeCalculator _timeCalculator;
   final WorkoutMetricsStateHolder _workoutMetricsStateHolder;
 
   StreamSubscription<Workout?>? _sub;
+
+  Timer? _durationTimer;
 
   WorkoutMetricsManager(
     this._workoutStateHolder,
@@ -28,6 +32,7 @@ class WorkoutMetricsManager implements Lifecycle {
     this._workoutMetricsStateHolder,
     this._avgSpeedCalculator,
     this._speedCalculator,
+    this._timeCalculator,
   );
 
   @override
@@ -45,6 +50,22 @@ class WorkoutMetricsManager implements Lifecycle {
         })
         .map((_) => _workoutStateHolder.state)
         .listen((workout) => _handleLocation(workout));
+
+    _durationTimer = Timer.periodic(
+      const Duration(milliseconds: 500),
+      (_) => _handleUpdateTimer(),
+    );
+  }
+
+  void _handleUpdateTimer() {
+    final workout = _workoutStateHolder.state;
+
+    if (workout == null) {
+      return;
+    }
+
+    final duration = _timeCalculator.calcTime(workout);
+    _workoutMetricsStateHolder.updateDuration(duration);
   }
 
   void _handleLocation(Workout? workout) {
@@ -52,6 +73,7 @@ class WorkoutMetricsManager implements Lifecycle {
       _workoutMetricsStateHolder.updateKms(0);
       _workoutMetricsStateHolder.updateSpeed(0);
       _workoutMetricsStateHolder.updateAvgSpeed(0);
+      _workoutMetricsStateHolder.updateDuration(Duration.zero);
       return;
     }
 
@@ -68,6 +90,8 @@ class WorkoutMetricsManager implements Lifecycle {
 
   @override
   Future<void> dispose() async {
+    _durationTimer?.cancel();
+    _durationTimer = null;
     await _sub?.cancel();
     _sub = null;
   }

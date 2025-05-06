@@ -11,6 +11,7 @@ class WorkoutMetrics with _$WorkoutMetrics {
     required double kms,
     required double avgSpeed,
     required double speed,
+    required Duration duration,
     // @JsonKey(name: 'workout_id') required int workoutId,
   }) = _WorkoutMetrics;
 

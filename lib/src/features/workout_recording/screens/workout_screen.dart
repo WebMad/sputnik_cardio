@@ -76,59 +76,75 @@ class WorkoutScreen extends StatelessWidget {
                                 .stream,
                             builder: (context, snapshot) {
                               final metrics = snapshot.requireData;
-                              return Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                              return Column(
                                 children: [
-                                  SizedBox(
-                                    // width: 100,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const SizedBox(height: 5),
-                                        const SpukiText('Расстояние'),
-                                        SpukiText(
-                                          "${metrics.kms.toStringAsFixed(2)} км",
-                                          spukiFontType: SpukiFontType.h3,
-                                        ),
-                                      ],
-                                    ),
+                                  const SizedBox(height: 5),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SpukiText(
+                                        _formatTime(metrics.duration),
+                                        spukiFontType: SpukiFontType.h2,
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const SizedBox(height: 5),
-                                        const SpukiText('Средняя скорость'),
-                                        SpukiText(
-                                          "${metrics.avgSpeed.toStringAsFixed(2)} км/ч",
-                                          spukiFontType: SpukiFontType.h3,
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      SizedBox(
+                                        // width: 100,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(height: 5),
+                                            const SpukiText('Расстояние'),
+                                            SpukiText(
+                                              "${metrics.kms.toStringAsFixed(2)} км",
+                                              spukiFontType: SpukiFontType.h3,
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const SizedBox(height: 5),
-                                        const SpukiText('Скорость'),
-                                        SpukiText(
-                                          "${metrics.speed.toStringAsFixed(2)} км/ч",
-                                          spukiFontType: SpukiFontType.h3,
+                                      ),
+                                      SizedBox(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(height: 5),
+                                            const SpukiText('Средняя скорость'),
+                                            SpukiText(
+                                              "${metrics.avgSpeed.toStringAsFixed(2)} км/ч",
+                                              spukiFontType: SpukiFontType.h3,
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                      SizedBox(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(height: 5),
+                                            const SpukiText('Скорость'),
+                                            SpukiText(
+                                              "${metrics.speed.toStringAsFixed(2)} км/ч",
+                                              spukiFontType: SpukiFontType.h3,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               );
@@ -215,5 +231,18 @@ class WorkoutScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _formatTime(Duration duration) {
+    final totalSeconds = duration.inSeconds;
+    final hours = totalSeconds ~/ 3600;
+    final minutes = (totalSeconds % 3600) ~/ 60;
+    final seconds = totalSeconds % 60;
+
+    final hoursStr = hours > 0 ? '${hours.toString().padLeft(2, '0')}:' : '';
+    final minutesStr = minutes.toString().padLeft(2, '0');
+    final secondsStr = seconds.toString().padLeft(2, '0');
+
+    return '$hoursStr$minutesStr:$secondsStr';
   }
 }

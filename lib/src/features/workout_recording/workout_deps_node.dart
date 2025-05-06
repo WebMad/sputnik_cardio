@@ -9,6 +9,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/data/repository/wo
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_retrive_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/avg_speed_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/speed_calculator.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/time_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_metrics_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
@@ -117,6 +118,7 @@ class WorkoutDepsNode extends DepsNode {
       workoutMetricsStateHolder(),
       avgSpeedCalculator(),
       speedCalculator(),
+      timeCalculator(),
     ),
   );
 
@@ -132,6 +134,10 @@ class WorkoutDepsNode extends DepsNode {
 
   late final avgSpeedCalculator = bind(
     () => const AvgSpeedCalculator(),
+  );
+
+  late final timeCalculator = bind(
+    () => TimeCalculator(),
   );
 
   late final workoutInfoScreenDepsNode = bindSingletonFactory(
