@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:latlong2/latlong.dart';
@@ -12,6 +13,7 @@ import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
 import '../../tracking/models/pos.dart';
 import '../../workout_managing/models/workout.dart';
+import '../providers/cached_network_tile_provider.dart';
 import 'current_location_layer.dart';
 
 class SputnikMap extends StatefulWidget {
@@ -104,6 +106,9 @@ class _SputnikMapState extends State<SputnikMap> {
                   userAgentPackageName: 'dev.fleaflet.flutter_map.example',
                   // tileProvider: CancellableNetworkTileProvider(),
                   // tileUpdateTransformer: _animatedMoveTileUpdateTransformer,
+                  tileProvider: CachedNetworkTileProvider(
+                    cacheManager: DefaultCacheManager(),
+                  ),
                 ),
                 if (workout != null) ...[
                   for (final segment in workout.segments)

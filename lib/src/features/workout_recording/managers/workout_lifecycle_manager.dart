@@ -2,12 +2,14 @@ import 'package:sputnik_cardio/src/features/workout_managing/managers/workout_ma
 import 'package:sputnik_cardio/src/features/workout_managing/models/workout.dart';
 import 'package:sputnik_cardio/src/features/workout_managing/models/workout_segment.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/managers/pending_workouts_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_coords_recording_manager.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../workout_track/workout_track_deps_node.dart';
 import '../data/data_sources/workout_data_source.dart';
 import '../data/repository/workout_repository.dart';
+import '../state_holders/pending_workouts_state_holder.dart';
 import '../state_holders/workout_state_holder.dart';
 
 class WorkoutLifecycleManager {
@@ -19,6 +21,7 @@ class WorkoutLifecycleManager {
   final WorkoutDataSource _workoutDataSource;
   final WorkoutTrackDataSource _workoutTrackDataSource;
   final WorkoutRepository _workoutRepository;
+  final PendingWorkoutsManager _pendingWorkoutsManager;
 
   WorkoutLifecycleManager(
     this._workoutStateHolder,
@@ -29,6 +32,7 @@ class WorkoutLifecycleManager {
     this._workoutDataSource,
     this._workoutTrackDataSource,
     this._workoutRepository,
+    this._pendingWorkoutsManager,
   );
 
   Future<void> retrive(Workout workout) async {
@@ -212,7 +216,8 @@ class WorkoutLifecycleManager {
 
     _workoutDataSource.clearWorkout(workout.uuid);
 
-    _workoutRepository.createWorkout(newWorkout);
+    await _workoutRepository.createWorkout(newWorkout);
+    await _pendingWorkoutsManager.updateList();
   }
 
   Future<void> reset() async {

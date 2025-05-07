@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_deps_node.dart';
@@ -6,6 +7,7 @@ import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/repository/workout_repository.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/managers/pending_workouts_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_retrive_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/avg_speed_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/speed_calculator.dart';
@@ -26,6 +28,7 @@ import 'managers/workout_list_manager.dart';
 import 'managers/workout_metrics_manager.dart';
 import 'metrics_calculators/km_metric_calculator.dart';
 import 'providers/workout_track_provider.dart';
+import 'state_holders/pending_workouts_state_holder.dart';
 import 'state_holders/workouts_list_state_holder.dart';
 
 class WorkoutDepsNode extends DepsNode {
@@ -48,7 +51,21 @@ class WorkoutDepsNode extends DepsNode {
       workoutDataSource(),
       workoutTrackDataSource(),
       workoutRepository(),
+      pendingWorkoutsManager(),
     ),
+  );
+
+  late final pendingWorkoutsManager = bind(
+    () => PendingWorkoutsManager(
+      pendingWorkoutsStateHolder(),
+      workoutDataSource(),
+      connectivity(),
+      workoutRemoteDataSource(),
+    ),
+  );
+
+  late final pendingWorkoutsStateHolder = bind(
+    () => PendingWorkoutsStateHolder(),
   );
 
   late final workoutRetriveManager = bind(
@@ -69,6 +86,8 @@ class WorkoutDepsNode extends DepsNode {
     () => WorkoutRepository(
       workoutRemoteDataSource(),
       workoutTrackDataSource(),
+      workoutDataSource(),
+      connectivity(),
     ),
   );
 
@@ -122,6 +141,10 @@ class WorkoutDepsNode extends DepsNode {
     ),
   );
 
+  late final connectivity = bind(
+    () => Connectivity(),
+  );
+
   late final workoutMetricsStateHolder = bind(
     () => WorkoutMetricsStateHolder(),
   );
@@ -169,6 +192,7 @@ class WorkoutDepsNode extends DepsNode {
           workoutMetricsManager,
           workoutManagingDepsNode,
           _workoutCoordsRecordingManager,
+          pendingWorkoutsManager,
         },
         {
           workoutRetriveManager,

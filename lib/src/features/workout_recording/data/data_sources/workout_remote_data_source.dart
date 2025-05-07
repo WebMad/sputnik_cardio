@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:sputnik_auth/sputnik_auth.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data/data_models/pending_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -56,6 +57,14 @@ class WorkoutRemoteDataSource {
         routes: routesMap,
       );
     }).toList();
+  }
+
+  Future<void> savePendingWorkout(PendingWorkout pendingWorkout) async {
+    final workout = pendingWorkout.workout;
+
+    await createRoutes(pendingWorkout.routes);
+    await create(workout);
+    await createSegments(workout.uuid, workout.segments);
   }
 
   /// сохраняет тренировку в базе данных

@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:sputnik_auth/sputnik_auth.dart';
 import 'package:sputnik_auth/src/auth_manager.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
@@ -43,7 +44,12 @@ class AuthDepsNode extends DepsNode {
     () => AuthManager(
       authStateHolder(),
       _supabaseClient,
+      connectivity(),
     ),
+  );
+
+  late final connectivity = bind(
+    () => Connectivity(),
   );
 
   @override

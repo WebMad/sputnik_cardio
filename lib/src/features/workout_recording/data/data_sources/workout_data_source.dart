@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data/data_models/pending_workout.dart';
 
 import '../../../workout_managing/models/workout.dart';
 
 class WorkoutDataSource {
   static const _workoutRecordingWorkoutsKey = 'workout_recording_workouts';
+  static const _workoutRecordingPendingWorkoutsKey =
+      'workout_recording_pending_workouts';
 
   final SharedPreferences _sharedPreferences;
 
@@ -75,5 +78,42 @@ class WorkoutDataSource {
     await _sharedPreferences.remove(uuid);
 
     removeActiveWorkout(uuid);
+  }
+
+  Future<List<PendingWorkout>> getPendingWorkouts() async {
+    final rawPendingWorkouts =
+        _sharedPreferences.getString(_workoutRecordingPendingWorkoutsKey);
+
+    final pendingWorkouts = rawPendingWorkouts != null
+        ? (jsonDecode(rawPendingWorkouts) as List<dynamic>)
+            .map(
+              (e) => PendingWorkout.fromJson(e as Map<String, dynamic>),
+            )
+            .toList()
+        : <PendingWorkout>[];
+
+    return pendingWorkouts;
+  }
+
+  Future<void> createPendingWorkout(PendingWorkout pendingWorkout) async {
+    final pendingWorkouts = [...await getPendingWorkouts()];
+
+    pendingWorkouts.add(pendingWorkout);
+
+    await _sharedPreferences.setString(
+      _workoutRecordingPendingWorkoutsKey,
+      jsonEncode(pendingWorkouts),
+    );
+  }
+
+  Future<void> removePendingWorkout(PendingWorkout pendingWorkout) async {
+    final pendingWorkouts = [...await getPendingWorkouts()]..removeWhere(
+        (element) => element.workout.uuid == pendingWorkout.workout.uuid,
+      );
+
+    await _sharedPreferences.setString(
+      _workoutRecordingPendingWorkoutsKey,
+      jsonEncode(pendingWorkouts),
+    );
   }
 }

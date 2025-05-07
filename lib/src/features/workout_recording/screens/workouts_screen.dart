@@ -61,6 +61,7 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
 
                   final startAt = workout.startAt;
                   return Column(
+                    key: ValueKey(workout.uuid),
                     children: [
                       Container(
                         padding: EdgeInsets.symmetric(
@@ -78,7 +79,7 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
                                   children: [
                                     const SpukiText.h2('Тренировка'),
                                     SpukiText(
-                                      DateFormat('HH:MM dd.MM.yyyy')
+                                      DateFormat('HH:mm dd.MM.yyyy')
                                           .format(startAt),
                                     ),
                                   ],
