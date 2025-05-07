@@ -9,7 +9,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/state_holders/work
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 
 import '../../tracking/models/pos.dart';
-import '../../workout_managing/models/workout.dart';
+import '../../workout_core/models/workout.dart';
 
 class WorkoutCoordsRecordingManager implements Lifecycle {
   final LocationManager _locationManager;

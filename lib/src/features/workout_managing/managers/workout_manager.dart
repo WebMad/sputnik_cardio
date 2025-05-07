@@ -1,7 +1,7 @@
-import 'package:sputnik_cardio/src/features/workout_managing/models/workout_segment.dart';
+import 'package:sputnik_cardio/src/features/workout_core/models/workout_segment.dart';
 import 'package:uuid/uuid.dart';
 
-import '../models/workout.dart';
+import '../../workout_core/models/workout.dart';
 
 class WorkoutManager {
   final Uuid uuid;

@@ -1,12 +1,12 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
-import 'package:sputnik_cardio/src/features/workout_managing/models/workout_route.dart';
+import 'package:sputnik_cardio/src/features/workout_core/models/workout_route.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_models/pending_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_remote_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
 
-import '../../../workout_managing/models/workout.dart';
+import '../../../workout_core/models/workout.dart';
 
 class WorkoutRepository {
   final WorkoutRemoteDataSource _workoutRemoteDataSource;

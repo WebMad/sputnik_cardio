@@ -12,7 +12,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
 import '../../tracking/models/pos.dart';
-import '../../workout_managing/models/workout.dart';
+import '../../workout_core/models/workout.dart';
 import '../providers/cached_network_tile_provider.dart';
 import 'current_location_layer.dart';
 

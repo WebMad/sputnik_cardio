@@ -1,5 +1,5 @@
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
-import 'package:sputnik_cardio/src/features/workout_managing/models/workout.dart';
+import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_lifecycle_manager.dart';
 

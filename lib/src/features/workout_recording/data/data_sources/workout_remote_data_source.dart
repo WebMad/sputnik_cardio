@@ -7,9 +7,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../tracking/models/extended_pos.dart';
 import '../../../tracking/models/pos.dart';
-import '../../../workout_managing/models/workout.dart';
-import '../../../workout_managing/models/workout_segment.dart';
-import '../../../workout_managing/models/workout_route.dart';
+import '../../../workout_core/models/workout.dart';
+import '../../../workout_core/models/workout_segment.dart';
+import '../../../workout_core/models/workout_route.dart';
 
 class WorkoutRemoteDataSource {
   final SupabaseClient _supabaseClient;

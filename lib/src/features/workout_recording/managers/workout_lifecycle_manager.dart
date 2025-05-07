@@ -1,6 +1,6 @@
 import 'package:sputnik_cardio/src/features/workout_managing/managers/workout_manager.dart';
-import 'package:sputnik_cardio/src/features/workout_managing/models/workout.dart';
-import 'package:sputnik_cardio/src/features/workout_managing/models/workout_segment.dart';
+import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
+import 'package:sputnik_cardio/src/features/workout_core/models/workout_segment.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/pending_workouts_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_coords_recording_manager.dart';

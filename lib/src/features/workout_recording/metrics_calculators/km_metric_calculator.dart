@@ -1,6 +1,6 @@
 import '../../tracking/models/extended_pos.dart';
-import '../../workout_managing/models/workout.dart';
-import '../../workout_managing/models/workout_segment.dart';
+import '../../workout_core/models/workout.dart';
+import '../../workout_core/models/workout_segment.dart';
 import '../providers/workout_track_provider.dart';
 
 class KmMetricCalculator {
