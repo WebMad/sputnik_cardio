@@ -1,15 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
-import 'package:intl/intl.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/models/workout_metrics.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
 import '../../maps/widgets/sputnik_map.dart';
 import '../../workout_managing/models/workout.dart';
-import '../state_holders/workout_state_holder.dart';
+import '../widgets/active_workout_metrics.dart';
 
 class WorkoutScreen extends StatelessWidget {
   const WorkoutScreen({super.key});
@@ -22,6 +19,8 @@ class WorkoutScreen extends StatelessWidget {
 
     final workoutLifecycleManager = workoutDepsNode.workoutLifecycleManager();
 
+    final workoutStateHolder = workoutDepsNode.workoutStateHolder();
+
     return Scaffold(
       body: Column(
         children: [
@@ -30,29 +29,9 @@ class WorkoutScreen extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 const SputnikMap(),
-                // StreamBuilder(
-                //     initialData: workoutDepsNode.workoutStateHolder().state,
-                //     stream: workoutDepsNode.workoutStateHolder().stream,
-                //     builder: (context, snapshot) {
-                //       final workout = snapshot.data;
-                //
-                //       if (workout == null || workout.segments.isEmpty) {
-                //         return const SizedBox.shrink();
-                //       }
-                //
-                //       // final startAt = workout.segments.first.startAt;
-                //       // final endAt = workout.segments.last.endAt;
-                //
-                //       return Positioned(
-                //         child: Container(
-                //           child:
-                //               SpukiText(startAt.difference(endAt).toString()),
-                //         ),
-                //       );
-                //     }),
                 StreamBuilder<Workout?>(
-                  initialData: workoutDepsNode.workoutStateHolder().state,
-                  stream: workoutDepsNode.workoutStateHolder().stream,
+                  initialData: workoutStateHolder.state,
+                  stream: workoutStateHolder.stream,
                   builder: (context, snapshot) {
                     final workout = snapshot.data;
 
@@ -66,90 +45,8 @@ class WorkoutScreen extends StatelessWidget {
                       right: 0,
                       child: ColoredBox(
                         color: SpukiTheme.of(context).scaffoldBackgroundColor,
-                        child: SafeArea(
-                          child: StreamBuilder<WorkoutMetrics>(
-                            initialData: workoutDepsNode
-                                .workoutMetricsStateHolder()
-                                .state,
-                            stream: workoutDepsNode
-                                .workoutMetricsStateHolder()
-                                .stream,
-                            builder: (context, snapshot) {
-                              final metrics = snapshot.requireData;
-                              return Column(
-                                children: [
-                                  const SizedBox(height: 5),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SpukiText(
-                                        _formatTime(metrics.duration),
-                                        spukiFontType: SpukiFontType.h2,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      SizedBox(
-                                        // width: 100,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(height: 5),
-                                            const SpukiText('Расстояние'),
-                                            SpukiText(
-                                              "${metrics.kms.toStringAsFixed(2)} км",
-                                              spukiFontType: SpukiFontType.h3,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(height: 5),
-                                            const SpukiText('Средняя скорость'),
-                                            SpukiText(
-                                              "${metrics.avgSpeed.toStringAsFixed(2)} км/ч",
-                                              spukiFontType: SpukiFontType.h3,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(height: 5),
-                                            const SpukiText('Скорость'),
-                                            SpukiText(
-                                              "${metrics.speed.toStringAsFixed(2)} км/ч",
-                                              spukiFontType: SpukiFontType.h3,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
+                        child: const SafeArea(
+                          child: ActiveWorkoutMetrics(),
                         ),
                       ),
                     );
@@ -158,8 +55,8 @@ class WorkoutScreen extends StatelessWidget {
                 Positioned(
                   bottom: 10,
                   child: StreamBuilder<Workout?>(
-                    initialData: workoutDepsNode.workoutStateHolder().state,
-                    stream: workoutDepsNode.workoutStateHolder().stream,
+                    initialData: workoutStateHolder.state,
+                    stream: workoutStateHolder.stream,
                     builder: (context, snapshot) {
                       final workout = snapshot.data;
                       switch (workout?.state) {
@@ -231,18 +128,5 @@ class WorkoutScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _formatTime(Duration duration) {
-    final totalSeconds = duration.inSeconds;
-    final hours = totalSeconds ~/ 3600;
-    final minutes = (totalSeconds % 3600) ~/ 60;
-    final seconds = totalSeconds % 60;
-
-    final hoursStr = hours > 0 ? '${hours.toString().padLeft(2, '0')}:' : '';
-    final minutesStr = minutes.toString().padLeft(2, '0');
-    final secondsStr = seconds.toString().padLeft(2, '0');
-
-    return '$hoursStr$minutesStr:$secondsStr';
   }
 }

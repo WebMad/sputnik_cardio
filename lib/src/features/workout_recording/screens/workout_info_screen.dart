@@ -9,13 +9,8 @@ import 'package:sputnik_cardio/src/features/workout_recording/workout_info_scree
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
 class WorkoutInfoScreen extends StatefulWidget {
-  // final WorkoutSummary workoutSummary;
-  // final WorkoutLifecycleDepsNode workoutLifecycleDepsNode;
-
   const WorkoutInfoScreen({
     super.key,
-    // required this.workoutSummary,
-    // required this.workoutLifecycleDepsNode,
   });
 
   @override
@@ -103,16 +98,16 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SpukiText(
-                    'Дата: ${DateFormat('HH:MM dd.MM.yyyy').format(startAt)}',
+                    'Дата: ${DateFormat('HH:mm dd.MM.yyyy').format(startAt)}',
                   ),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        padding: EdgeInsets.symmetric(vertical: 10),
                         child: Column(
                           children: [
-                            const SpukiText('Расстояние'),
+                            SpukiText('Расстояние'),
                             // SpukiText(
                             //   '${widget.workoutSummary.metrics.kms.toStringAsFixed(2)} km',
                             // ),
@@ -120,10 +115,10 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        padding: EdgeInsets.symmetric(vertical: 10),
                         child: Column(
                           children: [
-                            const SpukiText('Средняя скорость'),
+                            SpukiText('Средняя скорость'),
                             // SpukiText(
                             //   '${widget.workoutSummary.metrics.avgSpeed.toStringAsFixed(2)} km/h',
                             // ),

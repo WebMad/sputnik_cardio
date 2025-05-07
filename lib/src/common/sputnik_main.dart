@@ -17,11 +17,6 @@ class SputnikMain extends StatefulWidget {
 
 class _SputnikMainState extends State<SputnikMain> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final authScopeDepsNode = DepsNodeBinder.of<AuthScopeDepsNode>(context);
     final appScopeDepsNode = context.depsNode<AppScopeDepsNode>();

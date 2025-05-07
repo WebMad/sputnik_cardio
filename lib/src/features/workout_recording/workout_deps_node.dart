@@ -27,7 +27,6 @@ import 'managers/workout_lifecycle_manager.dart';
 import 'managers/workout_list_manager.dart';
 import 'managers/workout_metrics_manager.dart';
 import 'metrics_calculators/km_metric_calculator.dart';
-import 'providers/workout_track_provider.dart';
 import 'state_holders/pending_workouts_state_holder.dart';
 import 'state_holders/workouts_list_state_holder.dart';
 
