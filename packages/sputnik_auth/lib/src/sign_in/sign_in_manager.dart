@@ -1,3 +1,4 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sputnik_auth/src/sign_in/sign_in_state_holder.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
@@ -8,11 +9,13 @@ class SignInManager {
   final supabase.SupabaseClient _supabaseClient;
   final AuthManager _authManager;
   final SignInStateHolder _signInStateHolder;
+  final GoogleSignIn _googleSignIn;
 
   SignInManager(
     this._supabaseClient,
     this._authManager,
     this._signInStateHolder,
+    this._googleSignIn,
   );
 
   bool validateEmail(String email) {
@@ -43,6 +46,32 @@ class SignInManager {
     _signInStateHolder.removeError(SignInError.invalidPassword);
 
     return true;
+  }
+
+  Future<void> signInViaGoogle() async {
+    try {
+      final user = await _googleSignIn.signIn();
+      final userAuth = await user?.authentication;
+      final idToken = userAuth?.idToken;
+      final accessToken = userAuth?.accessToken;
+
+      if (userAuth == null || idToken == null || accessToken == null) {
+        return;
+      }
+
+      final res = await _supabaseClient.auth.signInWithIdToken(
+        provider: supabase.OAuthProvider.google,
+        idToken: idToken,
+        accessToken: accessToken,
+      );
+
+      if (res.user != null) {
+        await _authManager.checkAuth();
+      }
+    } on Object catch (e, st) {
+      print(e);
+      print(st);
+    }
   }
 
   Future<void> signIn({

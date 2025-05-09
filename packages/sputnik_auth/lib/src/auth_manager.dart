@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 import 'models/user.dart';
@@ -11,11 +12,13 @@ class AuthManager extends Lifecycle {
   final supabase.SupabaseClient _supabaseClient;
   final AuthStateHolder _authStateHolder;
   final Connectivity _connectivity;
+  final GoogleSignIn _googleSignIn;
 
   AuthManager(
     this._authStateHolder,
     this._supabaseClient,
     this._connectivity,
+    this._googleSignIn,
   );
 
   @override
@@ -86,6 +89,10 @@ class AuthManager extends Lifecycle {
   Future<void> logout() async {
     try {
       await _supabaseClient.auth.signOut();
+
+      if (_googleSignIn.currentUser != null) {
+        await _googleSignIn.signOut();
+      }
     } on Object catch (e, st) {
       /// TODO: create analytics
     } finally {

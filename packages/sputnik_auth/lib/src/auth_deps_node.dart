@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sputnik_auth/sputnik_auth.dart';
 import 'package:sputnik_auth/src/auth_manager.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
@@ -12,8 +13,12 @@ import 'state_holders/auth_state_holder.dart';
 
 class AuthDepsNode extends DepsNode {
   final SupabaseClient _supabaseClient;
+  final GoogleSignIn _googleSignIn;
 
-  AuthDepsNode(this._supabaseClient);
+  AuthDepsNode(
+    this._supabaseClient,
+    this._googleSignIn,
+  );
 
   late final authStateHolder = bind(() => AuthStateHolder());
 
@@ -33,6 +38,7 @@ class AuthDepsNode extends DepsNode {
       _supabaseClient,
       authManager(),
       signInStateHolder(),
+      _googleSignIn,
     ),
   );
 
@@ -45,6 +51,7 @@ class AuthDepsNode extends DepsNode {
       authStateHolder(),
       _supabaseClient,
       connectivity(),
+      _googleSignIn,
     ),
   );
 

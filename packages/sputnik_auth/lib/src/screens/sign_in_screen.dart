@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_auth/src/models/sign_in_state.dart';
 import 'package:sputnik_localization/sputnik_localization.dart';
@@ -61,6 +62,13 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   SizedBox(height: puk(1)),
                 ],
+                SignInButton(
+                  Buttons.Google,
+                  onPressed: () {
+                    signInManager.signInViaGoogle();
+                  },
+                ),
+                SizedBox(height: puk(1)),
                 SpukiTextField(
                   key: const ValueKey('email'),
                   placeholder: 'Email',

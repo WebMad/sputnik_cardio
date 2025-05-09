@@ -3,6 +3,7 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_deps_node.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
 
+import '../features/firebase_integration/firebase_integration_deps_node.dart';
 import '../features/tracking/tracking_deps_node.dart';
 import 'navigation_deps_node.dart';
 
@@ -10,6 +11,9 @@ class AppScopeDepsNode extends DepsNode {
   @override
   @protected
   List<Set<LifecycleDependency>> get initializeQueue => [
+        {
+          firebaseIntegrationDepsNode,
+        },
         {
           navigationDepsNode,
           locationDepsNode,
@@ -29,8 +33,12 @@ class AppScopeDepsNode extends DepsNode {
     () => AuthDepsNode(
       navigationDepsNode(),
       authScopeDepsNode(),
+      firebaseIntegrationDepsNode().googleSignIn(),
     ),
   );
+
+  late final firebaseIntegrationDepsNode =
+      bind(() => FirebaseIntegrationDepsNode());
 
   late final locationDepsNode = bind(() => LocationDepsNode());
 }

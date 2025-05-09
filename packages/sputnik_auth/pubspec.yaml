@@ -21,6 +21,8 @@ dependencies:
   json_annotation: ^4.9.0
   supabase_flutter: ^2.6.0
   connectivity_plus: ^6.1.4
+  google_sign_in: ^6.3.0
+  flutter_signin_button: ^2.0.0
 
 dev_dependencies:
   flutter_test:
