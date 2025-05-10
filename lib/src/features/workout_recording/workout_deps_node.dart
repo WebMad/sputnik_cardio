@@ -39,7 +39,9 @@ class WorkoutDepsNode extends DepsNode {
   final SharedPrefsManager _sharedPrefsManager;
 
   late final workoutCoreDepsNode = bind(
-    () => WorkoutCoreDepsNode(),
+    () => WorkoutCoreDepsNode(
+      workoutStateHolder(),
+    ),
   );
 
   late final workoutStateHolder = bind(
@@ -51,7 +53,6 @@ class WorkoutDepsNode extends DepsNode {
       workoutStateHolder(),
       workoutCoreDepsNode().workoutModificationManager(),
       _workoutCoordsRecordingManager(),
-      const Uuid(),
       workoutTrackDepsNode(),
       workoutDataSource(),
       workoutTrackDataSource(),

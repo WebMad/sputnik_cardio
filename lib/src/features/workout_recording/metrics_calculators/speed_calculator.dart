@@ -9,15 +9,19 @@ class SpeedCalculator {
 
   SpeedCalculator(this.workoutTrackProviderFactory);
 
-
   /// TODO: почему-то между статусами скорость неправильно рассчитывается
   double calcSpeed(Workout workout) {
     final coords = workout.segments.fold(
       <ExtendedPos>[],
-      (track, segment) => track
-        ..addAll(
-          workoutTrackProviderFactory(segment.routeUuid).track.sublist(1),
-        ),
+      (track, segment) {
+        final route = workoutTrackProviderFactory(segment.routeUuid).track;
+
+        if (route.isNotEmpty) {
+          return track..addAll(route.sublist(1));
+        }
+
+        return track;
+      },
     ).toList();
 
     if (coords.length >= 3) {

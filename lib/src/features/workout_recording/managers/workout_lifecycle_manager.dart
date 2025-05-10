@@ -1,3 +1,4 @@
+import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/workout_core/managers/workout_modification_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_managing/managers/workout_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
@@ -17,7 +18,6 @@ class WorkoutLifecycleManager {
   final WorkoutStateHolder _workoutStateHolder;
   final WorkoutModificationManager _workoutModificationManager;
   final WorkoutCoordsRecordingManager _workoutCoordsRecordingManager;
-  final Uuid _uuid;
   final WorkoutTrackDepsNode _workoutTrackDepsNode;
   final WorkoutDataSource _workoutDataSource;
   final WorkoutTrackDataSource _workoutTrackDataSource;
@@ -28,7 +28,6 @@ class WorkoutLifecycleManager {
     this._workoutStateHolder,
     this._workoutModificationManager,
     this._workoutCoordsRecordingManager,
-    this._uuid,
     this._workoutTrackDepsNode,
     this._workoutDataSource,
     this._workoutTrackDataSource,
@@ -38,36 +37,26 @@ class WorkoutLifecycleManager {
 
   Future<void> retrive(Workout workout) async {
     await _workoutTrackDepsNode.init();
-
-    Workout newWorkout = workout;
+    _workoutStateHolder.updateState(workout);
 
     if (workout.state != WorkoutState.paused) {
-      DateTime startAt = DateTime.now();
+      final lastPos = await _getLastPos(_workoutStateHolder.workout!);
+      final startAt = lastPos != null ? lastPos.fetchedAt : DateTime.now();
 
-      final routeUuid = _uuid.v4();
+      _workoutModificationManager.pause(startAt);
 
-      final lastSegment = newWorkout.lastSegment;
+      final newRouteUuid = _workoutStateHolder.workout!.lastSegment?.routeUuid;
 
-      if (lastSegment != null) {
-        final lastPos =
-            await _workoutTrackDataSource.getTrack(lastSegment.routeUuid);
-
-        final pos = lastPos.lastOrNull;
-
-        if (pos != null) {
-          await _workoutTrackDataSource.pushPos(
-            routeUuid,
-            pos,
-          );
-
-          startAt = pos.fetchedAt;
-        }
+      if (newRouteUuid != null) {
+        await _pushPosFromPreviousSegment(
+          _workoutStateHolder.workout!,
+          newRouteUuid,
+        );
       }
-
-      newWorkout = _workoutModificationManager.pause(workout, startAt);
     }
 
-    final routes = newWorkout.segments.map((e) => e.routeUuid);
+    final routes =
+        _workoutStateHolder.workout!.segments.map((e) => e.routeUuid);
 
     for (final route in routes) {
       final trackProvider = _workoutTrackDepsNode.trackProvider(route);
@@ -77,23 +66,54 @@ class WorkoutLifecycleManager {
       trackProvider.pushAll(track);
     }
 
-    _workoutDataSource.setWorkout(newWorkout);
-    _workoutStateHolder.updateState(newWorkout);
-    await _workoutCoordsRecordingManager.startRecord(newWorkout);
+    await _updateAndStartRecord(_workoutStateHolder.workout!);
+  }
+
+  Future<void> _pushPosFromPreviousSegment(
+    Workout workout,
+    String newRouteUuid,
+  ) async {
+    final lastPos = await _getLastPos(workout);
+
+    if (lastPos == null) {
+      return;
+    }
+
+    await _workoutTrackDataSource.pushPos(
+      newRouteUuid,
+      lastPos,
+    );
+  }
+
+  Future<ExtendedPos?> _getLastPos(Workout workout) async {
+    final lastSegment = workout.lastSegment;
+
+    if (lastSegment != null) {
+      final lastPos =
+          await _workoutTrackDataSource.getTrack(lastSegment.routeUuid);
+
+      final pos = lastPos.lastOrNull;
+      return pos;
+    }
+
+    return null;
+  }
+
+  Future<void> _updateAndStartRecord(Workout workout) async {
+    await _workoutCoordsRecordingManager.startRecord(workout);
+
+    _workoutDataSource.setWorkout(workout);
   }
 
   Future<void> start() async {
     await _workoutTrackDepsNode.init();
 
-    final workout = _workoutModificationManager.addSegment(
-      workout: _workoutModificationManager.start(),
+    _workoutModificationManager.start();
+    _workoutModificationManager.addSegment(
       segmentType: WorkoutSegmentType.run,
     );
 
-    await _workoutCoordsRecordingManager.startRecord(workout);
-
-    _workoutStateHolder.updateState(workout);
-    _workoutDataSource.setWorkout(workout);
+    await _updateAndStartRecord(_workoutStateHolder.workout!);
   }
 
   Future<void> pause() async {
@@ -104,9 +124,9 @@ class WorkoutLifecycleManager {
     }
 
     final routeUuid = workout.lastSegment?.routeUuid;
+    _workoutModificationManager.pause();
 
-    final newWorkout = _workoutModificationManager.pause(workout);
-    final newRouteUuid = newWorkout.lastSegment?.routeUuid;
+    final newRouteUuid = _workoutStateHolder.workout?.lastSegment?.routeUuid;
 
     if (routeUuid != null && newRouteUuid != null) {
       final lastPointFromPreviousTrack =
@@ -121,21 +141,14 @@ class WorkoutLifecycleManager {
 
     _workoutCoordsRecordingManager.pauseRecord();
 
-    _workoutStateHolder.updateState(newWorkout);
-    _workoutDataSource.setWorkout(newWorkout);
+    _workoutDataSource.setWorkout(_workoutStateHolder.state!);
   }
 
   Future<void> resume() async {
-    final workout = _workoutStateHolder.state;
+    final routeUuid = _workoutStateHolder.state!.lastSegment?.routeUuid;
 
-    if (workout == null) {
-      return;
-    }
-
-    final routeUuid = workout.lastSegment?.routeUuid;
-
-    final newWorkout = _workoutModificationManager.resume(workout);
-    final newRouteUuid = newWorkout.lastSegment?.routeUuid;
+    _workoutModificationManager.resume();
+    final newRouteUuid = _workoutStateHolder.workout!.lastSegment?.routeUuid;
 
     if (routeUuid != null && newRouteUuid != null) {
       final lastPointFromPreviousTrack =
@@ -149,28 +162,17 @@ class WorkoutLifecycleManager {
     }
 
     _workoutCoordsRecordingManager.resumeRecord();
-
-    _workoutStateHolder.updateState(newWorkout);
-
-    _workoutDataSource.setWorkout(newWorkout);
+    _workoutDataSource.setWorkout(_workoutStateHolder.state!);
   }
 
   Future<void> stop() async {
-    final workout = _workoutStateHolder.state;
-
-    if (workout == null) {
-      return;
-    }
-
-    final newWorkout = _workoutModificationManager.stop(workout);
-
-    _workoutStateHolder.updateState(newWorkout);
+    _workoutModificationManager.stop();
 
     await _workoutCoordsRecordingManager.stopRecord();
 
-    _workoutDataSource.clearWorkout(workout.uuid);
+    _workoutDataSource.clearWorkout(_workoutStateHolder.workout!.uuid);
 
-    await _workoutRepository.createWorkout(newWorkout);
+    await _workoutRepository.createWorkout(_workoutStateHolder.workout!);
     await _pendingWorkoutsManager.updateList();
   }
 
