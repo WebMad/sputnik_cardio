@@ -5,9 +5,9 @@ import '../maps/maps_deps_node.dart';
 import '../workout_recording/workout_deps_node.dart';
 
 class AuthScopeDepsNode extends DepsNode {
-  final AppScopeDepsNode _appDepsNode;
+  final AppScopeDepsNode appDepsNode;
 
-  AuthScopeDepsNode(this._appDepsNode);
+  AuthScopeDepsNode(this.appDepsNode);
 
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [
@@ -23,14 +23,14 @@ class AuthScopeDepsNode extends DepsNode {
       ];
 
   late final mapsDepsNode = bind(
-    () => MapsDepsNode(_appDepsNode.locationDepsNode()),
+    () => MapsDepsNode(appDepsNode.locationDepsNode()),
   );
 
   late final workoutDepsNode = bind(
     () => WorkoutDepsNode(
       this,
-      _appDepsNode.locationDepsNode(),
-      _appDepsNode.authDepsNode(),
+      appDepsNode.locationDepsNode(),
+      appDepsNode.authDepsNode(),
       sharedPrefsManager(),
     ),
   );

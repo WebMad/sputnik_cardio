@@ -23,6 +23,7 @@ dependencies:
   connectivity_plus: ^6.1.4
   google_sign_in: ^6.3.0
   flutter_signin_button: ^2.0.0
+  internet_connection_checker: ^3.0.1
 
 dev_dependencies:
   flutter_test:

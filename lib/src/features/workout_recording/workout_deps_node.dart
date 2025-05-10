@@ -3,6 +3,7 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_deps_node.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
+import 'package:sputnik_cardio/src/features/internet_connection_checker/state_holder/internet_connection_state_holder.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_data_source.dart';
@@ -63,7 +64,7 @@ class WorkoutDepsNode extends DepsNode {
     () => PendingWorkoutsManager(
       pendingWorkoutsStateHolder(),
       workoutDataSource(),
-      connectivity(),
+      internetConnectionStateHolder,
       workoutRemoteDataSource(),
     ),
   );
@@ -91,7 +92,7 @@ class WorkoutDepsNode extends DepsNode {
       workoutRemoteDataSource(),
       workoutTrackDataSource(),
       workoutDataSource(),
-      connectivity(),
+      internetConnectionStateHolder,
     ),
   );
 
@@ -184,6 +185,11 @@ class WorkoutDepsNode extends DepsNode {
     this._authDepsNode,
     this._sharedPrefsManager,
   );
+
+  InternetConnectionStateHolder get internetConnectionStateHolder =>
+      parent.appDepsNode
+          .internetConnectionDepsNode()
+          .internetConnectionCheckerStateHolder();
 
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [

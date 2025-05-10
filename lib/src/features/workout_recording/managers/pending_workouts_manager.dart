@@ -5,16 +5,18 @@ import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_remote_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/pending_workouts_state_holder.dart';
 
+import '../../internet_connection_checker/state_holder/internet_connection_state_holder.dart';
+
 class PendingWorkoutsManager implements Lifecycle {
   final PendingWorkoutsStateHolder _pendingWorkoutsStateHolder;
   final WorkoutDataSource _workoutDataSource;
   final WorkoutRemoteDataSource _workoutRemoteDataSource;
-  final Connectivity _connectivity;
+  final InternetConnectionStateHolder _internetConnectionStateHolder;
 
   PendingWorkoutsManager(
     this._pendingWorkoutsStateHolder,
     this._workoutDataSource,
-    this._connectivity,
+    this._internetConnectionStateHolder,
     this._workoutRemoteDataSource,
   );
 
@@ -22,14 +24,9 @@ class PendingWorkoutsManager implements Lifecycle {
   Future<void> init() async {
     updateList();
 
-    _connectivity.onConnectivityChanged
-        .startWith(await _connectivity.checkConnectivity())
+    _internetConnectionStateHolder.asStream
         .where(
-          (connections) => connections.toSet().intersection({
-            ConnectivityResult.ethernet,
-            ConnectivityResult.mobile,
-            ConnectivityResult.wifi,
-          }).isNotEmpty,
+          (connections) => _internetConnectionStateHolder.hasInternet,
         )
         .asyncMap((_) => _syncWorkouts())
         .listen((_) {});

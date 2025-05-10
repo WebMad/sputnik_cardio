@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 import 'models/user.dart';
@@ -11,13 +12,11 @@ import 'state_holders/auth_state_holder.dart';
 class AuthManager extends Lifecycle {
   final supabase.SupabaseClient _supabaseClient;
   final AuthStateHolder _authStateHolder;
-  final Connectivity _connectivity;
   final GoogleSignIn _googleSignIn;
 
   AuthManager(
     this._authStateHolder,
     this._supabaseClient,
-    this._connectivity,
     this._googleSignIn,
   );
 
@@ -33,13 +32,10 @@ class AuthManager extends Lifecycle {
   Future<void> checkAuth() async {
     bool isAuthed = false;
     try {
-      final connectivityCheck = await _connectivity.checkConnectivity();
-
-      final hasInternetConnection = connectivityCheck.toSet().intersection({
-        ConnectivityResult.ethernet,
-        ConnectivityResult.mobile,
-        ConnectivityResult.wifi,
-      }).isNotEmpty;
+      final hasInternetConnection = {
+        InternetConnectionStatus.slow,
+        InternetConnectionStatus.connected,
+      }.contains(await InternetConnectionChecker.instance.connectionStatus);
 
       if (!hasInternetConnection) {
         await _retriveLocalSession();

@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:sputnik_cardio/src/features/internet_connection_checker/state_holder/internet_connection_state_holder.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/workout_core/models/workout_route.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_models/pending_workout.dart';
@@ -12,13 +13,13 @@ class WorkoutRepository {
   final WorkoutRemoteDataSource _workoutRemoteDataSource;
   final WorkoutTrackDataSource _workoutTrackDataSource;
   final WorkoutDataSource _workoutDataSource;
-  final Connectivity _connectivity;
+  final InternetConnectionStateHolder _internetConnectionStateHolder;
 
   WorkoutRepository(
     this._workoutRemoteDataSource,
     this._workoutTrackDataSource,
     this._workoutDataSource,
-    this._connectivity,
+    this._internetConnectionStateHolder,
   );
 
   Future<void> createWorkout(Workout workout) async {
@@ -36,14 +37,7 @@ class WorkoutRepository {
       );
     }
 
-    final hasInternetConnection =
-        (await _connectivity.checkConnectivity()).toSet().intersection({
-      ConnectivityResult.wifi,
-      ConnectivityResult.mobile,
-      ConnectivityResult.ethernet,
-    }).isNotEmpty;
-
-    if (hasInternetConnection) {
+    if (_internetConnectionStateHolder.hasInternet) {
       /// TODO тут бы по идее транзакцию применить
       await _workoutRemoteDataSource.createRoutes(routes);
       await _workoutRemoteDataSource.create(workout);

@@ -50,7 +50,6 @@ class AuthDepsNode extends DepsNode {
     () => AuthManager(
       authStateHolder(),
       _supabaseClient,
-      connectivity(),
       _googleSignIn,
     ),
   );
