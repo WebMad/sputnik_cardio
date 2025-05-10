@@ -4,22 +4,19 @@ import 'package:uuid/uuid.dart';
 import 'workout_route_factory.dart';
 
 class WorkoutSegmentFactory {
-  final WorkoutRouteFactory _workoutRouteFactory;
   final Uuid _uuid;
 
-  WorkoutSegmentFactory(
-    this._workoutRouteFactory,
-    this._uuid,
-  );
+  WorkoutSegmentFactory(this._uuid);
 
   WorkoutSegment create(
     WorkoutSegmentType workoutSegmentType,
-    String routeUuid,
-  ) {
+    String routeUuid, [
+    DateTime? startAt,
+  ]) {
     return WorkoutSegment(
       uuid: _uuid.v4(),
       type: workoutSegmentType,
-      startAt: DateTime.now(),
+      startAt: startAt ?? DateTime.now(),
       routeUuid: routeUuid,
     );
   }

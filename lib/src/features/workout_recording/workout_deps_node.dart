@@ -4,6 +4,7 @@ import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_deps_node.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
+import 'package:sputnik_cardio/src/features/workout_core/workout_core_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/repository/workout_repository.dart';
@@ -36,6 +37,10 @@ class WorkoutDepsNode extends DepsNode {
   final AuthDepsNode _authDepsNode;
   final SharedPrefsManager _sharedPrefsManager;
 
+  late final workoutCoreDepsNode = bind(
+    () => WorkoutCoreDepsNode(),
+  );
+
   late final workoutStateHolder = bind(
     () => WorkoutStateHolder(),
   );
@@ -43,7 +48,7 @@ class WorkoutDepsNode extends DepsNode {
   late final workoutLifecycleManager = bind(
     () => WorkoutLifecycleManager(
       workoutStateHolder(),
-      workoutManagingDepsNode().workoutManager(),
+      workoutCoreDepsNode().workoutModificationManager(),
       _workoutCoordsRecordingManager(),
       const Uuid(),
       workoutTrackDepsNode(),
@@ -182,6 +187,9 @@ class WorkoutDepsNode extends DepsNode {
 
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [
+        {
+          workoutCoreDepsNode,
+        },
         {
           workoutMetricsStateHolder,
           workoutsListStateHolder,
