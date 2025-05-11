@@ -1,13 +1,10 @@
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_core/factories/workout_factory.dart';
+import 'package:sputnik_cardio/src/features/workout_core/factories/workout_modification_manager_factory.dart';
 import 'package:sputnik_cardio/src/features/workout_core/factories/workout_segment_factory.dart';
-import 'package:sputnik_cardio/src/features/workout_core/managers/workout_modification_manager.dart';
-import 'package:sputnik_cardio/src/features/workout_core/providers/workout_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class WorkoutCoreDepsNode extends DepsNode {
-  final WorkoutProvider _workoutProvider;
-
   late final _uuid = bind(() => const Uuid());
 
   late final _workoutSegmentFactory = bind(
@@ -18,14 +15,11 @@ class WorkoutCoreDepsNode extends DepsNode {
     () => WorkoutFactory(_uuid()),
   );
 
-  late final workoutModificationManager = bind(
-    () => WorkoutModificationManager(
-      _uuid(),
-      _workoutSegmentFactory(),
+  late final workoutModificationManagerFactory = bind(() {
+    return WorkoutModificationManagerFactory(
       _workoutFactory(),
-      _workoutProvider,
-    ),
-  );
-
-  WorkoutCoreDepsNode(this._workoutProvider);
+      _workoutSegmentFactory(),
+      _uuid(),
+    );
+  });
 }

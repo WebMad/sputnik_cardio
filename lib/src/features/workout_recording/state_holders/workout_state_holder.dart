@@ -2,11 +2,8 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
 import 'package:sputnik_cardio/src/features/workout_core/models/workout_segment.dart';
 
-import '../../workout_core/providers/workout_provider.dart';
-
-class WorkoutStateHolder extends StateHolder<Workout?>
-    implements WorkoutProvider {
-  WorkoutStateHolder() : super(null);
+class PersistentWorkoutStateHolder extends StateHolder<Workout?> {
+  PersistentWorkoutStateHolder() : super(null);
 
   void updateState(Workout? workout) {
     state = workout;
@@ -23,14 +20,7 @@ class WorkoutStateHolder extends StateHolder<Workout?>
 
   WorkoutSegment? get lastSegment => state?.lastSegment;
 
-  @override
   void update(Workout? workout) {
     state = workout;
   }
-
-  @override
-  Workout? get workout => state;
-
-  @override
-  Stream<Workout?> get workoutStream => stream;
 }

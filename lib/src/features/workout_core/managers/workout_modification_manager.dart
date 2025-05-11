@@ -1,6 +1,7 @@
 import 'package:sputnik_cardio/src/features/workout_core/factories/workout_factory.dart';
 import 'package:sputnik_cardio/src/features/workout_core/factories/workout_segment_factory.dart';
 import 'package:sputnik_cardio/src/features/workout_core/providers/workout_provider.dart';
+import 'package:sputnik_cardio/src/features/workout_core/state_holders/workout_state_holder.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/workout.dart';
@@ -8,26 +9,26 @@ import '../models/workout_segment.dart';
 
 class WorkoutModificationManager {
   final WorkoutSegmentFactory _workoutSegmentFactory;
-  final WorkoutFactory _workoutFactory;
   final Uuid uuid;
-  final WorkoutProvider _workoutProvider;
+  final WorkoutStateHolder _workoutStateHolder;
 
   const WorkoutModificationManager(
     this.uuid,
     this._workoutSegmentFactory,
-    this._workoutFactory,
-    this._workoutProvider,
+    this._workoutStateHolder,
   );
 
-  void start() => _workoutProvider.update(
-        _workoutFactory.create().copyWith(state: WorkoutState.inProcess),
-      );
+  WorkoutProvider get workoutProvider => _workoutStateHolder;
+
+  void retrive(Workout workout) {
+    _workoutStateHolder.update(workout);
+  }
 
   void pause([
     DateTime? startAt,
   ]) {
-    _workoutProvider.update(
-      _workoutProvider.workout!.copyWith(state: WorkoutState.paused),
+    _workoutStateHolder.update(
+      _workoutStateHolder.state.copyWith(state: WorkoutState.paused),
     );
 
     addSegment(
@@ -37,8 +38,8 @@ class WorkoutModificationManager {
   }
 
   void stop() {
-    _workoutProvider.update(
-      _workoutProvider.workout!.copyWith(
+    _workoutStateHolder.update(
+      _workoutStateHolder.state.copyWith(
         stopAt: DateTime.now(),
         state: WorkoutState.stopped,
       ),
@@ -47,8 +48,8 @@ class WorkoutModificationManager {
   }
 
   void resume() {
-    _workoutProvider.update(
-      _workoutProvider.workout!.copyWith(state: WorkoutState.inProcess),
+    _workoutStateHolder.update(
+      _workoutStateHolder.state.copyWith(state: WorkoutState.inProcess),
     );
     addSegment(segmentType: WorkoutSegmentType.run);
   }
@@ -57,7 +58,7 @@ class WorkoutModificationManager {
     required WorkoutSegmentType segmentType,
     DateTime? startAt,
   }) {
-    final segments = [..._workoutProvider.workout!.segments];
+    final segments = [..._workoutStateHolder.state.segments];
 
     final segment = _workoutSegmentFactory.create(
       segmentType,
@@ -76,18 +77,18 @@ class WorkoutModificationManager {
 
     segments.add(segment);
 
-    _workoutProvider
-        .update(_workoutProvider.workout!.copyWith(segments: segments));
+    _workoutStateHolder
+        .update(_workoutStateHolder.state.copyWith(segments: segments));
   }
 
   void finishSegment({
     DateTime? endAt,
   }) {
-    final workout = _workoutProvider.workout!;
+    final workout = _workoutStateHolder.state;
 
     final workoutSegments = workout.segments;
 
-    _workoutProvider.update(
+    _workoutStateHolder.update(
       workout.copyWith(
         segments: [
           if (workoutSegments.isNotEmpty) ...[

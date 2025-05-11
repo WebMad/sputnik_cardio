@@ -12,7 +12,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/state_holders/work
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 
 class WorkoutMetricsManager implements Lifecycle {
-  final WorkoutStateHolder _workoutStateHolder;
+  final PersistentWorkoutStateHolder _workoutStateHolder;
   final WorkoutTrackProvider Function(String routeUuid)
       _workoutTrackProviderFactory;
   final KmMetricCalculator _kmMetricCalculator;

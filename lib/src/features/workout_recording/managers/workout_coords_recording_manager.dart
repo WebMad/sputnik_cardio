@@ -14,7 +14,7 @@ import '../../workout_core/models/workout.dart';
 class WorkoutCoordsRecordingManager implements Lifecycle {
   final LocationManager _locationManager;
   final WorkoutTrackDepsNode _workoutTrackDepsNode;
-  final WorkoutStateHolder _workoutStateHolder;
+  final PersistentWorkoutStateHolder _workoutStateHolder;
   final WorkoutTrackDataSource _workoutTrackDataSource;
 
   bool isPaused = false;
