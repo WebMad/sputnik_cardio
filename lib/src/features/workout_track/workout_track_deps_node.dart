@@ -33,8 +33,8 @@ class WorkoutTrackDepsNode extends DepsNode {
 
   late final workoutTrackManager = bind(
     () => WorkoutTrackManager(
+      workoutTrackRepository(),
       (uuid) => _workoutTrackProvider(uuid),
-      _workoutTrackDataSource(),
     ),
   );
 

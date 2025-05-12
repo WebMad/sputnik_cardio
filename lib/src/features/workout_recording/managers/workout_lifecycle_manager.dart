@@ -58,6 +58,10 @@ class WorkoutLifecycleManager implements Lifecycle {
 
     _workoutModificationManager.retrive(workout);
 
+    await _workoutTrackDepsNode
+        .workoutTrackManager()
+        .retrive(_workoutProvider.workout);
+
     if (_workoutProvider.workout.state != WorkoutState.paused) {
       final lastPos = await _getLastPos(_workoutProvider.workout);
       final startAt = lastPos != null ? lastPos.fetchedAt : DateTime.now();
@@ -73,10 +77,6 @@ class WorkoutLifecycleManager implements Lifecycle {
         );
       }
     }
-
-    _workoutTrackDepsNode
-        .workoutTrackManager()
-        .retrive(_workoutProvider.workout);
 
     await _updateAndStartRecord(_workoutProvider.workout);
   }
@@ -177,9 +177,8 @@ class WorkoutLifecycleManager implements Lifecycle {
 
     await _workoutCoordsRecordingManager.stopRecord();
 
-    _workoutRepository.removeActiveWorkout(_workoutProvider.workout);
-
     await _workoutRepository.createWorkout(_workoutProvider.workout);
+    _workoutRepository.removeActiveWorkout(_workoutProvider.workout);
     await _pendingWorkoutsManager.updateList();
   }
 

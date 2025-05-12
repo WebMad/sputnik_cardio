@@ -15,7 +15,7 @@ class WorkoutTrackRepository {
   List<ExtendedPos> getRoute(String routeUuid) =>
       _trackProviderFactory(routeUuid).track;
 
-  void routeFromLocalStorage(String routeUuid) =>
+  Future<List<ExtendedPos>> routeFromLocalStorage(String routeUuid) =>
       _workoutTrackDataSource.getTrack(routeUuid);
 
   void pushAll(String routeUuid, List<ExtendedPos> coords) {
