@@ -3,7 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
 import 'package:sputnik_cardio/src/features/workout_core/models/workout_segment.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/speed_calculator.dart';
+import 'package:sputnik_cardio/src/features/workout_metrics/calculators/speed_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_track/providers/workout_track_provider.dart';
 
 // Create a mock class for WorkoutTrackProvider

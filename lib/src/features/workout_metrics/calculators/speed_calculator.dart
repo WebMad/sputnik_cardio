@@ -1,5 +1,5 @@
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
+import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 
 import '../../workout_track/providers/workout_track_provider.dart';
 
@@ -12,31 +12,11 @@ class SpeedCalculator {
   double calcSpeed(Workout workout) {
     final coords = workout.segments.fold(
       <ExtendedPos>[],
-      (track, segment) {
-        final route = workoutTrackProviderFactory(segment.routeUuid).track;
-
-        if (route.isNotEmpty) {
-          return track..addAll(route.sublist(1));
-        }
-
-        return track;
-      },
+      (track, segment) =>
+          track..addAll(workoutTrackProviderFactory(segment.routeUuid).track),
     ).toList();
 
-    if (coords.length >= 3) {
-      final last = coords.length - 1;
-
-      final last1Coord = coords[last];
-      final last2Coord = coords[last - 1];
-      final last3Coord = coords[last - 2];
-
-      final sumOfSpeed = _calcSpeed(last1Coord, last2Coord) +
-          _calcSpeed(last2Coord, last3Coord);
-
-      return sumOfSpeed / 2;
-    }
-
-    if (coords.length == 2) {
+    if (coords.length >= 2) {
       final last = coords.length - 1;
 
       final last1Coord = coords[last];

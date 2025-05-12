@@ -2,11 +2,11 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 
+import 'calculators/avg_speed_calculator.dart';
+import 'calculators/km_metric_calculator.dart';
+import 'calculators/speed_calculator.dart';
+import 'calculators/time_calculator.dart';
 import 'managers/workout_metrics_manager.dart';
-import '../workout_recording/metrics_calculators/avg_speed_calculator.dart';
-import '../workout_recording/metrics_calculators/km_metric_calculator.dart';
-import '../workout_recording/metrics_calculators/speed_calculator.dart';
-import '../workout_recording/metrics_calculators/time_calculator.dart';
 import '../workout_recording/state_holders/workout_metrics_state_holder.dart';
 
 abstract interface class WorkoutMetricsParent {

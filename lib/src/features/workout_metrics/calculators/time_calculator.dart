@@ -6,17 +6,17 @@ class TimeCalculator {
       return Duration.zero;
     }
 
+    Duration duration = Duration.zero;
+
     final activeSegments = workout.segments.where(
       (segment) => WorkoutSegment.activeTypes.contains(segment.type),
     );
 
-    int totalSeconds = 0;
-
     for (final segment in activeSegments) {
       final endTime = segment.endAt ?? DateTime.now();
-      totalSeconds += endTime.difference(segment.startAt).inSeconds;
+      duration += endTime.difference(segment.startAt);
     }
 
-    return Duration(seconds: totalSeconds);
+    return duration;
   }
 }

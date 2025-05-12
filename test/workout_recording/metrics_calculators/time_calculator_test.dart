@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
 import 'package:sputnik_cardio/src/features/workout_core/models/workout_segment.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/time_calculator.dart';
+import 'package:sputnik_cardio/src/features/workout_metrics/calculators/time_calculator.dart';
 
 void main() {
   late TimeCalculator timeCalculator;

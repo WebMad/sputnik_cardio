@@ -1,5 +1,6 @@
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 
+
 class AvgSpeedCalculator {
   const AvgSpeedCalculator();
 
