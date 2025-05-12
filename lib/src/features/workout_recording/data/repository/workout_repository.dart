@@ -4,20 +4,31 @@ import 'package:sputnik_cardio/src/features/workout_recording/data/data_models/p
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_local_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_remote_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_track/data_sources/workout_track_data_source.dart';
-
+import 'package:sputnik_cardio/src/features/workout_track/repositories/workout_track_repository.dart';
+import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 
 class WorkoutRepository {
   final WorkoutRemoteDataSource _workoutRemoteDataSource;
-  final WorkoutTrackDataSource _workoutTrackDataSource;
-  final WorkoutLocalDataSource _workoutDataSource;
+  final WorkoutTrackDepsNode _workoutTrackDepsNode;
+  final WorkoutLocalDataSource _workoutLocalDataSource;
   final InternetConnectionStateHolder _internetConnectionStateHolder;
 
   WorkoutRepository(
     this._workoutRemoteDataSource,
-    this._workoutTrackDataSource,
-    this._workoutDataSource,
+    this._workoutTrackDepsNode,
+    this._workoutLocalDataSource,
     this._internetConnectionStateHolder,
   );
+
+  Future<List<Workout>> getActiveWorkouts() async =>
+      await _workoutLocalDataSource.getActiveWorkouts();
+
+  void setActiveWorkout(Workout workout) =>
+      _workoutLocalDataSource.setActiveWorkout(workout);
+
+  void removeActiveWorkout(Workout workout) {
+    _workoutLocalDataSource.removeWorkout(workout.uuid);
+  }
 
   Future<void> createWorkout(Workout workout) async {
     final routeUuids = workout.segments.map((e) => e.routeUuid);
@@ -25,7 +36,8 @@ class WorkoutRepository {
     final routes = <WorkoutRoute>[];
 
     for (final routeUuid in routeUuids) {
-      final route = await _workoutTrackDataSource.getTrack(routeUuid);
+      final route =
+          _workoutTrackDepsNode.workoutTrackRepository().getRoute(routeUuid);
       routes.add(
         WorkoutRoute(
           uuid: routeUuid,
@@ -46,7 +58,7 @@ class WorkoutRepository {
       return;
     }
 
-    await _workoutDataSource.createPendingWorkout(
+    await _workoutLocalDataSource.createPendingWorkout(
       PendingWorkout(
         workout: workout,
         routes: routes,

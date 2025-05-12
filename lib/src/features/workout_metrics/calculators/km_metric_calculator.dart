@@ -1,11 +1,13 @@
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
+import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
+import '../../maps/providers/track_provider.dart';
 import '../../tracking/models/extended_pos.dart';
 import '../../workout_track/providers/workout_track_provider.dart';
 
 class KmMetricCalculator {
-  final WorkoutTrackProvider Function(String uuid) workoutTrackProviderFactory;
+  final WorkoutTrackDepsNode _workoutTrackDepsNode;
 
-  KmMetricCalculator(this.workoutTrackProviderFactory);
+  KmMetricCalculator(this._workoutTrackDepsNode);
 
   double calcDistanceForWorkout(Workout workout) {
     final segments = workout.segments;
@@ -22,9 +24,8 @@ class KmMetricCalculator {
   }
 
   double _calcDistanceForRoute(String routeUuid) {
-    final trackProvider = workoutTrackProviderFactory(routeUuid);
-
-    final track = trackProvider.track;
+    final track =
+        _workoutTrackDepsNode.workoutTrackRepository().getRoute(routeUuid);
 
     double distance = 0;
 

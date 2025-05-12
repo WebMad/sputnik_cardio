@@ -1,33 +1,38 @@
+import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
 import 'package:sputnik_cardio/src/features/workout_core/models/workout_segment.dart';
 import 'package:sputnik_cardio/src/features/workout_metrics/calculators/speed_calculator.dart';
-import 'package:sputnik_cardio/src/features/workout_track/providers/workout_track_provider.dart';
+import 'package:sputnik_cardio/src/features/workout_track/repositories/workout_track_repository.dart';
+import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 
-// Create a mock class for WorkoutTrackProvider
-class MockWorkoutTrackProvider extends Mock implements WorkoutTrackProvider {}
+class MockWorkoutTrackRepository extends Mock
+    implements WorkoutTrackRepository {}
 
-void main() {
+class MockSharedPrefsManager extends Mock implements SharedPrefsManager {}
+
+class MockSharedPrefs extends Mock implements SharedPreferences {}
+
+Future<void> main() async {
   late SpeedCalculator speedCalculator;
-  late Map<String, MockWorkoutTrackProvider> mockProviders;
+  late MockWorkoutTrackRepository mockRepository;
 
-  setUp(() {
-    mockProviders = {};
+  setUp(() async {
+    mockRepository = MockWorkoutTrackRepository();
+    final mockSharedPrefsManager = MockSharedPrefsManager();
+    final mockDepsNode = WorkoutTrackDepsNode(mockSharedPrefsManager);
 
-    // Pre-populate mockProviders with expected keys for tests
-    mockProviders['route-1'] = MockWorkoutTrackProvider();
-    mockProviders['route-2'] = MockWorkoutTrackProvider();
-    mockProviders['route-3'] = MockWorkoutTrackProvider();
+    when(() => mockSharedPrefsManager.sharedPreferences)
+        .thenReturn(MockSharedPrefs());
 
-    // Create a factory function that returns a mock provider for each route UUID
-    speedCalculator = SpeedCalculator((String uuid) {
-      if (!mockProviders.containsKey(uuid)) {
-        mockProviders[uuid] = MockWorkoutTrackProvider();
-      }
-      return mockProviders[uuid]!;
-    });
+    mockDepsNode.workoutTrackRepository.overrideWith(() => mockRepository);
+    await mockDepsNode.init();
+
+    speedCalculator = SpeedCalculator(mockDepsNode);
   });
 
   test('calcSpeed returns 0 for workout with no segments', () {
@@ -63,9 +68,8 @@ void main() {
       ],
     );
 
-    // Set up mock provider to return empty track
-    final mockProvider = mockProviders['route-1']!;
-    when(() => mockProvider.track).thenReturn([]);
+    // Set up mock repository to return empty track
+    when(() => mockRepository.getRoute('route-1')).thenReturn([]);
 
     // Act
     final result = speedCalculator.calcSpeed(workout);
@@ -98,9 +102,8 @@ void main() {
       fetchedAt: DateTime(2023, 1, 1, 10, 0, 0),
     );
 
-    // Set up mock provider to return a single position
-    final mockProvider = mockProviders['route-1']!;
-    when(() => mockProvider.track).thenReturn([pos]);
+    // Set up mock repository to return a single position
+    when(() => mockRepository.getRoute('route-1')).thenReturn([pos]);
 
     // Act
     final result = speedCalculator.calcSpeed(workout);
@@ -143,9 +146,8 @@ void main() {
       fetchedAt: DateTime(2023, 1, 1, 11, 0, 0),
     );
 
-    // Set up mock to return these positions
-    final mockProvider = mockProviders['route-1']!;
-    when(() => mockProvider.track).thenReturn([pos1, pos2]);
+    // Set up mock repository to return these positions
+    when(() => mockRepository.getRoute('route-1')).thenReturn([pos1, pos2]);
 
     // Act
     final result = speedCalculator.calcSpeed(workout);
@@ -204,8 +206,7 @@ void main() {
       alt: 0.0,
       fetchedAt: DateTime(2023, 1, 1, 10, 30, 0),
     );
-    final mockProvider1 = mockProviders['route-1']!;
-    when(() => mockProvider1.track).thenReturn([pos1_1, pos1_2]);
+    when(() => mockRepository.getRoute('route-1')).thenReturn([pos1_1, pos1_2]);
 
     // Set up route-2 (pause) - no movement
     final pos2_1 = ExtendedPos(
@@ -214,8 +215,7 @@ void main() {
       alt: 0.0,
       fetchedAt: DateTime(2023, 1, 1, 10, 5, 0),
     );
-    final mockProvider2 = mockProviders['route-2']!;
-    when(() => mockProvider2.track).thenReturn([pos2_1]);
+    when(() => mockRepository.getRoute('route-2')).thenReturn([pos2_1]);
 
     // Set up route-3 - 6 km/h
     final pos3_1 = ExtendedPos(
@@ -230,8 +230,7 @@ void main() {
       alt: 0.0,
       fetchedAt: DateTime(2023, 1, 1, 10, 20, 0),
     );
-    final mockProvider3 = mockProviders['route-3']!;
-    when(() => mockProvider3.track).thenReturn([pos3_1, pos3_2]);
+    when(() => mockRepository.getRoute('route-3')).thenReturn([pos3_1, pos3_2]);
 
     // Act
     final result = speedCalculator.calcSpeed(workout);
@@ -276,9 +275,8 @@ void main() {
       fetchedAt: DateTime(2023, 1, 1, 10, 0, 0), // Same timestamp!
     );
 
-    // Set up mock to return these positions
-    final mockProvider = mockProviders['route-1']!;
-    when(() => mockProvider.track).thenReturn([pos1, pos2]);
+    // Set up mock repository to return these positions
+    when(() => mockRepository.getRoute('route-1')).thenReturn([pos1, pos2]);
 
     // Act
     final result = speedCalculator.calcSpeed(workout);

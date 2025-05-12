@@ -4,7 +4,6 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
-import 'package:sputnik_cardio/src/features/workout_track/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 
@@ -14,7 +13,6 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
   final LocationManager _locationManager;
   final WorkoutTrackDepsNode _workoutTrackDepsNode;
   final PersistentWorkoutStateHolder _workoutStateHolder;
-  final WorkoutTrackDataSource _workoutTrackDataSource;
 
   bool isPaused = false;
 
@@ -24,7 +22,6 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
     this._locationManager,
     this._workoutTrackDepsNode,
     this._workoutStateHolder,
-    this._workoutTrackDataSource,
   );
 
   @override
@@ -54,13 +51,9 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
 
     final routeUuid = workout.segments.last.routeUuid;
 
-    final workoutTrackProvider = _workoutTrackDepsNode.trackProvider(routeUuid);
-
-    workoutTrackProvider.push(pos);
-
     /// TODO: тут может случиться гонка, между двумя сохранениями, поэтому
     /// в будущем надо будет предусмотреть очередь/блокировка (lock)
-    _workoutTrackDataSource.pushPos(routeUuid, pos);
+    _workoutTrackDepsNode.workoutTrackRepository().push(routeUuid, pos);
   }
 
   void pauseRecord() {

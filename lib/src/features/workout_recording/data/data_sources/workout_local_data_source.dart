@@ -4,20 +4,33 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_models/pending_workout.dart';
 
+abstract interface class WorkoutLocalDataSource {
+  Future<List<Workout>> getActiveWorkouts();
 
-class WorkoutLocalDataSource {
+  Future<void> setActiveWorkout(Workout workout);
+
+  Future<void> removeWorkout(String uuid);
+
+  Future<List<PendingWorkout>> getPendingWorkouts();
+
+  Future<void> createPendingWorkout(PendingWorkout pendingWorkout);
+
+  Future<void> removePendingWorkout(PendingWorkout pendingWorkout);
+}
+
+class WorkoutLocalDataSourceImpl implements WorkoutLocalDataSource {
   static const _workoutRecordingWorkoutsKey = 'workout_recording_workouts';
   static const _workoutRecordingPendingWorkoutsKey =
       'workout_recording_pending_workouts';
 
   final SharedPreferences _sharedPreferences;
 
-  WorkoutLocalDataSource(this._sharedPreferences);
+  WorkoutLocalDataSourceImpl(this._sharedPreferences);
 
   String _getWorkoutKey(String uuid) => 'workout_recording_workout_$uuid';
 
-  Future<void> addActiveWorkout(String workoutUuid) async {
-    final activeWorkouts = await getActiveWorkouts();
+  Future<void> _addActiveWorkoutUuid(String workoutUuid) async {
+    final activeWorkouts = await _getActiveWorkoutsUuids();
 
     if (activeWorkouts.contains(workoutUuid)) {
       return;
@@ -31,8 +44,8 @@ class WorkoutLocalDataSource {
     );
   }
 
-  Future<void> removeActiveWorkout(String uuid) async {
-    final activeWorkouts = [...(await getActiveWorkouts())]..remove(uuid);
+  Future<void> _removeActiveWorkoutUuid(String uuid) async {
+    final activeWorkouts = [...(await _getActiveWorkoutsUuids())]..remove(uuid);
 
     await _sharedPreferences.setString(
       _workoutRecordingWorkoutsKey,
@@ -40,7 +53,7 @@ class WorkoutLocalDataSource {
     );
   }
 
-  Future<List<String>> getActiveWorkouts() async {
+  Future<List<String>> _getActiveWorkoutsUuids() async {
     final workouts = _sharedPreferences.getString(_workoutRecordingWorkoutsKey);
 
     if (workouts == null) {
@@ -50,8 +63,9 @@ class WorkoutLocalDataSource {
     return (jsonDecode(workouts) as List<dynamic>).cast<String>();
   }
 
-  Future<void> setWorkout(Workout workout) async {
-    addActiveWorkout(workout.uuid);
+  @override
+  Future<void> setActiveWorkout(Workout workout) async {
+    _addActiveWorkoutUuid(workout.uuid);
 
     await _sharedPreferences.setString(
       _getWorkoutKey(workout.uuid),
@@ -59,26 +73,39 @@ class WorkoutLocalDataSource {
     );
   }
 
-  Future<Workout?> getWorkout(String uuid) async {
-    final workout = _sharedPreferences.getString(
-      _getWorkoutKey(uuid),
-    );
+  @override
+  Future<List<Workout>> getActiveWorkouts() async {
+    final uuids = await _getActiveWorkoutsUuids();
 
-    if (workout == null) {
-      return null;
+    final workouts = <Workout>[];
+
+    for (final uuid in uuids) {
+      final rawWorkout = _sharedPreferences.getString(
+        _getWorkoutKey(uuid),
+      );
+
+      if (rawWorkout == null) {
+        continue;
+      }
+
+      final workout = Workout.fromJson(
+        (jsonDecode(rawWorkout) as Map<dynamic, dynamic>)
+            .cast<String, dynamic>(),
+      );
+
+      workouts.add(workout);
     }
 
-    return Workout.fromJson(
-      (jsonDecode(workout) as Map<dynamic, dynamic>).cast<String, dynamic>(),
-    );
+    return workouts;
   }
 
-  Future<void> clearWorkout(String uuid) async {
-    await _sharedPreferences.remove(uuid);
-
-    removeActiveWorkout(uuid);
+  @override
+  Future<void> removeWorkout(String uuid) async {
+    await _sharedPreferences.remove(_getWorkoutKey(uuid));
+    _removeActiveWorkoutUuid(uuid);
   }
 
+  @override
   Future<List<PendingWorkout>> getPendingWorkouts() async {
     final rawPendingWorkouts =
         _sharedPreferences.getString(_workoutRecordingPendingWorkoutsKey);
@@ -94,6 +121,7 @@ class WorkoutLocalDataSource {
     return pendingWorkouts;
   }
 
+  @override
   Future<void> createPendingWorkout(PendingWorkout pendingWorkout) async {
     final pendingWorkouts = [...await getPendingWorkouts()];
 
@@ -105,6 +133,7 @@ class WorkoutLocalDataSource {
     );
   }
 
+  @override
   Future<void> removePendingWorkout(PendingWorkout pendingWorkout) async {
     final pendingWorkouts = [...await getPendingWorkouts()]..removeWhere(
         (element) => element.workout.uuid == pendingWorkout.workout.uuid,

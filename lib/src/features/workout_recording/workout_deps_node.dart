@@ -43,7 +43,6 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
       persistentWorkoutStateHolder,
       _workoutCoordsRecordingManager(),
       workoutTrackDepsNode,
-      workoutDataSource(),
       workoutRepository(),
       pendingWorkoutsManager(),
       workoutCoreDepsNode().workoutModificationManagerFactory(),
@@ -65,8 +64,8 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
 
   late final workoutRetriveManager = bind(
     () => WorkoutRetriveManager(
-      workoutDataSource(),
       workoutLifecycleManager(),
+      workoutRepository(),
     ),
   );
 
@@ -80,7 +79,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   late final workoutRepository = bind(
     () => WorkoutRepository(
       workoutRemoteDataSource(),
-      workoutTrackDepsNode.workoutTrackDataSource(),
+      workoutTrackDepsNode,
       workoutDataSource(),
       internetConnectionStateHolder,
     ),
@@ -91,7 +90,6 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
       _locationDepsNode.locationManager(),
       workoutTrackDepsNode,
       persistentWorkoutStateHolder,
-      workoutTrackDepsNode.workoutTrackDataSource(),
     ),
   );
 
@@ -110,8 +108,8 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
     () => WorkoutTrackDepsNode(_sharedPrefsManager),
   );
 
-  late final workoutDataSource = bind(
-    () => WorkoutLocalDataSource(_sharedPrefsManager.sharedPreferences),
+  late final workoutDataSource = bind<WorkoutLocalDataSource>(
+    () => WorkoutLocalDataSourceImpl(_sharedPrefsManager.sharedPreferences),
   );
 
   late final connectivity = bind(

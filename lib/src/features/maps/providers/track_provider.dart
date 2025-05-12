@@ -1,7 +1,9 @@
+import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
+
 import '../../tracking/models/pos.dart';
 
 abstract class TrackProvider {
-  List<Pos> get track;
+  List<ExtendedPos> get track;
 
-  Stream<Pos> get trackStream;
+  Stream<ExtendedPos> get trackStream;
 }

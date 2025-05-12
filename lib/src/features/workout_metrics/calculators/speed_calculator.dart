@@ -1,19 +1,26 @@
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
+import 'package:sputnik_cardio/src/features/workout_track/repositories/workout_track_repository.dart';
+import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 
+import '../../maps/providers/track_provider.dart';
 import '../../workout_track/providers/workout_track_provider.dart';
 
 class SpeedCalculator {
-  final WorkoutTrackProvider Function(String uuid) workoutTrackProviderFactory;
+  final WorkoutTrackDepsNode _workoutTrackDepsNode;
 
-  SpeedCalculator(this.workoutTrackProviderFactory);
+  SpeedCalculator(this._workoutTrackDepsNode);
 
   /// TODO: почему-то между статусами скорость неправильно рассчитывается
   double calcSpeed(Workout workout) {
     final coords = workout.segments.fold(
       <ExtendedPos>[],
-      (track, segment) =>
-          track..addAll(workoutTrackProviderFactory(segment.routeUuid).track),
+      (track, segment) => track
+        ..addAll(
+          _workoutTrackDepsNode
+              .workoutTrackRepository()
+              .getRoute(segment.routeUuid),
+        ),
     ).toList();
 
     if (coords.length >= 2) {

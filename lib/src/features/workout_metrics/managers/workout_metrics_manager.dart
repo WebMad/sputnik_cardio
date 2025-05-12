@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
-import 'package:sputnik_cardio/src/features/workout_track/providers/workout_track_provider.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_metrics_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
+import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 
 import '../calculators/avg_speed_calculator.dart';
 import '../calculators/km_metric_calculator.dart';
@@ -14,8 +14,7 @@ import '../calculators/time_calculator.dart';
 
 class WorkoutMetricsManager implements Lifecycle {
   final PersistentWorkoutStateHolder _workoutStateHolder;
-  final WorkoutTrackProvider Function(String routeUuid)
-      _workoutTrackProviderFactory;
+  final WorkoutTrackDepsNode _workoutTrackDepsNode;
   final KmMetricCalculator _kmMetricCalculator;
   final AvgSpeedCalculator _avgSpeedCalculator;
   final SpeedCalculator _speedCalculator;
@@ -28,7 +27,7 @@ class WorkoutMetricsManager implements Lifecycle {
 
   WorkoutMetricsManager(
     this._workoutStateHolder,
-    this._workoutTrackProviderFactory,
+    this._workoutTrackDepsNode,
     this._kmMetricCalculator,
     this._workoutMetricsStateHolder,
     this._avgSpeedCalculator,
@@ -46,7 +45,8 @@ class WorkoutMetricsManager implements Lifecycle {
             return Stream.value(null);
           }
 
-          return _workoutTrackProviderFactory(lastSegment.routeUuid)
+          return _workoutTrackDepsNode
+              .trackProvider(lastSegment.routeUuid)
               .trackStream;
         })
         .map((_) => _workoutStateHolder.state)

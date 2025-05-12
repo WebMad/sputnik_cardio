@@ -142,7 +142,7 @@ void main() {
     // Arrange
     final now = DateTime.now();
     final startTime = now.subtract(Duration(hours: 1)); // 1 hour ago
-    
+
     final workout = Workout(
       uuid: 'test-uuid',
       startAt: DateTime(2023, 1, 1),

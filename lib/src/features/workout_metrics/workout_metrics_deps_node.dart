@@ -20,15 +20,13 @@ class WorkoutMetricsDepsNode extends DepsNode {
 
   late final speedCalculator = bind(
     () => SpeedCalculator(
-      (String routeUuid) =>
-          _parent.workoutTrackDepsNode.trackProvider(routeUuid),
+      _parent.workoutTrackDepsNode,
     ),
   );
 
   late final kmMetricCalculator = bind(
     () => KmMetricCalculator(
-      (String routeUuid) =>
-          _parent.workoutTrackDepsNode.trackProvider(routeUuid),
+      _parent.workoutTrackDepsNode,
     ),
   );
 
@@ -43,8 +41,7 @@ class WorkoutMetricsDepsNode extends DepsNode {
   late final workoutMetricsManager = bind(
     () => WorkoutMetricsManager(
       _parent.persistentWorkoutStateHolder,
-      (String routeUuid) =>
-          _parent.workoutTrackDepsNode.trackProvider(routeUuid),
+      _parent.workoutTrackDepsNode,
       kmMetricCalculator(),
       workoutMetricsStateHolder(),
       avgSpeedCalculator(),
