@@ -7,7 +7,7 @@ import 'package:sputnik_cardio/src/features/internet_connection_checker/state_ho
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_metrics/workout_metrics_deps_node.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_local_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/repository/workout_repository.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/pending_workouts_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_retrive_manager.dart';
@@ -44,7 +44,6 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
       _workoutCoordsRecordingManager(),
       workoutTrackDepsNode,
       workoutDataSource(),
-      workoutTrackDepsNode.workoutTrackDataSource(),
       workoutRepository(),
       pendingWorkoutsManager(),
       workoutCoreDepsNode().workoutModificationManagerFactory(),
@@ -112,7 +111,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   );
 
   late final workoutDataSource = bind(
-    () => WorkoutDataSource(_sharedPrefsManager.sharedPreferences),
+    () => WorkoutLocalDataSource(_sharedPrefsManager.sharedPreferences),
   );
 
   late final connectivity = bind(

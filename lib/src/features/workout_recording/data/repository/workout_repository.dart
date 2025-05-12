@@ -1,15 +1,15 @@
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/internet_connection_checker/state_holder/internet_connection_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_models/pending_workout.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_local_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_remote_data_source.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_track/data_sources/workout_track_data_source.dart';
 
 
 class WorkoutRepository {
   final WorkoutRemoteDataSource _workoutRemoteDataSource;
   final WorkoutTrackDataSource _workoutTrackDataSource;
-  final WorkoutDataSource _workoutDataSource;
+  final WorkoutLocalDataSource _workoutDataSource;
   final InternetConnectionStateHolder _internetConnectionStateHolder;
 
   WorkoutRepository(

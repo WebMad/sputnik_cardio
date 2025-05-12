@@ -5,14 +5,14 @@ import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_models/pending_workout.dart';
 
 
-class WorkoutDataSource {
+class WorkoutLocalDataSource {
   static const _workoutRecordingWorkoutsKey = 'workout_recording_workouts';
   static const _workoutRecordingPendingWorkoutsKey =
       'workout_recording_pending_workouts';
 
   final SharedPreferences _sharedPreferences;
 
-  WorkoutDataSource(this._sharedPreferences);
+  WorkoutLocalDataSource(this._sharedPreferences);
 
   String _getWorkoutKey(String uuid) => 'workout_recording_workout_$uuid';
 

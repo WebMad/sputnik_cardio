@@ -1,7 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_data_source.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_local_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_remote_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/pending_workouts_state_holder.dart';
 
@@ -9,7 +9,7 @@ import '../../internet_connection_checker/state_holder/internet_connection_state
 
 class PendingWorkoutsManager implements Lifecycle {
   final PendingWorkoutsStateHolder _pendingWorkoutsStateHolder;
-  final WorkoutDataSource _workoutDataSource;
+  final WorkoutLocalDataSource _workoutDataSource;
   final WorkoutRemoteDataSource _workoutRemoteDataSource;
   final InternetConnectionStateHolder _internetConnectionStateHolder;
 

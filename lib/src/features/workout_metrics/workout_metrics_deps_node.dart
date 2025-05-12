@@ -2,7 +2,7 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 
-import '../workout_recording/managers/workout_metrics_manager.dart';
+import 'managers/workout_metrics_manager.dart';
 import '../workout_recording/metrics_calculators/avg_speed_calculator.dart';
 import '../workout_recording/metrics_calculators/km_metric_calculator.dart';
 import '../workout_recording/metrics_calculators/speed_calculator.dart';
