@@ -76,7 +76,7 @@ class _SputnikMapState extends State<SputnikMap> {
 
     final workoutDepsNode = context.depsNode<WorkoutDepsNode>(listen: true);
 
-    final workoutStateHolder = workoutDepsNode.workoutStateHolder();
+    final workoutStateHolder = workoutDepsNode.workoutStateHolder;
 
     return Stack(
       children: [
@@ -113,8 +113,7 @@ class _SputnikMapState extends State<SputnikMap> {
                 if (workout != null) ...[
                   for (final segment in workout.segments)
                     TrackLayer(
-                      trackProvider: workoutDepsNode
-                          .workoutTrackDepsNode()
+                      trackProvider: workoutDepsNode.workoutTrackDepsNode
                           .trackProvider(segment.routeUuid),
                       segmentType: segment.type,
                     ),

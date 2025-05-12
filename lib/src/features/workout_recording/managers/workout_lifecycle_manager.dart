@@ -21,8 +21,8 @@ class WorkoutLifecycleManager implements Lifecycle {
   final PersistentWorkoutStateHolder _persistentWorkoutStateHolder;
   final WorkoutCoordsRecordingManager _workoutCoordsRecordingManager;
   final WorkoutTrackDepsNode _workoutTrackDepsNode;
-  final WorkoutDataSource _workoutDataSource;
   final WorkoutTrackDataSource _workoutTrackDataSource;
+  final WorkoutDataSource _workoutDataSource;
   final WorkoutRepository _workoutRepository;
   final PendingWorkoutsManager _pendingWorkoutsManager;
   final WorkoutModificationManagerFactory _workoutModificationManagerFactory;

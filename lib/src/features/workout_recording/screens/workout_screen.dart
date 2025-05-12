@@ -19,7 +19,7 @@ class WorkoutScreen extends StatelessWidget {
 
     final workoutLifecycleManager = workoutDepsNode.workoutLifecycleManager();
 
-    final workoutStateHolder = workoutDepsNode.workoutStateHolder();
+    final workoutStateHolder = workoutDepsNode.workoutStateHolder;
 
     return Scaffold(
       body: Column(

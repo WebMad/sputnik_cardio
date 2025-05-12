@@ -6,6 +6,7 @@ import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
 import 'package:sputnik_cardio/src/features/internet_connection_checker/state_holder/internet_connection_state_holder.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core_deps_node.dart';
+import 'package:sputnik_cardio/src/features/workout_metrics/workout_metrics_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/repository/workout_repository.dart';
@@ -20,7 +21,6 @@ import 'package:sputnik_cardio/src/features/workout_recording/state_holders/work
 import 'package:sputnik_cardio/src/features/workout_recording/workout_info_screen_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:uuid/uuid.dart';
 
 import '../workout_managing/di/workout_managing_deps_node.dart';
 import 'data/data_sources/workout_remote_data_source.dart';
@@ -32,7 +32,7 @@ import 'metrics_calculators/km_metric_calculator.dart';
 import 'state_holders/pending_workouts_state_holder.dart';
 import 'state_holders/workouts_list_state_holder.dart';
 
-class WorkoutDepsNode extends DepsNode {
+class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   final AuthScopeDepsNode parent;
   final LocationDepsNode _locationDepsNode;
   final AuthDepsNode _authDepsNode;
@@ -42,17 +42,17 @@ class WorkoutDepsNode extends DepsNode {
     () => WorkoutCoreDepsNode(),
   );
 
-  late final workoutStateHolder = bind(
+  late final _workoutStateHolder = bind(
     () => PersistentWorkoutStateHolder(),
   );
 
   late final workoutLifecycleManager = bind(
     () => WorkoutLifecycleManager(
-      workoutStateHolder(),
+      workoutStateHolder,
       _workoutCoordsRecordingManager(),
-      workoutTrackDepsNode(),
+      workoutTrackDepsNode,
       workoutDataSource(),
-      workoutTrackDataSource(),
+      workoutTrackDepsNode.workoutTrackDataSource(),
       workoutRepository(),
       pendingWorkoutsManager(),
       workoutCoreDepsNode().workoutModificationManagerFactory(),
@@ -89,7 +89,7 @@ class WorkoutDepsNode extends DepsNode {
   late final workoutRepository = bind(
     () => WorkoutRepository(
       workoutRemoteDataSource(),
-      workoutTrackDataSource(),
+      workoutTrackDepsNode.workoutTrackDataSource(),
       workoutDataSource(),
       internetConnectionStateHolder,
     ),
@@ -98,9 +98,9 @@ class WorkoutDepsNode extends DepsNode {
   late final _workoutCoordsRecordingManager = bind(
     () => WorkoutCoordsRecordingManager(
       _locationDepsNode.locationManager(),
-      workoutTrackDepsNode(),
-      workoutStateHolder(),
-      workoutTrackDataSource(),
+      workoutTrackDepsNode,
+      workoutStateHolder,
+      workoutTrackDepsNode.workoutTrackDataSource(),
     ),
   );
 
@@ -119,63 +119,21 @@ class WorkoutDepsNode extends DepsNode {
     () => WorkoutManagingDepsNode(),
   );
 
-  late final workoutTrackDepsNode = bind(
-    () => WorkoutTrackDepsNode(),
-  );
-
-  late final workoutTrackDataSource = bind(
-    () => WorkoutTrackDataSource(
-      _sharedPrefsManager.sharedPreferences,
-    ),
+  late final _workoutTrackDepsNode = bind(
+    () => WorkoutTrackDepsNode(_sharedPrefsManager),
   );
 
   late final workoutDataSource = bind(
     () => WorkoutDataSource(_sharedPrefsManager.sharedPreferences),
   );
 
-  late final workoutMetricsManager = bind(
-    () => WorkoutMetricsManager(
-      workoutStateHolder(),
-      (String routeUuid) => workoutTrackDepsNode().trackProvider(routeUuid),
-      kmMetricCalculator(),
-      workoutMetricsStateHolder(),
-      avgSpeedCalculator(),
-      speedCalculator(),
-      timeCalculator(),
-    ),
-  );
-
   late final connectivity = bind(
     () => Connectivity(),
-  );
-
-  late final workoutMetricsStateHolder = bind(
-    () => WorkoutMetricsStateHolder(),
-  );
-
-  late final kmMetricCalculator = bind(
-    () => KmMetricCalculator(
-      (String routeUuid) => workoutTrackDepsNode().trackProvider(routeUuid),
-    ),
-  );
-
-  late final avgSpeedCalculator = bind(
-    () => const AvgSpeedCalculator(),
-  );
-
-  late final timeCalculator = bind(
-    () => TimeCalculator(),
   );
 
   late final workoutInfoScreenDepsNode = bindSingletonFactory(
     (DetailedWorkout detailedWorkout) =>
         WorkoutInfoScreenDepsNode(detailedWorkout),
-  );
-
-  late final speedCalculator = bind(
-    () => SpeedCalculator(
-      (String routeUuid) => workoutTrackDepsNode().trackProvider(routeUuid),
-    ),
   );
 
   WorkoutDepsNode(
@@ -185,10 +143,20 @@ class WorkoutDepsNode extends DepsNode {
     this._sharedPrefsManager,
   );
 
+  @override
+  WorkoutTrackDepsNode get workoutTrackDepsNode => _workoutTrackDepsNode();
+
+  @override
+  PersistentWorkoutStateHolder get workoutStateHolder => _workoutStateHolder();
+
   InternetConnectionStateHolder get internetConnectionStateHolder =>
       parent.appDepsNode
           .internetConnectionDepsNode()
           .internetConnectionCheckerStateHolder();
+
+  late final workoutMetricsDepsNode = bind(
+    () => WorkoutMetricsDepsNode(this),
+  );
 
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [
@@ -196,12 +164,11 @@ class WorkoutDepsNode extends DepsNode {
           workoutCoreDepsNode,
         },
         {
-          workoutMetricsStateHolder,
           workoutsListStateHolder,
-          workoutStateHolder,
+          _workoutStateHolder,
         },
         {
-          workoutMetricsManager,
+          workoutMetricsDepsNode,
           workoutManagingDepsNode,
           _workoutCoordsRecordingManager,
           pendingWorkoutsManager,

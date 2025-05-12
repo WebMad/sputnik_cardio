@@ -13,7 +13,7 @@ class ActiveWorkoutMetrics extends StatelessWidget {
     final workoutDepsNode = context.depsNode<WorkoutDepsNode>();
 
     final workoutMetricsStateHolder =
-        workoutDepsNode.workoutMetricsStateHolder();
+        workoutDepsNode.workoutMetricsDepsNode().workoutMetricsStateHolder();
 
     return StreamBuilder<WorkoutMetrics>(
       initialData: workoutMetricsStateHolder.state,
