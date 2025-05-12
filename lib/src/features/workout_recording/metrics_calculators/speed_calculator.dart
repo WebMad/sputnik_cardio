@@ -1,8 +1,7 @@
+import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
-import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
-import 'package:sputnik_cardio/src/features/workout_core/models/workout_segment.dart';
 
-import '../providers/workout_track_provider.dart';
+import '../../workout_track/providers/workout_track_provider.dart';
 
 class SpeedCalculator {
   final WorkoutTrackProvider Function(String uuid) workoutTrackProviderFactory;

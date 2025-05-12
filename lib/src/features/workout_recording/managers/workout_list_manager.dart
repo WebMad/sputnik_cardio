@@ -1,7 +1,6 @@
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_remote_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workouts_list_state_holder.dart';
 
-import '../../workout_core/models/workout.dart';
 
 class WorkoutListManager {
   final WorkoutRemoteDataSource _workoutRemoteDataSource;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
+import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
 import '../../maps/widgets/sputnik_map.dart';
-import '../../workout_core/models/workout.dart';
 import '../widgets/active_workout_metrics.dart';
 
 class WorkoutScreen extends StatelessWidget {
@@ -19,7 +19,7 @@ class WorkoutScreen extends StatelessWidget {
 
     final workoutLifecycleManager = workoutDepsNode.workoutLifecycleManager();
 
-    final workoutStateHolder = workoutDepsNode.workoutStateHolder;
+    final workoutStateHolder = workoutDepsNode.persistentWorkoutStateHolder;
 
     return Scaffold(
       body: Column(

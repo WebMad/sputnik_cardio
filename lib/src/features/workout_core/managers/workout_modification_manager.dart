@@ -1,4 +1,3 @@
-import 'package:sputnik_cardio/src/features/workout_core/factories/workout_factory.dart';
 import 'package:sputnik_cardio/src/features/workout_core/factories/workout_segment_factory.dart';
 import 'package:sputnik_cardio/src/features/workout_core/providers/workout_provider.dart';
 import 'package:sputnik_cardio/src/features/workout_core/state_holders/workout_state_holder.dart';

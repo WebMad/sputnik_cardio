@@ -8,27 +8,19 @@ import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_metrics/workout_metrics_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_data_source.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/repository/workout_repository.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/pending_workouts_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_retrive_manager.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/avg_speed_calculator.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/speed_calculator.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/time_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_metrics_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_info_screen_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../workout_managing/di/workout_managing_deps_node.dart';
 import 'data/data_sources/workout_remote_data_source.dart';
 import 'managers/workout_coords_recording_manager.dart';
 import 'managers/workout_lifecycle_manager.dart';
 import 'managers/workout_list_manager.dart';
-import 'managers/workout_metrics_manager.dart';
-import 'metrics_calculators/km_metric_calculator.dart';
 import 'state_holders/pending_workouts_state_holder.dart';
 import 'state_holders/workouts_list_state_holder.dart';
 
@@ -42,13 +34,13 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
     () => WorkoutCoreDepsNode(),
   );
 
-  late final _workoutStateHolder = bind(
+  late final _persistentWorkoutStateHolder = bind(
     () => PersistentWorkoutStateHolder(),
   );
 
   late final workoutLifecycleManager = bind(
     () => WorkoutLifecycleManager(
-      workoutStateHolder,
+      persistentWorkoutStateHolder,
       _workoutCoordsRecordingManager(),
       workoutTrackDepsNode,
       workoutDataSource(),
@@ -99,7 +91,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
     () => WorkoutCoordsRecordingManager(
       _locationDepsNode.locationManager(),
       workoutTrackDepsNode,
-      workoutStateHolder,
+      persistentWorkoutStateHolder,
       workoutTrackDepsNode.workoutTrackDataSource(),
     ),
   );
@@ -113,10 +105,6 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
 
   late final workoutsListStateHolder = bind(
     () => WorkoutsListStateHolder(),
-  );
-
-  late final workoutManagingDepsNode = bind(
-    () => WorkoutManagingDepsNode(),
   );
 
   late final _workoutTrackDepsNode = bind(
@@ -147,7 +135,8 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   WorkoutTrackDepsNode get workoutTrackDepsNode => _workoutTrackDepsNode();
 
   @override
-  PersistentWorkoutStateHolder get workoutStateHolder => _workoutStateHolder();
+  PersistentWorkoutStateHolder get persistentWorkoutStateHolder =>
+      _persistentWorkoutStateHolder();
 
   InternetConnectionStateHolder get internetConnectionStateHolder =>
       parent.appDepsNode
@@ -165,11 +154,10 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
         },
         {
           workoutsListStateHolder,
-          _workoutStateHolder,
+          _persistentWorkoutStateHolder,
         },
         {
           workoutMetricsDepsNode,
-          workoutManagingDepsNode,
           _workoutCoordsRecordingManager,
           pendingWorkoutsManager,
         },

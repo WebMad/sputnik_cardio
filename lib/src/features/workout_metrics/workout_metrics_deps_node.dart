@@ -1,5 +1,4 @@
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
-import 'package:sputnik_cardio/src/features/workout_core/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 
@@ -11,7 +10,7 @@ import '../workout_recording/metrics_calculators/time_calculator.dart';
 import '../workout_recording/state_holders/workout_metrics_state_holder.dart';
 
 abstract interface class WorkoutMetricsParent {
-  PersistentWorkoutStateHolder get workoutStateHolder;
+  PersistentWorkoutStateHolder get persistentWorkoutStateHolder;
 
   WorkoutTrackDepsNode get workoutTrackDepsNode;
 }
@@ -43,7 +42,7 @@ class WorkoutMetricsDepsNode extends DepsNode {
 
   late final workoutMetricsManager = bind(
     () => WorkoutMetricsManager(
-      _parent.workoutStateHolder,
+      _parent.persistentWorkoutStateHolder,
       (String routeUuid) =>
           _parent.workoutTrackDepsNode.trackProvider(routeUuid),
       kmMetricCalculator(),

@@ -1,7 +1,6 @@
+import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import '../../tracking/models/extended_pos.dart';
-import '../../workout_core/models/workout.dart';
-import '../../workout_core/models/workout_segment.dart';
-import '../providers/workout_track_provider.dart';
+import '../../workout_track/providers/workout_track_provider.dart';
 
 class KmMetricCalculator {
   final WorkoutTrackProvider Function(String uuid) workoutTrackProviderFactory;

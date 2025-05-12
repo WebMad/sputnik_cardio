@@ -1,6 +1,6 @@
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/providers/workout_track_provider.dart';
+import 'package:sputnik_cardio/src/features/workout_track/providers/workout_track_provider.dart';
 
 import '../workout_recording/data/data_sources/workout_track_data_source.dart';
 

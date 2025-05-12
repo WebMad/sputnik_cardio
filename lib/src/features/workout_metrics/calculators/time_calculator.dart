@@ -1,5 +1,4 @@
-import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
-import 'package:sputnik_cardio/src/features/workout_core/models/workout_segment.dart';
+import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 
 class TimeCalculator {
   Duration calcTime(Workout workout) {

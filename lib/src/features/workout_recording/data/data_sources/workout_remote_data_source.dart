@@ -3,13 +3,10 @@ import 'dart:convert';
 import 'package:sputnik_auth/sputnik_auth.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_models/pending_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
+import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../tracking/models/extended_pos.dart';
-import '../../../tracking/models/pos.dart';
-import '../../../workout_core/models/workout.dart';
-import '../../../workout_core/models/workout_segment.dart';
-import '../../../workout_core/models/workout_route.dart';
 
 class WorkoutRemoteDataSource {
   final SupabaseClient _supabaseClient;

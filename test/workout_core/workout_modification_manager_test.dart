@@ -2,10 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sputnik_cardio/src/features/workout_core/factories/workout_factory.dart';
 import 'package:sputnik_cardio/src/features/workout_core/factories/workout_modification_manager_factory.dart';
 import 'package:sputnik_cardio/src/features/workout_core/factories/workout_segment_factory.dart';
-import 'package:sputnik_cardio/src/features/workout_core/managers/workout_modification_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
 import 'package:sputnik_cardio/src/features/workout_core/models/workout_segment.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:uuid/uuid.dart';
 
 void main() {

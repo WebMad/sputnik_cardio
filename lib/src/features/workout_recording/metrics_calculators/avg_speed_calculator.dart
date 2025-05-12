@@ -1,7 +1,5 @@
-import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/providers/workout_track_provider.dart';
+import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 
-import '../../workout_core/models/workout_segment.dart';
 
 class AvgSpeedCalculator {
   const AvgSpeedCalculator();

@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
+import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/avg_speed_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/km_metric_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/speed_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/metrics_calculators/time_calculator.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/providers/workout_track_provider.dart';
+import 'package:sputnik_cardio/src/features/workout_track/providers/workout_track_provider.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_metrics_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 

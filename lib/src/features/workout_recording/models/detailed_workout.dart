@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
-
-import '../../workout_core/models/workout.dart';
 
 part 'detailed_workout.freezed.dart';
 

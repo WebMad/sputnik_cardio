@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sputnik_cardio/src/features/workout_core/models/workout_route.dart';
-
-import '../../../workout_core/models/workout.dart';
+import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 
 part 'pending_workout.freezed.dart';
 
