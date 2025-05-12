@@ -1054,7 +1054,7 @@ packages:
       path: "../sputnik_di/packages/sputnik_di"
       relative: true
     source: path
-    version: "0.2.2"
+    version: "0.2.3"
   sputnik_di_graph_visualizer:
     dependency: "direct dev"
     description:

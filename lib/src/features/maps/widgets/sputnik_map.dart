@@ -7,7 +7,7 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:sputnik_cardio/src/features/maps/maps_deps_node.dart';
 import 'package:sputnik_cardio/src/features/maps/widgets/track_layer.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
+import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
@@ -87,6 +87,10 @@ class _SputnikMapState extends State<SputnikMap> {
             final workout = snapshot.data;
             return FlutterMap(
               options: MapOptions(
+                initialCenter: LatLng(
+                  LocationManager.moscowPosition.lat,
+                  LocationManager.moscowPosition.lon,
+                ),
                 onMapReady: () {
                   isReady = true;
                 },

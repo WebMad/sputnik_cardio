@@ -34,12 +34,12 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
 
     /// TODO: способ не телепортироваться в центр Москвы
     /// не очень надежный, но задачу решает
-    await _locationManager.location;
+    final location = await _locationManager.location;
 
     _locationSub =
         _locationManager.locationStream.listen((pos) => _recordCoords(pos));
 
-    _recordCoords(_locationManager.lastLocation);
+    _recordCoords(location);
   }
 
   void _recordCoords(ExtendedPos pos) {
@@ -56,14 +56,18 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
     _workoutTrackDepsNode.workoutTrackRepository().push(routeUuid, pos);
   }
 
-  void pauseRecord() {
-    _recordCoords(_locationManager.lastLocation);
+  Future<void> pauseRecord() async {
+    final location =
+        _locationManager.lastLocation ?? await _locationManager.location;
+
+    _recordCoords(location);
     // isPaused = true;
   }
 
-  void resumeRecord() {
-    // isPaused = false;
-    _recordCoords(_locationManager.lastLocation);
+  Future<void> resumeRecord() async {
+    final location =
+        _locationManager.lastLocation ?? await _locationManager.location;
+    _recordCoords(location);
   }
 
   Future<void> stopRecord() async {

@@ -85,7 +85,7 @@ class WorkoutLifecycleManager implements Lifecycle {
     Workout workout,
     String newRouteUuid,
   ) async {
-    final lastPos = await _getLastPos(workout);
+    final lastPos = await _getLastPosFromPreviousSegment(workout);
 
     if (lastPos == null) {
       return;
@@ -96,11 +96,26 @@ class WorkoutLifecycleManager implements Lifecycle {
         .push(newRouteUuid, lastPos);
   }
 
+  Future<ExtendedPos?> _getLastPosFromPreviousSegment(Workout workout) async {
+    if (workout.segments.length < 2) {
+      return null;
+    }
+
+    final segment = workout.segments[workout.segments.length - 2];
+
+    final lastPos = _workoutTrackDepsNode
+        .workoutTrackRepository()
+        .getRoute(segment.routeUuid);
+
+    final pos = lastPos.lastOrNull;
+    return pos;
+  }
+
   Future<ExtendedPos?> _getLastPos(Workout workout) async {
     final lastSegment = workout.lastSegment;
 
     if (lastSegment != null) {
-      final lastPos = await _workoutTrackDepsNode
+      final lastPos = _workoutTrackDepsNode
           .workoutTrackRepository()
           .getRoute(lastSegment.routeUuid);
 
@@ -134,8 +149,8 @@ class WorkoutLifecycleManager implements Lifecycle {
 
   Future<void> pause() async {
     _workoutModificationManager.pause();
-    final newRouteUuid = _workoutProvider.workout.lastSegment?.routeUuid;
 
+    final newRouteUuid = _workoutProvider.workout.lastSegment?.routeUuid;
     if (_workoutProvider.workout.segments.length >= 2 && newRouteUuid != null) {
       _pushPosFromPreviousSegment(_workoutProvider.workout, newRouteUuid);
     }

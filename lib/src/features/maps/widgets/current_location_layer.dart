@@ -5,6 +5,8 @@ import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.d
 import 'package:sputnik_cardio/src/features/tracking/models/pos.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
 
+import '../../tracking/models/extended_pos.dart';
+
 class CurrentLocationLayer extends StatelessWidget {
   final double size;
   final Color color;
@@ -70,7 +72,7 @@ class CurrentLocationLayer extends StatelessWidget {
 }
 
 abstract class LocationDataMarker {
-  Pos get location;
+  ExtendedPos? get location;
 
-  Stream<Pos> get locationStream;
+  Stream<ExtendedPos> get locationStream;
 }

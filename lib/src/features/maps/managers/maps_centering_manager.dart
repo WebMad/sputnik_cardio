@@ -43,7 +43,8 @@ class MapsCenteringManager implements Lifecycle {
 
   Future<void> _handleUpdateMap() async {
     if (_centerPositionStrategy == CenterPositionStrategy.centerUserLocation) {
-      final location = _locationManager.lastLocation;
+      final location =
+          _locationManager.lastLocation ?? LocationManager.moscowPosition;
 
       _mapCenterStateHolder.update(location);
     }

@@ -14,7 +14,7 @@ abstract class LocationManager {
 
   Future<ExtendedPos> get location;
 
-  ExtendedPos get lastLocation;
+  ExtendedPos? get lastLocation;
 
   Stream<ExtendedPos> get locationStream;
 }

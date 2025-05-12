@@ -13,15 +13,18 @@ class SpeedCalculator {
 
   /// TODO: почему-то между статусами скорость неправильно рассчитывается
   double calcSpeed(Workout workout) {
-    final coords = workout.segments.fold(
-      <ExtendedPos>[],
-      (track, segment) => track
-        ..addAll(
-          _workoutTrackDepsNode
-              .workoutTrackRepository()
-              .getRoute(segment.routeUuid),
-        ),
-    ).toList();
+    final coords = workout.segments
+        .fold(
+          <ExtendedPos>[],
+          (track, segment) => track
+            ..addAll(
+              _workoutTrackDepsNode
+                  .workoutTrackRepository()
+                  .getRoute(segment.routeUuid),
+            ),
+        )
+        .toSet()
+        .toList();
 
     if (coords.length >= 2) {
       final last = coords.length - 1;
