@@ -20,6 +20,8 @@ WorkoutMetrics _$WorkoutMetricsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WorkoutMetrics {
+  Duration get pace => throw _privateConstructorUsedError;
+  Duration get paceLastKm => throw _privateConstructorUsedError;
   double get kms => throw _privateConstructorUsedError;
   double get avgSpeed => throw _privateConstructorUsedError;
   double get speed => throw _privateConstructorUsedError;
@@ -37,7 +39,13 @@ abstract class $WorkoutMetricsCopyWith<$Res> {
           WorkoutMetrics value, $Res Function(WorkoutMetrics) then) =
       _$WorkoutMetricsCopyWithImpl<$Res, WorkoutMetrics>;
   @useResult
-  $Res call({double kms, double avgSpeed, double speed, Duration duration});
+  $Res call(
+      {Duration pace,
+      Duration paceLastKm,
+      double kms,
+      double avgSpeed,
+      double speed,
+      Duration duration});
 }
 
 /// @nodoc
@@ -53,12 +61,22 @@ class _$WorkoutMetricsCopyWithImpl<$Res, $Val extends WorkoutMetrics>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? pace = null,
+    Object? paceLastKm = null,
     Object? kms = null,
     Object? avgSpeed = null,
     Object? speed = null,
     Object? duration = null,
   }) {
     return _then(_value.copyWith(
+      pace: null == pace
+          ? _value.pace
+          : pace // ignore: cast_nullable_to_non_nullable
+              as Duration,
+      paceLastKm: null == paceLastKm
+          ? _value.paceLastKm
+          : paceLastKm // ignore: cast_nullable_to_non_nullable
+              as Duration,
       kms: null == kms
           ? _value.kms
           : kms // ignore: cast_nullable_to_non_nullable
@@ -87,7 +105,13 @@ abstract class _$$WorkoutMetricsImplCopyWith<$Res>
       __$$WorkoutMetricsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double kms, double avgSpeed, double speed, Duration duration});
+  $Res call(
+      {Duration pace,
+      Duration paceLastKm,
+      double kms,
+      double avgSpeed,
+      double speed,
+      Duration duration});
 }
 
 /// @nodoc
@@ -101,12 +125,22 @@ class __$$WorkoutMetricsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? pace = null,
+    Object? paceLastKm = null,
     Object? kms = null,
     Object? avgSpeed = null,
     Object? speed = null,
     Object? duration = null,
   }) {
     return _then(_$WorkoutMetricsImpl(
+      pace: null == pace
+          ? _value.pace
+          : pace // ignore: cast_nullable_to_non_nullable
+              as Duration,
+      paceLastKm: null == paceLastKm
+          ? _value.paceLastKm
+          : paceLastKm // ignore: cast_nullable_to_non_nullable
+              as Duration,
       kms: null == kms
           ? _value.kms
           : kms // ignore: cast_nullable_to_non_nullable
@@ -133,7 +167,9 @@ class _$WorkoutMetricsImpl
     with DiagnosticableTreeMixin
     implements _WorkoutMetrics {
   const _$WorkoutMetricsImpl(
-      {required this.kms,
+      {required this.pace,
+      required this.paceLastKm,
+      required this.kms,
       required this.avgSpeed,
       required this.speed,
       required this.duration});
@@ -141,6 +177,10 @@ class _$WorkoutMetricsImpl
   factory _$WorkoutMetricsImpl.fromJson(Map<String, dynamic> json) =>
       _$$WorkoutMetricsImplFromJson(json);
 
+  @override
+  final Duration pace;
+  @override
+  final Duration paceLastKm;
   @override
   final double kms;
   @override
@@ -152,7 +192,7 @@ class _$WorkoutMetricsImpl
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'WorkoutMetrics(kms: $kms, avgSpeed: $avgSpeed, speed: $speed, duration: $duration)';
+    return 'WorkoutMetrics(pace: $pace, paceLastKm: $paceLastKm, kms: $kms, avgSpeed: $avgSpeed, speed: $speed, duration: $duration)';
   }
 
   @override
@@ -160,6 +200,8 @@ class _$WorkoutMetricsImpl
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'WorkoutMetrics'))
+      ..add(DiagnosticsProperty('pace', pace))
+      ..add(DiagnosticsProperty('paceLastKm', paceLastKm))
       ..add(DiagnosticsProperty('kms', kms))
       ..add(DiagnosticsProperty('avgSpeed', avgSpeed))
       ..add(DiagnosticsProperty('speed', speed))
@@ -171,6 +213,9 @@ class _$WorkoutMetricsImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WorkoutMetricsImpl &&
+            (identical(other.pace, pace) || other.pace == pace) &&
+            (identical(other.paceLastKm, paceLastKm) ||
+                other.paceLastKm == paceLastKm) &&
             (identical(other.kms, kms) || other.kms == kms) &&
             (identical(other.avgSpeed, avgSpeed) ||
                 other.avgSpeed == avgSpeed) &&
@@ -181,7 +226,8 @@ class _$WorkoutMetricsImpl
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, kms, avgSpeed, speed, duration);
+  int get hashCode => Object.hash(
+      runtimeType, pace, paceLastKm, kms, avgSpeed, speed, duration);
 
   @JsonKey(ignore: true)
   @override
@@ -200,7 +246,9 @@ class _$WorkoutMetricsImpl
 
 abstract class _WorkoutMetrics implements WorkoutMetrics {
   const factory _WorkoutMetrics(
-      {required final double kms,
+      {required final Duration pace,
+      required final Duration paceLastKm,
+      required final double kms,
       required final double avgSpeed,
       required final double speed,
       required final Duration duration}) = _$WorkoutMetricsImpl;
@@ -208,6 +256,10 @@ abstract class _WorkoutMetrics implements WorkoutMetrics {
   factory _WorkoutMetrics.fromJson(Map<String, dynamic> json) =
       _$WorkoutMetricsImpl.fromJson;
 
+  @override
+  Duration get pace;
+  @override
+  Duration get paceLastKm;
   @override
   double get kms;
   @override

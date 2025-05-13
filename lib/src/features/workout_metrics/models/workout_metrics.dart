@@ -8,6 +8,8 @@ part 'workout_metrics.g.dart';
 @freezed
 class WorkoutMetrics with _$WorkoutMetrics {
   const factory WorkoutMetrics({
+    required Duration pace,
+    required Duration paceLastKm,
     required double kms,
     required double avgSpeed,
     required double speed,

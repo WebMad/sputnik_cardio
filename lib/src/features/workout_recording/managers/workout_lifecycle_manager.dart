@@ -177,8 +177,8 @@ class WorkoutLifecycleManager implements Lifecycle {
 
     await _workoutCoordsRecordingManager.stopRecord();
 
-    await _workoutRepository.createWorkout(_workoutProvider.workout);
     _workoutRepository.removeActiveWorkout(_workoutProvider.workout);
+    await _workoutRepository.createWorkout(_workoutProvider.workout);
     await _pendingWorkoutsManager.updateList();
   }
 

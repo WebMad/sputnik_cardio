@@ -1,5 +1,5 @@
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/models/workout_metrics.dart';
+import 'package:sputnik_cardio/src/features/workout_metrics/models/workout_metrics.dart';
 
 class WorkoutMetricsStateHolder extends StateHolder<WorkoutMetrics> {
   WorkoutMetricsStateHolder()
@@ -9,25 +9,13 @@ class WorkoutMetricsStateHolder extends StateHolder<WorkoutMetrics> {
             avgSpeed: 0,
             speed: 0,
             duration: Duration.zero,
+            pace: Duration.zero,
+            paceLastKm: Duration.zero,
           ),
         );
 
-  void updateKms(double kms) {
-    state = state.copyWith(
-      kms: kms,
-    );
-  }
-
-  void updateAvgSpeed(double avgSpeed) {
-    state = state.copyWith(
-      avgSpeed: avgSpeed,
-    );
-  }
-
-  void updateSpeed(double speed) {
-    state = state.copyWith(
-      speed: speed,
-    );
+  void update(WorkoutMetrics metrics) {
+    state = metrics;
   }
 
   void updateDuration(Duration duration) {

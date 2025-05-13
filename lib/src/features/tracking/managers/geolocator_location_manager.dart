@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:geolocator/geolocator.dart';
 
 import '../models/extended_pos.dart';
@@ -38,7 +40,12 @@ class GeolocatorLocationManager implements LocationManager {
     final res = await checkPermissions;
 
     if (res) {
-      final currentPosition = (await Geolocator.getCurrentPosition()).pos;
+      final currentPosition = (await Geolocator.getCurrentPosition(
+        locationSettings: Platform.isAndroid
+            ? AndroidSettings(forceLocationManager: true)
+            : null,
+      ))
+          .pos;
 
       _lastLocation = currentPosition;
 
@@ -54,7 +61,11 @@ class GeolocatorLocationManager implements LocationManager {
     final res = await checkPermissions;
 
     if (res) {
-      yield* Geolocator.getPositionStream().map((pos) {
+      yield* Geolocator.getPositionStream(
+        locationSettings: Platform.isAndroid
+            ? AndroidSettings(forceLocationManager: true)
+            : null,
+      ).map((pos) {
         final position = pos.pos;
 
         _lastLocation = position;
