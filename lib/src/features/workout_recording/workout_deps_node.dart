@@ -27,7 +27,6 @@ import 'state_holders/workouts_list_state_holder.dart';
 class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   final AuthScopeDepsNode parent;
   final LocationDepsNode _locationDepsNode;
-  final AuthDepsNode _authDepsNode;
   final SharedPrefsManager _sharedPrefsManager;
 
   late final workoutCoreDepsNode = bind(
@@ -54,7 +53,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
       pendingWorkoutsStateHolder(),
       workoutDataSource(),
       internetConnectionStateHolder,
-      workoutRemoteDataSource(),
+      workoutRepository(),
     ),
   );
 
@@ -72,7 +71,11 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   late final workoutRemoteDataSource = bind(
     () => WorkoutRemoteDataSource(
       Supabase.instance.client,
-      _authDepsNode.authController(),
+      parent.appDepsNode
+          .authScopeDepsNode()
+          .appDepsNode
+          .authDepsNode()
+          .authController(),
     ),
   );
 
@@ -82,6 +85,8 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
       workoutTrackDepsNode,
       workoutDataSource(),
       internetConnectionStateHolder,
+      workoutMetricsDepsNode().workoutMetricsStateHolder(),
+      workoutMetricsDepsNode().workoutMetricsDataSource(),
     ),
   );
 
@@ -124,7 +129,6 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   WorkoutDepsNode(
     this.parent,
     this._locationDepsNode,
-    this._authDepsNode,
     this._sharedPrefsManager,
   );
 
@@ -141,7 +145,10 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
           .internetConnectionCheckerStateHolder();
 
   late final workoutMetricsDepsNode = bind(
-    () => WorkoutMetricsDepsNode(this),
+    () => WorkoutMetricsDepsNode(
+      this,
+      Supabase.instance.client,
+    ),
   );
 
   @override

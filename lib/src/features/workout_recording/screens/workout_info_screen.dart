@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:sputnik_cardio/src/features/maps/widgets/track_layer.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/pos.dart';
@@ -41,7 +42,8 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
     final detailedWorkout =
         _workoutScreenDepsNode.workoutScreenStateHolder().state;
 
-    final coords = detailedWorkout.routes.values
+    final coords = detailedWorkout.workout.segments
+        .map((segment) => detailedWorkout.routes[segment.routeUuid] ?? [])
         .fold(
           <ExtendedPos>[],
           (previousValue, element) => previousValue..addAll(element),
@@ -50,9 +52,10 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
         .toList();
 
     if (coords.isNotEmpty && _isReady) {
+      final bounds = LatLngBounds.fromPoints(coords);
       flutterMapController.fitCamera(
-        CameraFit.coordinates(
-          coordinates: coords,
+        CameraFit.bounds(
+          bounds: bounds,
           padding: const EdgeInsets.all(30),
         ),
       );
@@ -82,12 +85,11 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
           initialized: (context, workoutScreenDepsNode) {
             final detailedWorkout =
                 _workoutScreenDepsNode.workoutScreenStateHolder().state;
+            final metrics = detailedWorkout.metrics;
 
             final workout = detailedWorkout.workout;
 
             final startAt = workout.startAt;
-
-            _centerMap();
 
             return Padding(
               padding: const EdgeInsets.symmetric(
@@ -100,33 +102,61 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
                   SpukiText(
                     'Дата: ${DateFormat('HH:mm dd.MM.yyyy').format(startAt)}',
                   ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Column(
-                          children: [
-                            SpukiText('Расстояние'),
-                            // SpukiText(
-                            //   '${widget.workoutSummary.metrics.kms.toStringAsFixed(2)} km',
-                            // ),
-                          ],
-                        ),
+                  if (metrics != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                children: [
+                                  const SpukiText('Длительность'),
+                                  SpukiText(
+                                    _formatTime(metrics.duration),
+                                    spukiFontType: SpukiFontType.h3,
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  const SpukiText('Темп'),
+                                  SpukiText(
+                                    _formatTime(metrics.pace),
+                                    spukiFontType: SpukiFontType.h3,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                children: [
+                                  const SpukiText('Расстояние'),
+                                  SpukiText(
+                                    '${metrics.kms.toStringAsFixed(2)} км',
+                                    spukiFontType: SpukiFontType.h3,
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  const SpukiText('Ср. скорость'),
+                                  SpukiText(
+                                    '${metrics.avgSpeed.toStringAsFixed(2)} км/ч',
+                                    spukiFontType: SpukiFontType.h3,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Column(
-                          children: [
-                            SpukiText('Средняя скорость'),
-                            // SpukiText(
-                            //   '${widget.workoutSummary.metrics.avgSpeed.toStringAsFixed(2)} km/h',
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
                   const SizedBox(height: 30),
                   SizedBox(
                     height: 400,
@@ -135,13 +165,17 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
                       options: MapOptions(
                         onMapReady: () {
                           _isReady = true;
-                          _centerMap();
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            _centerMap();
+                          });
                         },
                       ),
                       children: [
                         TileLayer(
                           urlTemplate:
                               'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          userAgentPackageName:
+                              'dev.fleaflet.flutter_map.example',
                           // tileProvider: CancellableNetworkTileProvider(),
                           // tileUpdateTransformer: _animatedMoveTileUpdateTransformer,
                         ),
@@ -166,5 +200,18 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
         ),
       ),
     );
+  }
+
+  String _formatTime(Duration duration) {
+    final totalSeconds = duration.inSeconds;
+    final hours = totalSeconds ~/ 3600;
+    final minutes = (totalSeconds % 3600) ~/ 60;
+    final seconds = totalSeconds % 60;
+
+    final hoursStr = hours > 0 ? '${hours.toString().padLeft(2, '0')}:' : '';
+    final minutesStr = minutes.toString().padLeft(2, '0');
+    final secondsStr = seconds.toString().padLeft(2, '0');
+
+    return '$hoursStr$minutesStr:$secondsStr';
   }
 }

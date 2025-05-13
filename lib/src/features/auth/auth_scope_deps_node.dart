@@ -30,7 +30,6 @@ class AuthScopeDepsNode extends DepsNode {
     () => WorkoutDepsNode(
       this,
       appDepsNode.locationDepsNode(),
-      appDepsNode.authDepsNode(),
       sharedPrefsManager(),
     ),
   );

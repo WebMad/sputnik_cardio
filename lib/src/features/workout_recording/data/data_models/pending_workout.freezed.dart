@@ -22,6 +22,7 @@ PendingWorkout _$PendingWorkoutFromJson(Map<String, dynamic> json) {
 mixin _$PendingWorkout {
   Workout get workout => throw _privateConstructorUsedError;
   List<WorkoutRoute> get routes => throw _privateConstructorUsedError;
+  WorkoutMetrics get workoutMetrics => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,9 +36,13 @@ abstract class $PendingWorkoutCopyWith<$Res> {
           PendingWorkout value, $Res Function(PendingWorkout) then) =
       _$PendingWorkoutCopyWithImpl<$Res, PendingWorkout>;
   @useResult
-  $Res call({Workout workout, List<WorkoutRoute> routes});
+  $Res call(
+      {Workout workout,
+      List<WorkoutRoute> routes,
+      WorkoutMetrics workoutMetrics});
 
   $WorkoutCopyWith<$Res> get workout;
+  $WorkoutMetricsCopyWith<$Res> get workoutMetrics;
 }
 
 /// @nodoc
@@ -55,6 +60,7 @@ class _$PendingWorkoutCopyWithImpl<$Res, $Val extends PendingWorkout>
   $Res call({
     Object? workout = null,
     Object? routes = null,
+    Object? workoutMetrics = null,
   }) {
     return _then(_value.copyWith(
       workout: null == workout
@@ -65,6 +71,10 @@ class _$PendingWorkoutCopyWithImpl<$Res, $Val extends PendingWorkout>
           ? _value.routes
           : routes // ignore: cast_nullable_to_non_nullable
               as List<WorkoutRoute>,
+      workoutMetrics: null == workoutMetrics
+          ? _value.workoutMetrics
+          : workoutMetrics // ignore: cast_nullable_to_non_nullable
+              as WorkoutMetrics,
     ) as $Val);
   }
 
@@ -73,6 +83,14 @@ class _$PendingWorkoutCopyWithImpl<$Res, $Val extends PendingWorkout>
   $WorkoutCopyWith<$Res> get workout {
     return $WorkoutCopyWith<$Res>(_value.workout, (value) {
       return _then(_value.copyWith(workout: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $WorkoutMetricsCopyWith<$Res> get workoutMetrics {
+    return $WorkoutMetricsCopyWith<$Res>(_value.workoutMetrics, (value) {
+      return _then(_value.copyWith(workoutMetrics: value) as $Val);
     });
   }
 }
@@ -85,10 +103,15 @@ abstract class _$$PendingWorkoutImplCopyWith<$Res>
       __$$PendingWorkoutImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Workout workout, List<WorkoutRoute> routes});
+  $Res call(
+      {Workout workout,
+      List<WorkoutRoute> routes,
+      WorkoutMetrics workoutMetrics});
 
   @override
   $WorkoutCopyWith<$Res> get workout;
+  @override
+  $WorkoutMetricsCopyWith<$Res> get workoutMetrics;
 }
 
 /// @nodoc
@@ -104,6 +127,7 @@ class __$$PendingWorkoutImplCopyWithImpl<$Res>
   $Res call({
     Object? workout = null,
     Object? routes = null,
+    Object? workoutMetrics = null,
   }) {
     return _then(_$PendingWorkoutImpl(
       workout: null == workout
@@ -114,6 +138,10 @@ class __$$PendingWorkoutImplCopyWithImpl<$Res>
           ? _value._routes
           : routes // ignore: cast_nullable_to_non_nullable
               as List<WorkoutRoute>,
+      workoutMetrics: null == workoutMetrics
+          ? _value.workoutMetrics
+          : workoutMetrics // ignore: cast_nullable_to_non_nullable
+              as WorkoutMetrics,
     ));
   }
 }
@@ -122,7 +150,9 @@ class __$$PendingWorkoutImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PendingWorkoutImpl implements _PendingWorkout {
   const _$PendingWorkoutImpl(
-      {required this.workout, required final List<WorkoutRoute> routes})
+      {required this.workout,
+      required final List<WorkoutRoute> routes,
+      required this.workoutMetrics})
       : _routes = routes;
 
   factory _$PendingWorkoutImpl.fromJson(Map<String, dynamic> json) =>
@@ -139,8 +169,11 @@ class _$PendingWorkoutImpl implements _PendingWorkout {
   }
 
   @override
+  final WorkoutMetrics workoutMetrics;
+
+  @override
   String toString() {
-    return 'PendingWorkout(workout: $workout, routes: $routes)';
+    return 'PendingWorkout(workout: $workout, routes: $routes, workoutMetrics: $workoutMetrics)';
   }
 
   @override
@@ -149,13 +182,15 @@ class _$PendingWorkoutImpl implements _PendingWorkout {
         (other.runtimeType == runtimeType &&
             other is _$PendingWorkoutImpl &&
             (identical(other.workout, workout) || other.workout == workout) &&
-            const DeepCollectionEquality().equals(other._routes, _routes));
+            const DeepCollectionEquality().equals(other._routes, _routes) &&
+            (identical(other.workoutMetrics, workoutMetrics) ||
+                other.workoutMetrics == workoutMetrics));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, workout, const DeepCollectionEquality().hash(_routes));
+  int get hashCode => Object.hash(runtimeType, workout,
+      const DeepCollectionEquality().hash(_routes), workoutMetrics);
 
   @JsonKey(ignore: true)
   @override
@@ -175,7 +210,8 @@ class _$PendingWorkoutImpl implements _PendingWorkout {
 abstract class _PendingWorkout implements PendingWorkout {
   const factory _PendingWorkout(
       {required final Workout workout,
-      required final List<WorkoutRoute> routes}) = _$PendingWorkoutImpl;
+      required final List<WorkoutRoute> routes,
+      required final WorkoutMetrics workoutMetrics}) = _$PendingWorkoutImpl;
 
   factory _PendingWorkout.fromJson(Map<String, dynamic> json) =
       _$PendingWorkoutImpl.fromJson;
@@ -184,6 +220,8 @@ abstract class _PendingWorkout implements PendingWorkout {
   Workout get workout;
   @override
   List<WorkoutRoute> get routes;
+  @override
+  WorkoutMetrics get workoutMetrics;
   @override
   @JsonKey(ignore: true)
   _$$PendingWorkoutImplCopyWith<_$PendingWorkoutImpl> get copyWith =>

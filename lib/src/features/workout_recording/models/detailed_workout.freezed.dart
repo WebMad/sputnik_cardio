@@ -23,6 +23,7 @@ mixin _$DetailedWorkout {
   Workout get workout => throw _privateConstructorUsedError;
   Map<String, List<ExtendedPos>> get routes =>
       throw _privateConstructorUsedError;
+  DoneWorkoutMetrics? get metrics => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,9 +37,13 @@ abstract class $DetailedWorkoutCopyWith<$Res> {
           DetailedWorkout value, $Res Function(DetailedWorkout) then) =
       _$DetailedWorkoutCopyWithImpl<$Res, DetailedWorkout>;
   @useResult
-  $Res call({Workout workout, Map<String, List<ExtendedPos>> routes});
+  $Res call(
+      {Workout workout,
+      Map<String, List<ExtendedPos>> routes,
+      DoneWorkoutMetrics? metrics});
 
   $WorkoutCopyWith<$Res> get workout;
+  $DoneWorkoutMetricsCopyWith<$Res>? get metrics;
 }
 
 /// @nodoc
@@ -56,6 +61,7 @@ class _$DetailedWorkoutCopyWithImpl<$Res, $Val extends DetailedWorkout>
   $Res call({
     Object? workout = null,
     Object? routes = null,
+    Object? metrics = freezed,
   }) {
     return _then(_value.copyWith(
       workout: null == workout
@@ -66,6 +72,10 @@ class _$DetailedWorkoutCopyWithImpl<$Res, $Val extends DetailedWorkout>
           ? _value.routes
           : routes // ignore: cast_nullable_to_non_nullable
               as Map<String, List<ExtendedPos>>,
+      metrics: freezed == metrics
+          ? _value.metrics
+          : metrics // ignore: cast_nullable_to_non_nullable
+              as DoneWorkoutMetrics?,
     ) as $Val);
   }
 
@@ -74,6 +84,18 @@ class _$DetailedWorkoutCopyWithImpl<$Res, $Val extends DetailedWorkout>
   $WorkoutCopyWith<$Res> get workout {
     return $WorkoutCopyWith<$Res>(_value.workout, (value) {
       return _then(_value.copyWith(workout: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DoneWorkoutMetricsCopyWith<$Res>? get metrics {
+    if (_value.metrics == null) {
+      return null;
+    }
+
+    return $DoneWorkoutMetricsCopyWith<$Res>(_value.metrics!, (value) {
+      return _then(_value.copyWith(metrics: value) as $Val);
     });
   }
 }
@@ -86,10 +108,15 @@ abstract class _$$DetailedWorkoutImplCopyWith<$Res>
       __$$DetailedWorkoutImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Workout workout, Map<String, List<ExtendedPos>> routes});
+  $Res call(
+      {Workout workout,
+      Map<String, List<ExtendedPos>> routes,
+      DoneWorkoutMetrics? metrics});
 
   @override
   $WorkoutCopyWith<$Res> get workout;
+  @override
+  $DoneWorkoutMetricsCopyWith<$Res>? get metrics;
 }
 
 /// @nodoc
@@ -105,6 +132,7 @@ class __$$DetailedWorkoutImplCopyWithImpl<$Res>
   $Res call({
     Object? workout = null,
     Object? routes = null,
+    Object? metrics = freezed,
   }) {
     return _then(_$DetailedWorkoutImpl(
       workout: null == workout
@@ -115,6 +143,10 @@ class __$$DetailedWorkoutImplCopyWithImpl<$Res>
           ? _value._routes
           : routes // ignore: cast_nullable_to_non_nullable
               as Map<String, List<ExtendedPos>>,
+      metrics: freezed == metrics
+          ? _value.metrics
+          : metrics // ignore: cast_nullable_to_non_nullable
+              as DoneWorkoutMetrics?,
     ));
   }
 }
@@ -126,7 +158,8 @@ class _$DetailedWorkoutImpl
     implements _DetailedWorkout {
   const _$DetailedWorkoutImpl(
       {required this.workout,
-      required final Map<String, List<ExtendedPos>> routes})
+      required final Map<String, List<ExtendedPos>> routes,
+      required this.metrics})
       : _routes = routes;
 
   factory _$DetailedWorkoutImpl.fromJson(Map<String, dynamic> json) =>
@@ -143,8 +176,11 @@ class _$DetailedWorkoutImpl
   }
 
   @override
+  final DoneWorkoutMetrics? metrics;
+
+  @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DetailedWorkout(workout: $workout, routes: $routes)';
+    return 'DetailedWorkout(workout: $workout, routes: $routes, metrics: $metrics)';
   }
 
   @override
@@ -153,7 +189,8 @@ class _$DetailedWorkoutImpl
     properties
       ..add(DiagnosticsProperty('type', 'DetailedWorkout'))
       ..add(DiagnosticsProperty('workout', workout))
-      ..add(DiagnosticsProperty('routes', routes));
+      ..add(DiagnosticsProperty('routes', routes))
+      ..add(DiagnosticsProperty('metrics', metrics));
   }
 
   @override
@@ -162,13 +199,14 @@ class _$DetailedWorkoutImpl
         (other.runtimeType == runtimeType &&
             other is _$DetailedWorkoutImpl &&
             (identical(other.workout, workout) || other.workout == workout) &&
-            const DeepCollectionEquality().equals(other._routes, _routes));
+            const DeepCollectionEquality().equals(other._routes, _routes) &&
+            (identical(other.metrics, metrics) || other.metrics == metrics));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, workout, const DeepCollectionEquality().hash(_routes));
+  int get hashCode => Object.hash(runtimeType, workout,
+      const DeepCollectionEquality().hash(_routes), metrics);
 
   @JsonKey(ignore: true)
   @override
@@ -187,9 +225,9 @@ class _$DetailedWorkoutImpl
 
 abstract class _DetailedWorkout implements DetailedWorkout {
   const factory _DetailedWorkout(
-          {required final Workout workout,
-          required final Map<String, List<ExtendedPos>> routes}) =
-      _$DetailedWorkoutImpl;
+      {required final Workout workout,
+      required final Map<String, List<ExtendedPos>> routes,
+      required final DoneWorkoutMetrics? metrics}) = _$DetailedWorkoutImpl;
 
   factory _DetailedWorkout.fromJson(Map<String, dynamic> json) =
       _$DetailedWorkoutImpl.fromJson;
@@ -198,6 +236,8 @@ abstract class _DetailedWorkout implements DetailedWorkout {
   Workout get workout;
   @override
   Map<String, List<ExtendedPos>> get routes;
+  @override
+  DoneWorkoutMetrics? get metrics;
   @override
   @JsonKey(ignore: true)
   _$$DetailedWorkoutImplCopyWith<_$DetailedWorkoutImpl> get copyWith =>

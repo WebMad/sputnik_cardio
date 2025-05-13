@@ -17,6 +17,10 @@ _$DetailedWorkoutImpl _$$DetailedWorkoutImplFromJson(
                 .map((e) => ExtendedPos.fromJson(e as Map<String, dynamic>))
                 .toList()),
       ),
+      metrics: json['metrics'] == null
+          ? null
+          : DoneWorkoutMetrics.fromJson(
+              json['metrics'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$DetailedWorkoutImplToJson(
@@ -24,4 +28,5 @@ Map<String, dynamic> _$$DetailedWorkoutImplToJson(
     <String, dynamic>{
       'workout': instance.workout,
       'routes': instance.routes,
+      'metrics': instance.metrics,
     };

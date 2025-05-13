@@ -1,8 +1,10 @@
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_metrics/calculators/last_km_pace_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_metrics/calculators/pace_calculator.dart';
+import 'package:sputnik_cardio/src/features/workout_metrics/data_sources/workout_metrics_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'calculators/avg_speed_calculator.dart';
 import 'calculators/km_metric_calculator.dart';
@@ -19,6 +21,7 @@ abstract interface class WorkoutMetricsParent {
 
 class WorkoutMetricsDepsNode extends DepsNode {
   final WorkoutMetricsParent _parent;
+  final SupabaseClient _supabaseClient;
 
   late final speedCalculator = bind(
     () => SpeedCalculator(
@@ -68,7 +71,11 @@ class WorkoutMetricsDepsNode extends DepsNode {
     () => WorkoutMetricsStateHolder(),
   );
 
-  WorkoutMetricsDepsNode(this._parent);
+  late final workoutMetricsDataSource = bind(
+    () => WorkoutMetricsDataSource(_supabaseClient),
+  );
+
+  WorkoutMetricsDepsNode(this._parent, this._supabaseClient);
 
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [

@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:sputnik_auth/sputnik_auth.dart';
+import 'package:sputnik_cardio/src/features/workout_metrics/models/done_workout_metrics.dart';
+import 'package:sputnik_cardio/src/features/workout_metrics/models/workout_metrics.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_models/pending_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../tracking/models/extended_pos.dart';
+import '../../../workout_metrics/models/remote_workout_metrics.dart';
 
 class WorkoutRemoteDataSource {
   final SupabaseClient _supabaseClient;
@@ -25,6 +28,9 @@ class WorkoutRemoteDataSource {
             workout_routes (
               *
             )
+          ),
+          workout_metrics (
+            *
           )
         ''').order('created_at');
 
@@ -49,19 +55,22 @@ class WorkoutRemoteDataSource {
 
       workout = workout.copyWith(segments: segments ?? []);
 
+      final rawMetricsList = e['workout_metrics'] as List<dynamic>;
+
+      final metrics = rawMetricsList.isNotEmpty
+          ? DoneWorkoutMetrics.fromRemote(
+              RemoteWorkoutMetrics.fromJson(
+                rawMetricsList.last as Map<String, dynamic>,
+              ),
+            )
+          : null;
+
       return DetailedWorkout(
         workout: workout,
         routes: routesMap,
+        metrics: metrics,
       );
     }).toList();
-  }
-
-  Future<void> savePendingWorkout(PendingWorkout pendingWorkout) async {
-    final workout = pendingWorkout.workout;
-
-    await createRoutes(pendingWorkout.routes);
-    await create(workout);
-    await createSegments(workout.uuid, workout.segments);
   }
 
   /// сохраняет тренировку в базе данных

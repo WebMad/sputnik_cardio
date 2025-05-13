@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sputnik_cardio/src/features/workout_metrics/models/remote_workout_metrics.dart';
 
 part 'workout_metrics.freezed.dart';
 

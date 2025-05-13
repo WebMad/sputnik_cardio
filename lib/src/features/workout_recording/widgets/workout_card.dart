@@ -26,106 +26,157 @@ class WorkoutCard extends StatelessWidget {
 
     final startAt = workout.startAt;
 
-    return Column(
-      key: ValueKey(workout.uuid),
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(
-            vertical: SpukiTheme.of(context).puk(2),
-            horizontal: SpukiTheme.of(context).puk(4),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SpukiText.h2('Тренировка'),
-                      SpukiText(
-                        DateFormat('HH:mm dd.MM.yyyy').format(startAt),
-                      ),
-                    ],
-                  ),
-                  PopupMenuButton<int>(
-                    icon: const Icon(
-                      Icons.more_vert,
-                      size: 30,
-                    ),
-                    initialValue: -1,
-                    onSelected: (int item) {
-                      if (item == 0) {
-                        workoutListManager.removeWorkout(
-                          workout.uuid,
-                        );
-                      }
-                    },
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<int>>[
-                      const PopupMenuItem<int>(
-                        value: 0,
-                        child: Text('Remove'),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Column(
-                      children: [
-                        SpukiText('Расстояние'),
-                        // SpukiText(
-                        //   '${workout.metrics.kms.toStringAsFixed(2)} km',
-                        // ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Column(
-                      children: [
-                        SpukiText('Средняя скорость'),
-                        // SpukiText(
-                        //   '${workout.metrics.avgSpeed.toStringAsFixed(2)} km/h',
-                        // ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: SpukiButton(
-                  onPressed: () {
-                    final workoutScreenDepsNode =
-                        workoutDepsNode.workoutInfoScreenDepsNode(
-                      detailedWorkout,
-                    );
+    final metrics = detailedWorkout.metrics;
 
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            DepsNodeBinder<WorkoutInfoScreenDepsNode>.value(
-                          depsNode: workoutScreenDepsNode,
-                          child: const WorkoutInfoScreen(),
-                        ),
+    return InkWell(
+      onTap: () => _openWorkoutScreen(context),
+      child: Column(
+        key: ValueKey(workout.uuid),
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(
+              vertical: SpukiTheme.of(context).puk(2),
+              horizontal: SpukiTheme.of(context).puk(4),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Builder(
+                      builder: (context) {
+                        final startAtHour = workout.startAt.hour;
+
+                        if (startAtHour < 6) {
+                          return const SpukiText(
+                            'Ночная тренировка',
+                            spukiFontType: SpukiFontType.h3,
+                          );
+                        } else if (startAtHour < 12) {
+                          return const SpukiText(
+                            'Утренняя тренировка',
+                            spukiFontType: SpukiFontType.h3,
+                          );
+                        } else if (startAtHour < 18) {
+                          return const SpukiText(
+                            'Дневная тренировка',
+                            spukiFontType: SpukiFontType.h3,
+                          );
+                        }
+
+                        return const SpukiText(
+                          'Вечерняя тренировка',
+                          spukiFontType: SpukiFontType.h3,
+                        );
+                      },
+                    ),
+                    PopupMenuButton<int>(
+                      icon: const Icon(
+                        Icons.more_vert,
+                        size: 30,
                       ),
-                    );
-                  },
-                  child: const SpukiText('Подробнее'),
+                      initialValue: -1,
+                      onSelected: (int item) {
+                        if (item == 0) {
+                          workoutListManager.removeWorkout(
+                            workout.uuid,
+                          );
+                        }
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<int>>[
+                        const PopupMenuItem<int>(
+                          value: 0,
+                          child: Text('Remove'),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                if (metrics != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            const SpukiText('Длительность'),
+                            SpukiText(
+                              _formatTime(metrics.duration),
+                              spukiFontType: SpukiFontType.h3,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const SpukiText('Расстояние'),
+                            SpukiText(
+                              '${metrics.kms.toStringAsFixed(2)} км',
+                              spukiFontType: SpukiFontType.h3,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const SpukiText('Темп'),
+                            SpukiText(
+                              _formatTime(metrics.pace),
+                              spukiFontType: SpukiFontType.h3,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SpukiText(
+                      DateFormat('HH:mm dd.MM.yyyy').format(startAt),
+                    ),
+                    SpukiButton(
+                      onPressed: () => _openWorkoutScreen(context),
+                      child: const SpukiText('Подробнее'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        const Divider(),
-      ],
+          const Divider(),
+        ],
+      ),
     );
+  }
+
+  void _openWorkoutScreen(BuildContext context) {
+    final workoutDepsNode = context.depsNode<WorkoutDepsNode>();
+
+    final workoutScreenDepsNode =
+        workoutDepsNode.workoutInfoScreenDepsNode(detailedWorkout);
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => DepsNodeBinder<WorkoutInfoScreenDepsNode>.value(
+          depsNode: workoutScreenDepsNode,
+          child: const WorkoutInfoScreen(),
+        ),
+      ),
+    );
+  }
+
+  String _formatTime(Duration duration) {
+    final totalSeconds = duration.inSeconds;
+    final hours = totalSeconds ~/ 3600;
+    final minutes = (totalSeconds % 3600) ~/ 60;
+    final seconds = totalSeconds % 60;
+
+    final hoursStr = hours > 0 ? '${hours.toString().padLeft(2, '0')}:' : '';
+    final minutesStr = minutes.toString().padLeft(2, '0');
+    final secondsStr = seconds.toString().padLeft(2, '0');
+
+    return '$hoursStr$minutesStr:$secondsStr';
   }
 }
