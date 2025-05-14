@@ -128,6 +128,16 @@ class WorkoutRemoteDataSource {
 // }
 //
   Future<void> deleteWorkout(String workoutUuid) async {
+    await _supabaseClient.from('workout_routes').delete().inFilter(
+          'uuid',
+          (await _supabaseClient
+                  .from('workout_segments')
+                  .select('route_uuid')
+                  .eq('workout_uuid', workoutUuid))
+              .map((e) => e['route_uuid'])
+              .toList(),
+        );
+
     await _supabaseClient.from('workouts').delete().eq('uuid', workoutUuid);
   }
 
