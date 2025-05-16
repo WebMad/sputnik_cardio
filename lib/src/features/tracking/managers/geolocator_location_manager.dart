@@ -89,6 +89,6 @@ extension on Position {
         lat: latitude,
         lon: longitude,
         alt: altitude,
-        fetchedAt: DateTime.now(),
+        fetchedAt: timestamp,
       );
 }

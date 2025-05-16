@@ -10,59 +10,52 @@ class LastKmPaceCalculator {
 
   /// Calculates average pace for the last kilometer in minutes per kilometer
   Duration calcPace(Workout workout) {
-    final coords = workout.activeSegments
-        .fold(
-          <ExtendedPos>[],
-          (track, segment) => track
-            ..addAll(
-              _workoutTrackDepsNode
-                  .workoutTrackRepository()
-                  .getRoute(segment.routeUuid),
-            ),
-        )
-        .toSet()
-        .toList();
+    final segments = workout.segments;
 
-    if (coords.length < 2) {
-      return Duration.zero;
-    }
-
-    // Sort by time to ensure correct order
-    coords.sort((a, b) => a.fetchedAt.compareTo(b.fetchedAt));
-
-    // Find points that make up the last kilometer
-    final lastKmPoints = <ExtendedPos>[];
+    Duration duration = Duration.zero;
     double distance = 0;
 
-    for (int i = coords.length - 1; i > 0; i--) {
-      final currentPoint = coords[i];
-      final previousPoint = coords[i - 1];
+    for (final segment in segments) {
+      if (!segment.isActive) {
+        continue;
+      }
 
-      final segmentDistance = currentPoint.distanceTo(previousPoint);
+      final coords = _workoutTrackDepsNode
+          .workoutTrackRepository()
+          .getRoute(segment.routeUuid);
 
-      lastKmPoints.insert(0, currentPoint);
+      for (int i = 1; i < coords.length; i++) {
+        final previousCoord = coords[i - 1];
+        final coord = coords[i];
 
-      distance += segmentDistance;
+        final currentDistance = previousCoord.distanceTo(coord);
+        final currentDuration =
+            coord.fetchedAt.difference(previousCoord.fetchedAt);
 
-      if (distance >= 1.0) {
-        // 1 kilometer
-        lastKmPoints.insert(0, previousPoint);
-        break;
+        distance += currentDistance;
+        duration += currentDuration;
+
+        if (distance >= 1) {
+          final moreThanKm = distance - 1;
+
+          if (moreThanKm > 0) {
+            final rate = 1 - (moreThanKm / currentDistance);
+            final moreThanDuration = Duration(
+              microseconds: (currentDuration.inMicroseconds * rate).round(),
+            );
+
+            duration -= moreThanDuration;
+            distance -= currentDistance * rate;
+          }
+          break;
+        }
       }
     }
 
-    if (lastKmPoints.length < 2) {
+    if (distance == 0) {
       return Duration.zero;
     }
 
-    // Calculate time taken for the last kilometer with millisecond precision
-    final lastKmDuration =
-        lastKmPoints.last.fetchedAt.difference(lastKmPoints.first.fetchedAt);
-
-    if (distance < 1) {
-      return Duration(milliseconds: lastKmDuration.inMilliseconds ~/ distance);
-    }
-
-    return lastKmDuration;
+    return Duration(microseconds: (duration.inMicroseconds / distance).round());
   }
 }

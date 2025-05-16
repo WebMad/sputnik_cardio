@@ -10,14 +10,12 @@ class KmMetricCalculator {
   KmMetricCalculator(this._workoutTrackDepsNode);
 
   double calcDistanceForWorkout(Workout workout) {
-    final segments = workout.segments;
+    final segments = workout.activeSegments;
 
     double distance = 0;
 
     for (final segment in segments) {
-      if (WorkoutSegment.activeTypes.contains(segment.type)) {
-        distance += _calcDistanceForRoute(segment.routeUuid);
-      }
+      distance += _calcDistanceForRoute(segment.routeUuid);
     }
 
     return distance;

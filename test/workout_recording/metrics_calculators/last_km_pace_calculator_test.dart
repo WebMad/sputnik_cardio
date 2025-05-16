@@ -89,7 +89,10 @@ void main() {
 
     // Calculate pace - should be 10 minutes for the last km
     final pace = calculator.calcPace(workout);
-    expect(pace, const Duration(minutes: 10));
+    expect(
+      pace.inMilliseconds,
+      closeTo(const Duration(minutes: 10).inMilliseconds, 500),
+    );
   });
 
   test('returns 0 when not enough points', () {
@@ -129,7 +132,7 @@ void main() {
     expect(pace, Duration.zero);
   });
 
-  test('returns 0 when distance is less than 1km', () {
+  test('distance is less than 1km', () {
     final now = DateTime.now();
     final startAt = now.subtract(const Duration(minutes: 30));
 
@@ -177,6 +180,9 @@ void main() {
         .thenReturn(routePoints);
 
     final pace = calculator.calcPace(workout);
-    expect(pace, Duration.zero);
+    expect(
+      pace.inMilliseconds,
+      closeTo(const Duration(minutes: 25).inMilliseconds, 2000),
+    );
   });
 }

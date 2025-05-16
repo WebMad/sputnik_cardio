@@ -21,7 +21,7 @@ class PaceCalculator {
     // Calculate time per kilometer with millisecond precision
     final totalMilliseconds = duration.inMilliseconds;
     final millisecondsPerKm = (totalMilliseconds / kms).round();
-    
+
     return Duration(milliseconds: millisecondsPerKm);
   }
 }

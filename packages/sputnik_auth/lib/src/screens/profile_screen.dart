@@ -53,6 +53,10 @@ class ProfileScreen extends StatelessWidget {
                     /// внутри Column корректно выравнивались
                     width: double.infinity,
                   ),
+                  CircleAvatar(
+                    radius: theme.puk(20),
+                  ),
+                  const SizedBox(height: 10),
                   SpukiText.h3(
                     state.user.map(
                       (state) => state.email,
@@ -61,11 +65,34 @@ class ProfileScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: theme.puk(4)),
-                  SpukiButton(
-                    onPressed: () {
-                      authDepsNode.authManager().logout();
-                    },
-                    child: SpukiText(context.tr.logout),
+                  const ListTile(
+                    // onTap: () => authDepsNode.authManager().logout(),
+                    title: SpukiText(
+                      'Поддержка',
+                    ),
+                  ),
+                  const ListTile(
+                    // onTap: () => authDepsNode.authManager().logout(),
+                    title: SpukiText(
+                      'Политика конфиденциальности',
+                    ),
+                  ),
+                  const ListTile(
+                    // onTap: () => authDepsNode.authManager().logout(),
+                    title: SpukiText(
+                      'Согласие на обработку персональных данных',
+                    ),
+                  ),
+                  const ListTile(
+                    // onTap: () => authDepsNode.authManager().logout(),
+                    title: SpukiText(
+                      'Удаление аккаунта',
+                    ),
+                  ),
+                  const Spacer(),
+                  ListTile(
+                    onTap: () => authDepsNode.authManager().logout(),
+                    title: SpukiText(context.tr.logout),
                   ),
                 ],
               ),

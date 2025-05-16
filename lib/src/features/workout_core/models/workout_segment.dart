@@ -23,6 +23,10 @@ class WorkoutSegment with _$WorkoutSegment {
       _$WorkoutSegmentFromJson(json);
 }
 
+extension WorkoutSegmentEx on WorkoutSegment {
+  bool get isActive => WorkoutSegment.activeTypes.contains(type);
+}
+
 enum WorkoutSegmentType {
   run,
   cycling,
