@@ -12,9 +12,6 @@ class AuthScopeDepsNode extends DepsNode {
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [
         {
-          sharedPrefsManager,
-        },
-        {
           workoutDepsNode,
         },
         {
@@ -30,11 +27,7 @@ class AuthScopeDepsNode extends DepsNode {
     () => WorkoutDepsNode(
       this,
       appDepsNode.locationDepsNode(),
-      sharedPrefsManager(),
+      appDepsNode.sharedPrefsManager(),
     ),
-  );
-
-  late final sharedPrefsManager = bind(
-    () => SharedPrefsManager(),
   );
 }

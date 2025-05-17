@@ -40,23 +40,23 @@ mixin _$AuthState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_NoneAuthState value) none,
-    required TResult Function(_UnauthorizedAuthState value) unauthorized,
-    required TResult Function(_AuthorizedAuthState value) authorized,
+    required TResult Function(NoneAuthState value) none,
+    required TResult Function(UnauthorizedAuthState value) unauthorized,
+    required TResult Function(AuthorizedAuthState value) authorized,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_NoneAuthState value)? none,
-    TResult? Function(_UnauthorizedAuthState value)? unauthorized,
-    TResult? Function(_AuthorizedAuthState value)? authorized,
+    TResult? Function(NoneAuthState value)? none,
+    TResult? Function(UnauthorizedAuthState value)? unauthorized,
+    TResult? Function(AuthorizedAuthState value)? authorized,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_NoneAuthState value)? none,
-    TResult Function(_UnauthorizedAuthState value)? unauthorized,
-    TResult Function(_AuthorizedAuthState value)? authorized,
+    TResult Function(NoneAuthState value)? none,
+    TResult Function(UnauthorizedAuthState value)? unauthorized,
+    TResult Function(AuthorizedAuthState value)? authorized,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -99,7 +99,7 @@ class __$$NoneAuthStateImplCopyWithImpl<$Res>
 
 class _$NoneAuthStateImpl
     with DiagnosticableTreeMixin
-    implements _NoneAuthState {
+    implements NoneAuthState {
   const _$NoneAuthStateImpl();
 
   @override
@@ -159,9 +159,9 @@ class _$NoneAuthStateImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_NoneAuthState value) none,
-    required TResult Function(_UnauthorizedAuthState value) unauthorized,
-    required TResult Function(_AuthorizedAuthState value) authorized,
+    required TResult Function(NoneAuthState value) none,
+    required TResult Function(UnauthorizedAuthState value) unauthorized,
+    required TResult Function(AuthorizedAuthState value) authorized,
   }) {
     return none(this);
   }
@@ -169,9 +169,9 @@ class _$NoneAuthStateImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_NoneAuthState value)? none,
-    TResult? Function(_UnauthorizedAuthState value)? unauthorized,
-    TResult? Function(_AuthorizedAuthState value)? authorized,
+    TResult? Function(NoneAuthState value)? none,
+    TResult? Function(UnauthorizedAuthState value)? unauthorized,
+    TResult? Function(AuthorizedAuthState value)? authorized,
   }) {
     return none?.call(this);
   }
@@ -179,9 +179,9 @@ class _$NoneAuthStateImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_NoneAuthState value)? none,
-    TResult Function(_UnauthorizedAuthState value)? unauthorized,
-    TResult Function(_AuthorizedAuthState value)? authorized,
+    TResult Function(NoneAuthState value)? none,
+    TResult Function(UnauthorizedAuthState value)? unauthorized,
+    TResult Function(AuthorizedAuthState value)? authorized,
     required TResult orElse(),
   }) {
     if (none != null) {
@@ -191,8 +191,8 @@ class _$NoneAuthStateImpl
   }
 }
 
-abstract class _NoneAuthState implements AuthState {
-  const factory _NoneAuthState() = _$NoneAuthStateImpl;
+abstract class NoneAuthState implements AuthState {
+  const factory NoneAuthState() = _$NoneAuthStateImpl;
 }
 
 /// @nodoc
@@ -216,7 +216,7 @@ class __$$UnauthorizedAuthStateImplCopyWithImpl<$Res>
 
 class _$UnauthorizedAuthStateImpl
     with DiagnosticableTreeMixin
-    implements _UnauthorizedAuthState {
+    implements UnauthorizedAuthState {
   const _$UnauthorizedAuthStateImpl();
 
   @override
@@ -277,9 +277,9 @@ class _$UnauthorizedAuthStateImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_NoneAuthState value) none,
-    required TResult Function(_UnauthorizedAuthState value) unauthorized,
-    required TResult Function(_AuthorizedAuthState value) authorized,
+    required TResult Function(NoneAuthState value) none,
+    required TResult Function(UnauthorizedAuthState value) unauthorized,
+    required TResult Function(AuthorizedAuthState value) authorized,
   }) {
     return unauthorized(this);
   }
@@ -287,9 +287,9 @@ class _$UnauthorizedAuthStateImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_NoneAuthState value)? none,
-    TResult? Function(_UnauthorizedAuthState value)? unauthorized,
-    TResult? Function(_AuthorizedAuthState value)? authorized,
+    TResult? Function(NoneAuthState value)? none,
+    TResult? Function(UnauthorizedAuthState value)? unauthorized,
+    TResult? Function(AuthorizedAuthState value)? authorized,
   }) {
     return unauthorized?.call(this);
   }
@@ -297,9 +297,9 @@ class _$UnauthorizedAuthStateImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_NoneAuthState value)? none,
-    TResult Function(_UnauthorizedAuthState value)? unauthorized,
-    TResult Function(_AuthorizedAuthState value)? authorized,
+    TResult Function(NoneAuthState value)? none,
+    TResult Function(UnauthorizedAuthState value)? unauthorized,
+    TResult Function(AuthorizedAuthState value)? authorized,
     required TResult orElse(),
   }) {
     if (unauthorized != null) {
@@ -309,8 +309,8 @@ class _$UnauthorizedAuthStateImpl
   }
 }
 
-abstract class _UnauthorizedAuthState implements AuthState {
-  const factory _UnauthorizedAuthState() = _$UnauthorizedAuthStateImpl;
+abstract class UnauthorizedAuthState implements AuthState {
+  const factory UnauthorizedAuthState() = _$UnauthorizedAuthStateImpl;
 }
 
 /// @nodoc
@@ -358,7 +358,7 @@ class __$$AuthorizedAuthStateImplCopyWithImpl<$Res>
 
 class _$AuthorizedAuthStateImpl
     with DiagnosticableTreeMixin
-    implements _AuthorizedAuthState {
+    implements AuthorizedAuthState {
   const _$AuthorizedAuthStateImpl({required this.user});
 
   @override
@@ -432,9 +432,9 @@ class _$AuthorizedAuthStateImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_NoneAuthState value) none,
-    required TResult Function(_UnauthorizedAuthState value) unauthorized,
-    required TResult Function(_AuthorizedAuthState value) authorized,
+    required TResult Function(NoneAuthState value) none,
+    required TResult Function(UnauthorizedAuthState value) unauthorized,
+    required TResult Function(AuthorizedAuthState value) authorized,
   }) {
     return authorized(this);
   }
@@ -442,9 +442,9 @@ class _$AuthorizedAuthStateImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_NoneAuthState value)? none,
-    TResult? Function(_UnauthorizedAuthState value)? unauthorized,
-    TResult? Function(_AuthorizedAuthState value)? authorized,
+    TResult? Function(NoneAuthState value)? none,
+    TResult? Function(UnauthorizedAuthState value)? unauthorized,
+    TResult? Function(AuthorizedAuthState value)? authorized,
   }) {
     return authorized?.call(this);
   }
@@ -452,9 +452,9 @@ class _$AuthorizedAuthStateImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_NoneAuthState value)? none,
-    TResult Function(_UnauthorizedAuthState value)? unauthorized,
-    TResult Function(_AuthorizedAuthState value)? authorized,
+    TResult Function(NoneAuthState value)? none,
+    TResult Function(UnauthorizedAuthState value)? unauthorized,
+    TResult Function(AuthorizedAuthState value)? authorized,
     required TResult orElse(),
   }) {
     if (authorized != null) {
@@ -464,8 +464,8 @@ class _$AuthorizedAuthStateImpl
   }
 }
 
-abstract class _AuthorizedAuthState implements AuthState {
-  const factory _AuthorizedAuthState({required final User user}) =
+abstract class AuthorizedAuthState implements AuthState {
+  const factory AuthorizedAuthState({required final User user}) =
       _$AuthorizedAuthStateImpl;
 
   User get user;

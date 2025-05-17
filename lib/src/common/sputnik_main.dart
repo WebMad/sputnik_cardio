@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_auth/sputnik_auth.dart';
 import 'package:sputnik_cardio/src/common/app_scope_deps_node.dart';
+import 'package:sputnik_cardio/src/features/app_settings/models/app_setting.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/screens/workout_screen.dart';
 import 'package:sputnik_localization/sputnik_localization.dart';
+import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../features/workout_recording/screens/workouts_screen.dart';
 
@@ -20,7 +23,10 @@ class _SputnikMainState extends State<SputnikMain> {
   Widget build(BuildContext context) {
     final authScopeDepsNode = DepsNodeBinder.of<AuthScopeDepsNode>(context);
     final appScopeDepsNode = context.depsNode<AppScopeDepsNode>();
-    final authController = appScopeDepsNode.authDepsNode().authController();
+    final authDepsNode = appScopeDepsNode.authDepsNode();
+    final authController = authDepsNode.authController();
+
+    final theme = SpukiTheme.of(context);
 
     return Scaffold(
       body: DepsNodeBuilder(
@@ -52,7 +58,95 @@ class _SputnikMainState extends State<SputnikMain> {
                           children: [
                             const WorkoutScreen(),
                             const WorkoutsScreen(),
-                            ProfileScreen(authController: authController),
+                            ProfileScreen(
+                              authController: authController,
+                              authorizedBuilder: (context, state) {
+                                final appSettingsStateHolder = appScopeDepsNode
+                                    .appSettingsDepsNode()
+                                    .appSettingsStateHolder();
+                                return StreamBuilder<Map<String, AppSetting>>(
+                                    initialData: appSettingsStateHolder.state,
+                                    stream: appSettingsStateHolder.stream,
+                                    builder: (context, snapshot) {
+                                      final appSettings = snapshot.requireData;
+
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            height: theme.puk(2),
+
+                                            /// Надо чтобы растянуть контейнер по ширине и блоки
+                                            /// внутри Column корректно выравнивались
+                                            width: double.infinity,
+                                          ),
+                                          CircleAvatar(
+                                            radius: theme.puk(20),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          SpukiText.h3(
+                                            state.user.map(
+                                              (state) => state.email,
+                                              guest: (_) => context.tr.guest,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          SizedBox(height: theme.puk(4)),
+                                          const ListTile(
+                                            // onTap: () => authDepsNode.authManager().logout(),
+                                            title: SpukiText(
+                                              'Поддержка',
+                                            ),
+                                          ),
+                                          ListTile(
+                                            onTap: () {
+                                              final link = appSettings[
+                                                  AppSetting.privacyPolicy];
+
+                                              if (link == null) {
+                                                return;
+                                              }
+
+                                              launchUrl(Uri.parse(link.value));
+                                            },
+                                            title: const SpukiText(
+                                              'Политика конфиденциальности',
+                                            ),
+                                          ),
+                                          ListTile(
+                                            onTap: () {
+                                              final link = appSettings[
+                                                  AppSetting.personalData];
+
+                                              if (link == null) {
+                                                return;
+                                              }
+
+                                              launchUrl(Uri.parse(link.value));
+                                            },
+                                            title: const SpukiText(
+                                              'Согласие на обработку персональных данных',
+                                            ),
+                                          ),
+                                          const ListTile(
+                                            // onTap: () => authDepsNode.authManager().logout(),
+                                            title: SpukiText(
+                                              'Удаление аккаунта',
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          ListTile(
+                                            onTap: () => authDepsNode
+                                                .authController()
+                                                .logout(),
+                                            title: SpukiText(context.tr.logout),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              },
+                            ),
                           ],
                         ),
                       ),

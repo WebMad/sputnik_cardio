@@ -40,6 +40,10 @@ class AuthController implements Lifecycle {
     await __depsNode?.init();
   }
 
+  void logout() {
+    depsNode.authManager().logout();
+  }
+
   @override
   Future<void> dispose() async {
     await __depsNode?.dispose();
