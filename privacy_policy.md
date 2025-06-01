@@ -1,215 +1,155 @@
-# Privacy Policy
+# Политика конфиденциальности
 
-Last updated: June 01, 2025
+**Последнее обновление:** 1 июня 2025 г.
 
-This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.
+Настоящая Политика конфиденциальности описывает наши принципы и процедуры по сбору, использованию и раскрытию вашей информации при использовании вами Сервиса, а также информирует о ваших правах на конфиденциальность и о том, как закон защищает вас.
 
-We use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy. This Privacy Policy has been created with the help of the [Privacy Policy Generator](https://www.termsfeed.com/privacy-policy-generator/).
+Мы используем ваши персональные данные для предоставления и улучшения Сервиса. Используя Сервис, вы соглашаетесь на сбор и использование информации в соответствии с настоящей Политикой конфиденциальности. Эта политика была создана с помощью [генератора политики конфиденциальности](https://www.termsfeed.com/privacy-policy-generator/).
 
-## Interpretation and Definitions
+## Толкование и определения
 
-### Interpretation
+### Толкование
 
-The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.
+Слова, написанные с заглавной буквы, имеют значения, определённые при следующих условиях. Данные определения имеют одинаковое значение вне зависимости от того, используются ли они в единственном или во множественном числе.
 
-### Definitions
+### Определения
 
-For the purposes of this Privacy Policy:
+Для целей настоящей Политики конфиденциальности:
 
-- __Account__ means a unique account created for You to access our Service or parts of our Service.
-- __Affiliate__ means an entity that controls, is controlled by or is under common control with a party, where "control" means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.
+- **Аккаунт** — уникальная учётная запись, созданная для вас для доступа к нашему Сервису или его частям.
+- **Аффилированное лицо** — юридическое лицо, которое контролирует, находится под контролем или находится под общим контролем с одной из сторон, где "контроль" означает владение 50% или более акций, долей участия или иных ценных бумаг, имеющих право голоса при избрании руководства.
+- **Приложение** означает программное обеспечение Sputnik Cardio, предоставляемое Компанией.
+- **Компания** (именуемая далее "Компания", "Мы", "Нас" или "Наш" в настоящем Соглашении) — Sputnik Cardio.
+- **Страна** — Российская Федерация.
+- **Устройство** — любое устройство, способное получить доступ к Сервису, такое как компьютер, мобильный телефон или планшет.
+- **Персональные данные** — любая информация, относящаяся к идентифицируемому физическому лицу.
+- **Сервис** — имеется в виду Приложение.
+- **Поставщик услуг** — любое физическое или юридическое лицо, обрабатывающее данные от имени Компании. Относится, в том числе, к сторонним компаниям или физическим лицам, нанятым Компанией для содействия предоставлению Сервиса, выполнения связанных услуг или анализа того, как используется Сервис.
+- **Данные об использовании** — данные, собираемые автоматически при использовании Сервиса или его инфраструктуры (например, длительность посещения страницы).
+- **Вы** — физическое лицо, использующее Сервис, либо компания или другой юридический субъект, от имени которого данное лицо использует Сервис, если применимо.
 
-- __Application__ refers to Sputnik Cardio, the software program provided by the Company.
+## Сбор и использование ваших персональных данных
 
+### Виды собираемых данных
 
+#### Персональные данные
 
-- __Company__ (referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to Sputnik Cardio.
+Во время использования нашего Сервиса мы можем попросить вас предоставить определённую личную информацию, по которой вас можно связать или идентифицировать. Лично идентифицируемая информация может включать (но не ограничивается):
 
+- Адрес электронной почты
+- Имя и фамилия
+- Данные об использовании
 
+#### Данные об использовании
 
-- __Country__ refers to:  Russia
+Данные об использовании собираются автоматически при использовании Сервиса.
 
-- __Device__ means any device that can access the Service such as a computer, a cellphone or a digital tablet.
+Такие данные могут включать информацию, такую как IP-адрес устройства, тип браузера, версия браузера, страницы нашего Сервиса, которые вы посещаете, дату и время посещения, длительность нахождения на этих страницах, уникальные идентификаторы устройств и иные диагностические данные.
 
+При доступе к Сервису с мобильного устройства мы можем автоматически собирать дополнительную информацию, включая, среди прочего, тип используемого мобильного устройства, уникальный идентификатор устройства, IP-адрес, операционную систему, тип используемого интернет-браузера, уникальные идентификаторы устройств и другие диагностические данные.
 
+Мы также можем собирать информацию, которую ваш браузер автоматически отправляет при посещении нашего Сервиса или при доступе к нему с мобильного устройства.
 
-- __Personal Data__ is any information that relates to an identified or identifiable individual.
+#### Информация, собираемая при использовании Приложения
 
+Для предоставления определённых функций нашего Приложения мы можем с вашего предварительного разрешения собирать информацию о вашем местоположении.
 
+Мы используем эту информацию для предоставления определённых функций Сервиса, а также для его улучшения и индивидуализации. Эта информация может загружаться на серверы Компании и/или Поставщиков услуг, либо храниться только на вашем устройстве.
 
+Вы можете в любой момент включить или отключить доступ к этой информации в настройках вашего устройства.
 
-- __Service__ refers to the Application.
+### Использование ваших персональных данных
 
-- __Service Provider__ means any natural or legal person who processes the data on behalf of the Company. It refers to third-party companies or individuals employed by the Company to facilitate the Service, to provide the Service on behalf of the Company, to perform services related to the Service or to assist the Company in analyzing how the Service is used.
-	
+Компания может использовать Персональные данные для следующих целей:
 
-- __Usage Data__ refers to data collected automatically, either generated by the use of the Service or from the Service infrastructure itself (for example, the duration of a page visit).
+- **Для предоставления и поддержки нашего Сервиса**, включая отслеживание его использования.
+- **Для управления вашей Учётной записью:** Управление вашей регистрацией как пользователя Сервиса. Предоставленные вами персональные данные дают доступ к различному функционалу, доступному зарегистрированным пользователям.
+- **Для исполнения договора:** В случае заключения договора купли-продажи товаров, услуг или других договоров посредством Сервиса.
+- **Для связи с вами:** Связь по электронной почте, телефону, SMS или другим электронным каналам, таким как push-уведомления мобильного приложения, по поводу обновлений, информационных сообщений, связанных с функциями, продуктами или услугами, включая вопросы безопасности, если это потребуется.
+- **Для предоставления вам** новостей, специальных предложений и общей информации о других товарах, услугах и мероприятиях, сходных с теми, которые вы уже приобретали или запрашивали, если вы не отказались от такой информации.
+- **Для управления вашими запросами:** Обработка и администрирование ваших обращений.
+- **Для бизнес-трансферов:** Компания может использовать ваши данные для оценки или осуществления слияния, выделения, реструктуризации, реорганизации, ликвидации или иной продажи или передачи всех или части своих активов, при которой среди передаваемых активов могут быть персональные данные пользователей Сервиса.
+- **Для других целей:** Использование ваших данных также возможно для анализа, выявления тенденций, оценки эффективности промо-кампаний, а также улучшения Сервиса, продуктов, услуг, маркетинга и вашего пользовательского опыта.
 
+Ваши персональные данные могут быть раскрыты в следующих случаях:
 
-- __You__ means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.
+- **Поставщикам услуг:** Для контроля и анализа использования Сервиса, а также для связи с вами.
+- **В случае бизнес-трансферов:** В рамках, либо при переговорах, о слиянии, продаже активов Компании, привлечении инвестиций либо приобретении Компании или её части другой компанией.
+- **Аффилированным лицам:** Компания может делиться с ними вашими данными при условии соблюдения ими настоящей Политики конфиденциальности.
+- **Бизнес-партнерам:** Для предложения вам определённых товаров, услуг или акций.
+- **Другим пользователям:** В случае взаимодействия в публичных областях Сервиса ваши данные могут стать доступны другим пользователям и быть распространены вне Сервиса.
+- **С вашего согласия:** В любых иных случаях по вашему согласию.
 
+### Хранение ваших персональных данных
 
+Компания будет хранить ваши персональные данные только столько, сколько потребуется для целей, указанных в настоящей Политике конфиденциальности. Мы будем хранить ваши данные и использовать их по мере необходимости для соблюдения юридических обязательств, урегулирования споров и исполнения договоров и политики Компании.
 
-## Collecting and Using Your Personal Data
+Данные об использовании обычно хранятся меньшее время, за исключением случаев, когда они используются для усиления безопасности либо улучшения функциональности Сервиса, или если по закону их необходимо хранить дольше.
 
-### Types of Data Collected
+### Передача ваших персональных данных
 
-#### Personal Data
+Ваша информация, включая персональные данные, может обрабатываться в офисах Компании, а также в любых других местах, где находятся стороны, вовлечённые в обработку данных. Это значит, что информация может быть передана и храниться за пределами вашего региона, государства или другой юрисдикции, где законы о защите данных могут отличаться.
 
-While using Our Service, We may ask You to provide Us with certain personally identifiable information that can be used to contact or identify You. Personally identifiable information may include, but is not limited to:
+Используя наш Сервис и предоставляя нам свою информацию, вы соглашаетесь на такую передачу.
 
-- Email address
-- First name and last name
+Компания предпринимает все разумные меры для обеспечения безопасности ваших данных в соответствии с настоящей Политикой конфиденциальности, и передача персональных данных возможна только при наличии адекватных мер их защиты.
 
+### Удаление ваших персональных данных
 
+Вы имеете право удалить или запросить удаление ваших персональных данных, которые мы о вас сохранили.
 
+Наш Сервис может позволять вам самостоятельно удалять определённую информацию внутри Сервиса.
 
-- Usage Data
+Вы можете изменить, обновить или удалить свою информацию в любое время, войдя в свой Аккаунт (при его наличии) и воспользовавшись соответствующими настройками. Также вы можете обратиться к нам по вопросам доступа, корректировки или удаления личной информации.
 
+Однако мы можем сохранять некоторые ваши данные при наличии юридических обязательств или законных оснований.
 
+### Раскрытие ваших персональных данных
 
-#### Usage Data
+#### Бизнес-сделки
 
-Usage Data is collected automatically when using the Service.
+В случае слияния, приобретения или продажи активов Компании ваши данные могут быть переданы. Мы проинформируем вас заранее, прежде чем ваши данные будут переданы и начнут регулироваться иной политикой конфиденциальности.
 
-Usage Data may include information such as Your Device's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data.
+#### Правоохранительные органы
 
-When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to, the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device, Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic data.
+В определённых случаях Компания может быть обязана раскрыть ваши персональные данные в ответ на требования закона или органов государственной власти (например, суда или агентства).
 
-We may also collect information that Your browser sends whenever You visit our Service or when You access the Service by or through a mobile device.
+#### Прочие юридические требования
 
+Компания может раскрыть ваши данные в добросовестной уверенности, что такие шаги необходимы для:
 
+- Соблюдения юридических обязательств
+- Защиты прав и имущества Компании
+- Предотвращения или расследования возможных нарушений, связанных с Сервисом
+- Защиты личной безопасности пользователей Сервиса или общественности
+- Защиты от юридической ответственности
 
+### Безопасность ваших персональных данных
 
+Безопасность ваших данных важна для нас, однако ни один способ передачи данных через Интернет или способ электронного хранения не является 100% безопасным. Мы стремимся применять коммерчески приемлемые меры для защиты ваших персональных данных, но не можем гарантировать их абсолютную безопасность.
 
-#### Information Collected while Using the Application
+## Конфиденциальность детей
 
-While using Our Application, in order to provide features of Our Application, We may collect, with Your prior permission:
+Наш Сервис не предназначен для лиц младше 13 лет. Мы сознательно не собираем персональные данные у лиц младше 13 лет. Если вы — родитель или опекун и вам стало известно, что ваш ребёнок предоставил нам свои персональные данные, пожалуйста, свяжитесь с нами. Если мы узнаем, что собрали личную информацию ребёнка младше 13 лет без согласия родителей, мы предпримем меры для её удаления.
 
-- Information regarding your location
+Если для обработки данных необходимо согласие, и в вашей стране требуется согласие родителей, мы можем запросить такое согласие, прежде чем собирать и использовать данные.
 
+## Ссылки на другие сайты
 
+В нашем Сервисе могут размещаться ссылки на другие сайты, не управляемые Компанией. При переходе по сторонним ссылкам вы попадёте на сайты третьих лиц. Мы рекомендуем ознакомиться с их политиками конфиденциальности.
 
-We use this information to provide features of Our Service, to improve and customize Our Service. The information may be uploaded to the Company's servers and/or a Service Provider's server or it may be simply stored on Your device.
+Мы не контролируем и не несем ответственности за содержание, политику конфиденциальности и действия сторонних сайтов или сервисов.
 
-You can enable or disable access to this information at any time, through Your Device settings.
+## Изменения в политике конфиденциальности
 
+Мы можем обновлять эту Политику конфиденциальности время от времени. Обо всех изменениях мы будем уведомлять, размещая новую редакцию на этой странице.
 
+Мы сообщим вам по электронной почте и/или посредством уведомления в Сервисе до вступления изменений в силу, а также обновим дату "Последнее обновление" в начале этого документа.
 
+Рекомендуем периодически просматривать настоящую Политику конфиденциальности. Изменения вступают в силу с момента публикации на этой странице.
 
+## Контакты
 
-### Use of Your Personal Data
+Если у вас есть вопросы по этой Политике конфиденциальности, свяжитесь с нами:
 
-The Company may use Personal Data for the following purposes:
-
-- __To provide and maintain our Service__, including to monitor the usage of our Service.
-- __To manage Your Account:__ to manage Your registration as a user of the Service. The Personal Data You provide can give You access to different functionalities of the Service that are available to You as a registered user.
-- __For the performance of a contract:__ the development, compliance and undertaking of the purchase contract for the products, items or services You have purchased or of any other contract with Us through the Service.
-- __To contact You:__ To contact You by email, telephone calls, SMS, or other equivalent forms of electronic communication, such as a mobile application's push notifications regarding updates or informative communications related to the functionalities, products or contracted services, including the security updates, when necessary or reasonable for their implementation.
-- __To provide You__ with news, special offers and general information about other goods, services and events which we offer that are similar to those that you have already purchased or enquired about unless You have opted not to receive such information.
-- __To manage Your requests:__ To attend and manage Your requests to Us.
-
-- __For business transfers:__ We may use Your information to evaluate or conduct a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Our assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which Personal Data held by Us about our Service users is among the assets transferred.
-- __For other purposes__: We may use Your information for other purposes, such as data analysis, identifying usage trends, determining the effectiveness of our promotional campaigns and to evaluate and improve our Service, products, services, marketing and your experience. 
-
-We may share Your personal information in the following situations:
-
-- __With Service Providers:__ We may share Your personal information with Service Providers to monitor and analyze the use of our Service,  to contact You.
-- __For business transfers:__ We may share or transfer Your personal information in connection with, or during negotiations of, any merger, sale of Company assets, financing, or acquisition of all or a portion of Our business to another company.
-- __With Affiliates:__ We may share Your information with Our affiliates, in which case we will require those affiliates to honor this Privacy Policy. Affiliates include Our parent company and any other subsidiaries, joint venture partners or other companies that We control or that are under common control with Us.
-- __With business partners:__ We may share Your information with Our business partners to offer You certain products, services or promotions.
-- __With other users:__ when You share personal information or otherwise interact in the public areas with other users, such information may be viewed by all users and may be publicly distributed outside. 
-- __With Your consent__: We may disclose Your personal information for any other purpose with Your consent.
-
-### Retention of Your Personal Data
-
-The Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal obligations (for example, if we are required to retain your data to comply with applicable laws), resolve disputes, and enforce our legal agreements and policies.
-
-The Company will also retain Usage Data for internal analysis purposes. Usage Data is generally retained for a shorter period of time, except when this data is used to strengthen the security or to improve the functionality of Our Service, or We are legally obligated to retain this data for longer time periods.
-
-### Transfer of Your Personal Data
-
-Your information, including Personal Data, is processed at the Company's operating offices and in any other places where the parties involved in the processing are located. It means that this information may be transferred to — and maintained on — computers located outside of Your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from Your jurisdiction.
-
-Your consent to this Privacy Policy followed by Your submission of such information represents Your agreement to that transfer.
-
-The Company will take all steps reasonably necessary to ensure that Your data is treated securely and in accordance with this Privacy Policy and no transfer of Your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of Your data and other personal information.
-
-### Delete Your Personal Data
-
-You have the right to delete or request that We assist in deleting the Personal Data that We have collected about You.
-
-Our Service may give You the ability to delete certain information about You from within the Service.
-
-You may update, amend, or delete Your information at any time by signing in to Your Account, if you have one, and visiting the account settings section that allows you to manage Your personal information. You may also contact Us to request access to, correct, or delete any personal information that You have provided to Us.
-
-Please note, however, that We may need to retain certain information when we have a legal obligation or lawful basis to do so.
-
-### Disclosure of Your Personal Data
-
-#### Business Transactions
-
-If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be transferred. We will provide notice before Your Personal Data is transferred and becomes subject to a different Privacy Policy.
-
-#### Law enforcement
-
-Under certain circumstances, the Company may be required to disclose Your Personal Data if required to do so by law or in response to valid requests by public authorities (e.g. a court or a government agency).
-
-#### Other legal requirements
-
-The Company may disclose Your Personal Data in the good faith belief that such action is necessary to:
-
-- Comply with a legal obligation
-- Protect and defend the rights or property of the Company
-- Prevent or investigate possible wrongdoing in connection with the Service
-- Protect the personal safety of Users of the Service or the public
-- Protect against legal liability
-
-### Security of Your Personal Data
-
-The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data, We cannot guarantee its absolute security.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Children's Privacy
-
-Our Service does not address anyone under the age of 13. We do not knowingly collect personally identifiable information from anyone under the age of 13. If You are a parent or guardian and You are aware that Your child has provided Us with Personal Data, please contact Us. If We become aware that We have collected Personal Data from anyone under the age of 13 without verification of parental consent, We take steps to remove that information from Our servers.
-
-If We need to rely on consent as a legal basis for processing Your information and Your country requires consent from a parent, We may require Your parent's consent before We collect and use that information.
-
-
-## Links to Other Websites
-
-Our Service may contain links to other websites that are not operated by Us. If You click on a third party link, You will be directed to that third party's site. We strongly advise You to review the Privacy Policy of every site You visit.
-
-We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.
-
-## Changes to this Privacy Policy
-
-We may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page.
-
-We will let You know via email and/or a prominent notice on Our Service, prior to the change becoming effective and update the "Last updated" date at the top of this Privacy Policy.
-
-You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.
-
-## Contact Us
-
-If you have any questions about this Privacy Policy, You can contact us:
-
-
-- By email: alecmei.gubin@yandex.ru
+- по электронной почте: alecmei.gubin@yandex.ru
