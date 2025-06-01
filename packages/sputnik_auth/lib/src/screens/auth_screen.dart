@@ -32,8 +32,8 @@ class _AuthScreenState extends State<AuthScreen> {
     return AuthWrapper(
       authController: widget.authController,
       builder: (context) {
-        final authStateHolder =
-            DepsNodeBinder.of<AuthDepsNode>(context).authStateHolder();
+        final authDepsNode = DepsNodeBinder.of<AuthDepsNode>(context);
+        final authStateHolder = authDepsNode.authStateHolder();
 
         return StateHolderListener<AuthStateHolder, AuthState>(
           listener: (data) {
@@ -74,21 +74,42 @@ class _AuthScreenState extends State<AuthScreen> {
                         ],
                       ),
                       unauthorized: (state) {
-                        return isSignInScreen
-                            ? SignInScreen(
-                                onSignUpPressed: () {
-                                  setState(() {
-                                    isSignInScreen = false;
-                                  });
-                                },
-                              )
-                            : SignUpScreen(
-                                onSignInPressed: () {
-                                  setState(() {
-                                    isSignInScreen = true;
-                                  });
-                                },
-                              );
+                        return StreamBuilder<Object>(
+                            stream: authDepsNode
+                                .authSettingsProvider.authSettingsStream,
+                            builder: (context, snapshot) {
+                              return isSignInScreen
+                                  ? SignInScreen(
+                                      onSignUpPressed: () {
+                                        setState(() {
+                                          isSignInScreen = false;
+                                        });
+                                      },
+                                      privacyPolicyLink: authDepsNode
+                                          .authSettingsProvider
+                                          .authSettings
+                                          .privacyPolicy,
+                                      personalDataLink: authDepsNode
+                                          .authSettingsProvider
+                                          .authSettings
+                                          .personalData,
+                                    )
+                                  : SignUpScreen(
+                                      onSignInPressed: () {
+                                        setState(() {
+                                          isSignInScreen = true;
+                                        });
+                                      },
+                                      privacyPolicyLink: authDepsNode
+                                          .authSettingsProvider
+                                          .authSettings
+                                          .privacyPolicy,
+                                      personalDataLink: authDepsNode
+                                          .authSettingsProvider
+                                          .authSettings
+                                          .personalData,
+                                    );
+                            });
                       },
                     );
                   }),

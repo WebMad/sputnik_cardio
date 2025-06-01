@@ -49,6 +49,7 @@ class AppScopeDepsNode extends DepsNode {
       navigationDepsNode(),
       authScopeDepsNode(),
       firebaseIntegrationDepsNode().googleSignIn(),
+      appSettingsDepsNode().appSettingsStateHolder(),
     ),
   );
 

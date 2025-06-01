@@ -14,11 +14,14 @@ import 'state_holders/auth_state_holder.dart';
 class AuthDepsNode extends DepsNode {
   final SupabaseClient _supabaseClient;
   final GoogleSignIn _googleSignIn;
+  final AuthSettingsProvider _authSettingsProvider;
 
   AuthDepsNode(
     this._supabaseClient,
-    this._googleSignIn,
+    this._googleSignIn, this._authSettingsProvider,
   );
+
+  AuthSettingsProvider get authSettingsProvider => _authSettingsProvider;
 
   late final authStateHolder = bind(() => AuthStateHolder());
 

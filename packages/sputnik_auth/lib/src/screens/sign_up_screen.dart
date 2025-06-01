@@ -3,13 +3,21 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_auth/src/models/sign_up_state.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 import 'package:sputnik_localization/sputnik_localization.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../auth_deps_node.dart';
 
 class SignUpScreen extends StatefulWidget {
   final VoidCallback onSignInPressed;
+  final String privacyPolicyLink;
+  final String personalDataLink;
 
-  const SignUpScreen({super.key, required this.onSignInPressed});
+  const SignUpScreen({
+    super.key,
+    required this.onSignInPressed,
+    required this.privacyPolicyLink,
+    required this.personalDataLink,
+  });
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -140,7 +148,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         theme.spukiFont.regular.copyWith(color: Colors.red),
                   ),
                 ),
-              SizedBox(height: puk(2)),
+              SizedBox(height: puk(4)),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SpukiText(
+                      'Продолжая, вы подтверждаете согласие с Политикой конфиденциальности и условиями обработки персональных данных',
+                    ),
+                    SizedBox(height: puk(2)),
+                    GestureDetector(
+                      onTap: () =>
+                          launchUrl(Uri.parse(widget.privacyPolicyLink)),
+                      child: const SpukiText.link(
+                        "- Политика конфиденциальности",
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () =>
+                          launchUrl(Uri.parse(widget.personalDataLink)),
+                      child: const SpukiText.link(
+                        "- Согласие на обработку персональных данных",
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: puk(4)),
               SpukiButton(
                 onPressed: isAllFilled && signUpState.hasNoErrors
                     ? () {

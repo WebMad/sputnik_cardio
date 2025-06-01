@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sputnik_auth/sputnik_auth.dart';
 import 'package:sputnik_auth/src/auth_deps_node.dart';
 import 'package:sputnik_auth/src/models/auth_state.dart';
 import 'package:sputnik_di/sputnik_di.dart';
@@ -11,10 +12,12 @@ class AuthController implements Lifecycle {
 
   final supabase.SupabaseClient _supabaseClient;
   final GoogleSignIn _googleSignIn;
+  final AuthSettingsProvider _authSettingsProvider;
 
   AuthController(
     this._supabaseClient,
     this._googleSignIn,
+    this._authSettingsProvider,
   );
 
   AuthDepsNode get depsNode {
@@ -36,6 +39,7 @@ class AuthController implements Lifecycle {
     __depsNode = AuthDepsNode(
       _supabaseClient,
       _googleSignIn,
+      _authSettingsProvider,
     );
     await __depsNode?.init();
   }
