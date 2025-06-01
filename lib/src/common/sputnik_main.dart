@@ -93,8 +93,18 @@ class _SputnikMainState extends State<SputnikMain> {
                                             textAlign: TextAlign.center,
                                           ),
                                           SizedBox(height: theme.puk(4)),
-                                          const ListTile(
-                                            // onTap: () => authDepsNode.authManager().logout(),
+                                          ListTile(
+                                            onTap: () {
+                                              final email = appSettings[
+                                                  AppSetting.supportEmail];
+
+                                              if (email == null) {
+                                                return;
+                                              }
+
+                                              launchUrl(Uri.parse(
+                                                  "mailto:${email.value}"));
+                                            },
                                             title: SpukiText(
                                               'Поддержка',
                                             ),
@@ -129,9 +139,19 @@ class _SputnikMainState extends State<SputnikMain> {
                                               'Согласие на обработку персональных данных',
                                             ),
                                           ),
-                                          const ListTile(
-                                            // onTap: () => authDepsNode.authManager().logout(),
-                                            title: SpukiText(
+                                          ListTile(
+                                            onTap: () {
+                                              final email = appSettings[
+                                                  AppSetting.supportEmail];
+
+                                              if (email == null) {
+                                                return;
+                                              }
+
+                                              launchUrl(Uri.parse(
+                                                  "mailto:${email.value}"));
+                                            },
+                                            title: const SpukiText(
                                               'Удаление аккаунта',
                                             ),
                                           ),
