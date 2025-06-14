@@ -1,12 +1,13 @@
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
+import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/pos.dart';
 
 import '../../tracking/managers/location_manager.dart';
 
-class MapCenterStateHolder extends StateHolder<Pos> {
+class MapCenterStateHolder extends StateHolder<ExtendedPos> {
   MapCenterStateHolder() : super(LocationManager.moscowPosition);
 
-  void update(Pos pos) {
+  void update(ExtendedPos pos) {
     state = pos;
   }
 }

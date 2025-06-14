@@ -64,7 +64,7 @@ class GeolocatorLocationManager implements LocationManager {
     }
 
     /// todo: надо делать логи
-    return LocationManager.moscowPosition;
+    throw Exception('Not enough permissions');
   }
 
   @override
@@ -89,8 +89,7 @@ class GeolocatorLocationManager implements LocationManager {
   }
 
   @override
-  ExtendedPos get lastLocation =>
-      _lastLocation ?? LocationManager.moscowPosition;
+  ExtendedPos? get lastLocation => _lastLocation;
 }
 
 extension GeolocatorPositionEx on Position {

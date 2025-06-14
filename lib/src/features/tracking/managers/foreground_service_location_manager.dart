@@ -82,7 +82,7 @@ class ForegroundServiceLocationManager extends StateHolder<ExtendedPos?>
       print(e);
       print(st);
     }
-    return LocationManager.moscowPosition;
+    return lastLocation ?? (throw Exception('Cannot get location'));
   }
 
   @override
