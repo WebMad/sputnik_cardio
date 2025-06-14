@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -14,7 +15,9 @@ class AppForegroundServiceManager implements Lifecycle {
   final ForegroundServiceStatusStateHolder _foregroundServiceStatusStateHolder;
   final ForegroundServiceOutputStateHolder _foregroundServiceOutputStateHolder;
 
-  const AppForegroundServiceManager(
+  Completer? initCompleter;
+
+  AppForegroundServiceManager(
     this._foregroundServiceStatusStateHolder,
     this._foregroundServiceOutputStateHolder,
   );
@@ -30,6 +33,8 @@ class AppForegroundServiceManager implements Lifecycle {
   }
 
   Future<void> _init() async {
+    initCompleter ??= Completer();
+
     await _requestPermissions();
     _initService();
   }
@@ -78,6 +83,11 @@ class AppForegroundServiceManager implements Lifecycle {
         allowWifiLock: true,
       ),
     );
+
+    if (initCompleter?.isCompleted == false) {
+      initCompleter?.complete();
+      initCompleter = null;
+    }
   }
 
   void _onReceiveTaskData(Object data) {
@@ -91,6 +101,8 @@ class AppForegroundServiceManager implements Lifecycle {
   }
 
   Future<ServiceRequestResult> startService() async {
+    await initCompleter?.future;
+
     final res = await FlutterForegroundTask.isRunningService
         ? await FlutterForegroundTask.restartService()
         : await FlutterForegroundTask.startService(
@@ -117,6 +129,8 @@ class AppForegroundServiceManager implements Lifecycle {
   }
 
   Future<ServiceRequestResult> stopService() async {
+    await initCompleter?.future;
+
     final res = await FlutterForegroundTask.stopService();
 
     _foregroundServiceStatusStateHolder.update(
