@@ -19,7 +19,7 @@ _$PendingWorkoutImpl _$$PendingWorkoutImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$PendingWorkoutImplToJson(
         _$PendingWorkoutImpl instance) =>
     <String, dynamic>{
-      'workout': instance.workout,
-      'routes': instance.routes,
-      'workoutMetrics': instance.workoutMetrics,
+      'workout': instance.workout.toJson(),
+      'routes': instance.routes.map((e) => e.toJson()).toList(),
+      'workoutMetrics': instance.workoutMetrics.toJson(),
     };

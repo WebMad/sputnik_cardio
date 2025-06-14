@@ -1,13 +1,22 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:sputnik_cardio/src/features/app_foreground_service/state_holders/foreground_service_status_state_holder.dart';
 
+import '../../app_foreground_service/models/foreground_service_status.dart';
 import '../models/extended_pos.dart';
-import '../models/pos.dart';
 import 'location_manager.dart';
 
 class GeolocatorLocationManager implements LocationManager {
   ExtendedPos? _lastLocation;
+  final ForegroundServiceStatusStateHolder _foregroundServiceStatusStateHolder;
+
+  GeolocatorLocationManager(
+    this._foregroundServiceStatusStateHolder,
+  );
 
   @override
   Future<bool> get checkPermissions async {
@@ -42,7 +51,9 @@ class GeolocatorLocationManager implements LocationManager {
     if (res) {
       final currentPosition = (await Geolocator.getCurrentPosition(
         locationSettings: Platform.isAndroid
-            ? AndroidSettings(forceLocationManager: true)
+            ? AndroidSettings(
+                forceLocationManager: true,
+              )
             : null,
       ))
           .pos;
@@ -57,26 +68,24 @@ class GeolocatorLocationManager implements LocationManager {
   }
 
   @override
-  Stream<ExtendedPos> get locationStream async* {
-    final res = await checkPermissions;
+  Stream<ExtendedPos> get locationStream {
+    return _foregroundServiceStatusStateHolder.asStream.switchMap(
+      (status) => status == ForegroundServiceStatus.idle
+          ? Geolocator.getPositionStream(
+              locationSettings: Platform.isAndroid
+                  ? AndroidSettings(
+                      forceLocationManager: true,
+                    )
+                  : null,
+            ).map((pos) {
+              final position = pos.pos;
 
-    if (res) {
-      yield* Geolocator.getPositionStream(
-        locationSettings: Platform.isAndroid
-            ? AndroidSettings(forceLocationManager: true)
-            : null,
-      ).map((pos) {
-        final position = pos.pos;
+              _lastLocation = position;
 
-        _lastLocation = position;
-
-        return position;
-      });
-      return;
-    }
-
-    /// todo: надо делать логи
-    yield* Stream.value(LocationManager.moscowPosition);
+              return position;
+            })
+          : const Stream.empty(),
+    );
   }
 
   @override
@@ -84,7 +93,7 @@ class GeolocatorLocationManager implements LocationManager {
       _lastLocation ?? LocationManager.moscowPosition;
 }
 
-extension on Position {
+extension GeolocatorPositionEx on Position {
   ExtendedPos get pos => ExtendedPos(
         lat: latitude,
         lon: longitude,

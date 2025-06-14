@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
+import 'package:sputnik_cardio/src/features/app_foreground_service/di/app_foreground_service_deps_node.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_deps_node.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
 import 'package:sputnik_cardio/src/features/internet_connection_checker/state_holder/internet_connection_state_holder.dart';
@@ -28,6 +29,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   final AuthScopeDepsNode parent;
   final LocationDepsNode _locationDepsNode;
   final SharedPrefsManager _sharedPrefsManager;
+  final AppForegroundServiceDepsNode _appForegroundServiceDepsNode;
 
   late final workoutCoreDepsNode = bind(
     () => WorkoutCoreDepsNode(),
@@ -45,6 +47,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
       workoutRepository(),
       pendingWorkoutsManager(),
       workoutCoreDepsNode().workoutModificationManagerFactory(),
+      _appForegroundServiceDepsNode.appForegroundServiceManager(),
     ),
   );
 
@@ -130,6 +133,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
     this.parent,
     this._locationDepsNode,
     this._sharedPrefsManager,
+    this._appForegroundServiceDepsNode,
   );
 
   @override

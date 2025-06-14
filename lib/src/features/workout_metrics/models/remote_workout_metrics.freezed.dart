@@ -31,8 +31,12 @@ mixin _$RemoteWorkoutMetrics {
   @JsonKey(name: 'workout_uuid')
   String get workoutUuid => throw _privateConstructorUsedError;
 
+  /// Serializes this RemoteWorkoutMetrics to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RemoteWorkoutMetrics
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RemoteWorkoutMetricsCopyWith<RemoteWorkoutMetrics> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -62,6 +66,8 @@ class _$RemoteWorkoutMetricsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RemoteWorkoutMetrics
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -120,6 +126,8 @@ class __$$RemoteWorkoutMetricsImplCopyWithImpl<$Res>
       $Res Function(_$RemoteWorkoutMetricsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RemoteWorkoutMetrics
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -203,12 +211,14 @@ class _$RemoteWorkoutMetricsImpl implements _RemoteWorkoutMetrics {
                 other.workoutUuid == workoutUuid));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, kms, paceMs, avgSpeed, durationMs, workoutUuid);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RemoteWorkoutMetrics
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RemoteWorkoutMetricsImplCopyWith<_$RemoteWorkoutMetricsImpl>
@@ -251,8 +261,11 @@ abstract class _RemoteWorkoutMetrics implements RemoteWorkoutMetrics {
   @override
   @JsonKey(name: 'workout_uuid')
   String get workoutUuid;
+
+  /// Create a copy of RemoteWorkoutMetrics
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RemoteWorkoutMetricsImplCopyWith<_$RemoteWorkoutMetricsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

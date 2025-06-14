@@ -31,8 +31,12 @@ mixin _$WorkoutSegment {
   @JsonKey(name: 'end_at')
   DateTime? get endAt => throw _privateConstructorUsedError;
 
+  /// Serializes this WorkoutSegment to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WorkoutSegment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WorkoutSegmentCopyWith<WorkoutSegment> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,6 +65,8 @@ class _$WorkoutSegmentCopyWithImpl<$Res, $Val extends WorkoutSegment>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WorkoutSegment
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,6 +125,8 @@ class __$$WorkoutSegmentImplCopyWithImpl<$Res>
       _$WorkoutSegmentImpl _value, $Res Function(_$WorkoutSegmentImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WorkoutSegment
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -200,12 +208,14 @@ class _$WorkoutSegmentImpl implements _WorkoutSegment {
             (identical(other.endAt, endAt) || other.endAt == endAt));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, uuid, type, startAt, routeUuid, endAt);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WorkoutSegment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WorkoutSegmentImplCopyWith<_$WorkoutSegmentImpl> get copyWith =>
@@ -246,8 +256,11 @@ abstract class _WorkoutSegment implements WorkoutSegment {
   @override
   @JsonKey(name: 'end_at')
   DateTime? get endAt;
+
+  /// Create a copy of WorkoutSegment
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WorkoutSegmentImplCopyWith<_$WorkoutSegmentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

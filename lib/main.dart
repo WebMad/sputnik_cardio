@@ -61,9 +61,6 @@ class _MyAppState extends State<MyApp> {
             return MultiDepsNodeBinder(
               depsNodeBinders: [
                 DepsNodeBinder.value(
-                  depsNode: depsNode.locationDepsNode(),
-                ),
-                DepsNodeBinder.value(
                   depsNode: depsNode.authDepsNode(),
                 ),
                 DepsNodeBinder.value(

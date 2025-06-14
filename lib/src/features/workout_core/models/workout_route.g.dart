@@ -17,5 +17,5 @@ _$WorkoutRouteImpl _$$WorkoutRouteImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$WorkoutRouteImplToJson(_$WorkoutRouteImpl instance) =>
     <String, dynamic>{
       'uuid': instance.uuid,
-      'route_data': instance.routeData,
+      'route_data': instance.routeData.map((e) => e.toJson()).toList(),
     };

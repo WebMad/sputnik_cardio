@@ -24,8 +24,12 @@ mixin _$WorkoutRoute {
   @JsonKey(name: 'route_data')
   List<ExtendedPos> get routeData => throw _privateConstructorUsedError;
 
+  /// Serializes this WorkoutRoute to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WorkoutRoute
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WorkoutRouteCopyWith<WorkoutRoute> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$WorkoutRouteCopyWithImpl<$Res, $Val extends WorkoutRoute>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WorkoutRoute
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,6 +95,8 @@ class __$$WorkoutRouteImplCopyWithImpl<$Res>
       _$WorkoutRouteImpl _value, $Res Function(_$WorkoutRouteImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WorkoutRoute
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -154,12 +162,14 @@ class _$WorkoutRouteImpl with DiagnosticableTreeMixin implements _WorkoutRoute {
                 .equals(other._routeData, _routeData));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, uuid, const DeepCollectionEquality().hash(_routeData));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WorkoutRoute
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WorkoutRouteImplCopyWith<_$WorkoutRouteImpl> get copyWith =>
@@ -187,8 +197,11 @@ abstract class _WorkoutRoute implements WorkoutRoute {
   @override
   @JsonKey(name: 'route_data')
   List<ExtendedPos> get routeData;
+
+  /// Create a copy of WorkoutRoute
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WorkoutRouteImplCopyWith<_$WorkoutRouteImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

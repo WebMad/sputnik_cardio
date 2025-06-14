@@ -24,8 +24,12 @@ mixin _$PendingWorkout {
   List<WorkoutRoute> get routes => throw _privateConstructorUsedError;
   WorkoutMetrics get workoutMetrics => throw _privateConstructorUsedError;
 
+  /// Serializes this PendingWorkout to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PendingWorkout
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PendingWorkoutCopyWith<PendingWorkout> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +59,8 @@ class _$PendingWorkoutCopyWithImpl<$Res, $Val extends PendingWorkout>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PendingWorkout
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -78,6 +84,8 @@ class _$PendingWorkoutCopyWithImpl<$Res, $Val extends PendingWorkout>
     ) as $Val);
   }
 
+  /// Create a copy of PendingWorkout
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $WorkoutCopyWith<$Res> get workout {
@@ -86,6 +94,8 @@ class _$PendingWorkoutCopyWithImpl<$Res, $Val extends PendingWorkout>
     });
   }
 
+  /// Create a copy of PendingWorkout
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $WorkoutMetricsCopyWith<$Res> get workoutMetrics {
@@ -122,6 +132,8 @@ class __$$PendingWorkoutImplCopyWithImpl<$Res>
       _$PendingWorkoutImpl _value, $Res Function(_$PendingWorkoutImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PendingWorkout
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -187,12 +199,14 @@ class _$PendingWorkoutImpl implements _PendingWorkout {
                 other.workoutMetrics == workoutMetrics));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, workout,
       const DeepCollectionEquality().hash(_routes), workoutMetrics);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PendingWorkout
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PendingWorkoutImplCopyWith<_$PendingWorkoutImpl> get copyWith =>
@@ -222,8 +236,11 @@ abstract class _PendingWorkout implements PendingWorkout {
   List<WorkoutRoute> get routes;
   @override
   WorkoutMetrics get workoutMetrics;
+
+  /// Create a copy of PendingWorkout
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PendingWorkoutImplCopyWith<_$PendingWorkoutImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

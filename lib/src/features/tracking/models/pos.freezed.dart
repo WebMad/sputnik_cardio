@@ -23,8 +23,12 @@ mixin _$LatLonPos {
   double get lat => throw _privateConstructorUsedError;
   double get lon => throw _privateConstructorUsedError;
 
+  /// Serializes this LatLonPos to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LatLonPos
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LatLonPosCopyWith<LatLonPos> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +51,8 @@ class _$LatLonPosCopyWithImpl<$Res, $Val extends LatLonPos>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LatLonPos
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -85,6 +91,8 @@ class __$$LatLonPosImplCopyWithImpl<$Res>
       _$LatLonPosImpl _value, $Res Function(_$LatLonPosImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LatLonPos
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -140,11 +148,13 @@ class _$LatLonPosImpl with DiagnosticableTreeMixin implements _LatLonPos {
             (identical(other.lon, lon) || other.lon == lon));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, lat, lon);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LatLonPos
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LatLonPosImplCopyWith<_$LatLonPosImpl> get copyWith =>
@@ -169,8 +179,11 @@ abstract class _LatLonPos implements LatLonPos {
   double get lat;
   @override
   double get lon;
+
+  /// Create a copy of LatLonPos
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LatLonPosImplCopyWith<_$LatLonPosImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

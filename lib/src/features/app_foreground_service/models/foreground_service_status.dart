@@ -1,0 +1,4 @@
+enum ForegroundServiceStatus {
+  idle,
+  started,
+}

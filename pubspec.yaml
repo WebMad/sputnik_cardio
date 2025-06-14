@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.0.4
+version: 0.0.5+2
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -63,6 +63,9 @@ dependencies:
   mocktail: ^1.0.4
   url_launcher: ^6.3.1
   flutter_launcher_icons: ^0.14.3
+  flutter_foreground_task: ^9.1.0
+  permission_handler: ^12.0.0+1
+  location: ^8.0.0
 
 dependency_overrides:
   sputnik_di:
@@ -71,8 +74,8 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  sputnik_di_graph_visualizer:
-    path: ../sputnik_di/packages/sputnik_di_graph_visualizer
+#  sputnik_di_graph_visualizer:
+#    path: ../sputnik_di/packages/sputnik_di_graph_visualizer
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -83,6 +86,7 @@ dev_dependencies:
   build_runner: ^2.4.11
   freezed: ^2.5.2
   json_serializable: ^6.8.0
+  analyzer: ^7.4.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

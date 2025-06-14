@@ -40,6 +40,9 @@ class _SputnikMainState extends State<SputnikMain> {
           return MultiDepsNodeBinder(
             depsNodeBinders: [
               DepsNodeBinder.value(
+                depsNode: depsNode.locationDepsNode(),
+              ),
+              DepsNodeBinder.value(
                 depsNode: depsNode.mapsDepsNode(),
               ),
               DepsNodeBinder.value(

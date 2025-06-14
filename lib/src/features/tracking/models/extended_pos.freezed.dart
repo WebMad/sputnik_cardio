@@ -26,8 +26,12 @@ mixin _$ExtendedPos {
   @JsonKey(name: 'fetched_at')
   DateTime get fetchedAt => throw _privateConstructorUsedError;
 
+  /// Serializes this ExtendedPos to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ExtendedPos
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ExtendedPosCopyWith<ExtendedPos> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +59,8 @@ class _$ExtendedPosCopyWithImpl<$Res, $Val extends ExtendedPos>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ExtendedPos
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -107,6 +113,8 @@ class __$$ExtendedPosImplCopyWithImpl<$Res>
       _$ExtendedPosImpl _value, $Res Function(_$ExtendedPosImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ExtendedPos
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -186,11 +194,13 @@ class _$ExtendedPosImpl with DiagnosticableTreeMixin implements _ExtendedPos {
                 other.fetchedAt == fetchedAt));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, lat, lon, alt, fetchedAt);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ExtendedPos
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ExtendedPosImplCopyWith<_$ExtendedPosImpl> get copyWith =>
@@ -224,8 +234,11 @@ abstract class _ExtendedPos implements ExtendedPos {
   @override
   @JsonKey(name: 'fetched_at')
   DateTime get fetchedAt;
+
+  /// Create a copy of ExtendedPos
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ExtendedPosImplCopyWith<_$ExtendedPosImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -26,7 +26,7 @@ Map<String, dynamic> _$$WorkoutImplToJson(_$WorkoutImpl instance) =>
       'start_at': instance.startAt.toIso8601String(),
       'stop_at': instance.stopAt?.toIso8601String(),
       'state': _$WorkoutStateEnumMap[instance.state]!,
-      'segments': instance.segments,
+      'segments': instance.segments.map((e) => e.toJson()).toList(),
     };
 
 const _$WorkoutStateEnumMap = {

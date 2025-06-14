@@ -1,7 +1,9 @@
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/common/app_scope_deps_node.dart';
 import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
+import 'package:sputnik_cardio/src/features/app_foreground_service/di/app_foreground_service_deps_node.dart';
 import '../maps/maps_deps_node.dart';
+import '../tracking/tracking_deps_node.dart';
 import '../workout_recording/workout_deps_node.dart';
 
 class AuthScopeDepsNode extends DepsNode {
@@ -11,6 +13,8 @@ class AuthScopeDepsNode extends DepsNode {
 
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [
+        {appForegroundServiceDepsNode},
+        {locationDepsNode},
         {
           workoutDepsNode,
         },
@@ -20,14 +24,25 @@ class AuthScopeDepsNode extends DepsNode {
       ];
 
   late final mapsDepsNode = bind(
-    () => MapsDepsNode(appDepsNode.locationDepsNode()),
+    () => MapsDepsNode(locationDepsNode()),
   );
 
   late final workoutDepsNode = bind(
     () => WorkoutDepsNode(
       this,
-      appDepsNode.locationDepsNode(),
+      locationDepsNode(),
       appDepsNode.sharedPrefsManager(),
+      appForegroundServiceDepsNode(),
+    ),
+  );
+
+  late final appForegroundServiceDepsNode = bind(
+    () => AppForegroundServiceDepsNode(),
+  );
+
+  late final locationDepsNode = bind(
+    () => LocationDepsNode(
+      appForegroundServiceDepsNode(),
     ),
   );
 }

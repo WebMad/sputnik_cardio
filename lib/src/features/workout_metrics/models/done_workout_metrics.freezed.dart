@@ -25,8 +25,12 @@ mixin _$DoneWorkoutMetrics {
   double get avgSpeed => throw _privateConstructorUsedError;
   Duration get duration => throw _privateConstructorUsedError;
 
+  /// Serializes this DoneWorkoutMetrics to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DoneWorkoutMetrics
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DoneWorkoutMetricsCopyWith<DoneWorkoutMetrics> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$DoneWorkoutMetricsCopyWithImpl<$Res, $Val extends DoneWorkoutMetrics>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DoneWorkoutMetrics
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -98,6 +104,8 @@ class __$$DoneWorkoutMetricsImplCopyWithImpl<$Res>
       $Res Function(_$DoneWorkoutMetricsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DoneWorkoutMetrics
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -166,11 +174,13 @@ class _$DoneWorkoutMetricsImpl implements _DoneWorkoutMetrics {
                 other.duration == duration));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, pace, kms, avgSpeed, duration);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DoneWorkoutMetrics
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DoneWorkoutMetricsImplCopyWith<_$DoneWorkoutMetricsImpl> get copyWith =>
@@ -203,8 +213,11 @@ abstract class _DoneWorkoutMetrics implements DoneWorkoutMetrics {
   double get avgSpeed;
   @override
   Duration get duration;
+
+  /// Create a copy of DoneWorkoutMetrics
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DoneWorkoutMetricsImplCopyWith<_$DoneWorkoutMetricsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

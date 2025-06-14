@@ -25,8 +25,12 @@ mixin _$DetailedWorkout {
       throw _privateConstructorUsedError;
   DoneWorkoutMetrics? get metrics => throw _privateConstructorUsedError;
 
+  /// Serializes this DetailedWorkout to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DetailedWorkout
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DetailedWorkoutCopyWith<DetailedWorkout> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -56,6 +60,8 @@ class _$DetailedWorkoutCopyWithImpl<$Res, $Val extends DetailedWorkout>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DetailedWorkout
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -79,6 +85,8 @@ class _$DetailedWorkoutCopyWithImpl<$Res, $Val extends DetailedWorkout>
     ) as $Val);
   }
 
+  /// Create a copy of DetailedWorkout
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $WorkoutCopyWith<$Res> get workout {
@@ -87,6 +95,8 @@ class _$DetailedWorkoutCopyWithImpl<$Res, $Val extends DetailedWorkout>
     });
   }
 
+  /// Create a copy of DetailedWorkout
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DoneWorkoutMetricsCopyWith<$Res>? get metrics {
@@ -127,6 +137,8 @@ class __$$DetailedWorkoutImplCopyWithImpl<$Res>
       _$DetailedWorkoutImpl _value, $Res Function(_$DetailedWorkoutImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DetailedWorkout
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -203,12 +215,14 @@ class _$DetailedWorkoutImpl
             (identical(other.metrics, metrics) || other.metrics == metrics));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, workout,
       const DeepCollectionEquality().hash(_routes), metrics);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailedWorkout
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DetailedWorkoutImplCopyWith<_$DetailedWorkoutImpl> get copyWith =>
@@ -238,8 +252,11 @@ abstract class _DetailedWorkout implements DetailedWorkout {
   Map<String, List<ExtendedPos>> get routes;
   @override
   DoneWorkoutMetrics? get metrics;
+
+  /// Create a copy of DetailedWorkout
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DetailedWorkoutImplCopyWith<_$DetailedWorkoutImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

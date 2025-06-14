@@ -17,7 +17,6 @@ class AppScopeDepsNode extends DepsNode {
   List<Set<LifecycleDependency>> get initializeQueue => [
         {
           navigationDepsNode,
-          locationDepsNode,
           internetConnectionDepsNode,
           firebaseIntegrationDepsNode,
           sharedPrefsManager,
@@ -55,8 +54,6 @@ class AppScopeDepsNode extends DepsNode {
 
   late final firebaseIntegrationDepsNode =
       bind(() => FirebaseIntegrationDepsNode());
-
-  late final locationDepsNode = bind(() => LocationDepsNode());
 
   late final internetConnectionDepsNode = bind(
     () => InternetConnectionCheckerDepsNode(),

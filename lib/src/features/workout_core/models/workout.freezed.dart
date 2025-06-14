@@ -31,8 +31,12 @@ mixin _$Workout {
   @JsonKey(name: 'segments')
   List<WorkoutSegment> get segments => throw _privateConstructorUsedError;
 
+  /// Serializes this Workout to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Workout
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WorkoutCopyWith<Workout> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -59,6 +63,8 @@ class _$WorkoutCopyWithImpl<$Res, $Val extends Workout>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Workout
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -116,6 +122,8 @@ class __$$WorkoutImplCopyWithImpl<$Res>
       _$WorkoutImpl _value, $Res Function(_$WorkoutImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Workout
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -203,12 +211,14 @@ class _$WorkoutImpl implements _Workout {
             const DeepCollectionEquality().equals(other._segments, _segments));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, uuid, startAt, stopAt, state,
       const DeepCollectionEquality().hash(_segments));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Workout
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WorkoutImplCopyWith<_$WorkoutImpl> get copyWith =>
@@ -248,8 +258,11 @@ abstract class _Workout implements Workout {
   @override
   @JsonKey(name: 'segments')
   List<WorkoutSegment> get segments;
+
+  /// Create a copy of Workout
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WorkoutImplCopyWith<_$WorkoutImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

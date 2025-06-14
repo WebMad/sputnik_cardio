@@ -51,6 +51,7 @@ class SignInManager {
   Future<void> signInViaGoogle() async {
     try {
       final user = await _googleSignIn.signIn();
+
       final userAuth = await user?.authentication;
       final idToken = userAuth?.idToken;
       final accessToken = userAuth?.accessToken;

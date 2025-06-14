@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sputnik_cardio/src/features/app_foreground_service/di/app_foreground_service_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/pending_workouts_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_coords_recording_manager.dart';
 
+import '../../app_foreground_service/managers/app_foreground_service_manager.dart';
 import '../../workout_track/workout_track_deps_node.dart';
 import '../data/repository/workout_repository.dart';
 import '../state_holders/workout_state_holder.dart';
@@ -18,6 +20,7 @@ class WorkoutLifecycleManager implements Lifecycle {
   final WorkoutRepository _workoutRepository;
   final PendingWorkoutsManager _pendingWorkoutsManager;
   final WorkoutModificationManagerFactory _workoutModificationManagerFactory;
+  final AppForegroundServiceManager _appForegroundServiceManager;
 
   WorkoutModificationManager? __workoutModificationManager;
 
@@ -37,6 +40,7 @@ class WorkoutLifecycleManager implements Lifecycle {
     this._workoutRepository,
     this._pendingWorkoutsManager,
     this._workoutModificationManagerFactory,
+    this._appForegroundServiceManager,
   );
 
   @override
@@ -49,6 +53,8 @@ class WorkoutLifecycleManager implements Lifecycle {
   }
 
   Future<void> retrive(Workout workout) async {
+    _appForegroundServiceManager.startService();
+
     await _workoutTrackDepsNode.init();
 
     __workoutModificationManager = _workoutModificationManagerFactory.create();
@@ -134,6 +140,8 @@ class WorkoutLifecycleManager implements Lifecycle {
   Future<void> start() async {
     await _workoutTrackDepsNode.init();
 
+    _appForegroundServiceManager.startService();
+
     __workoutModificationManager = _workoutModificationManagerFactory.create();
 
     _workoutModificationManager.addSegment(
@@ -174,6 +182,7 @@ class WorkoutLifecycleManager implements Lifecycle {
 
   Future<void> stop() async {
     _workoutModificationManager.stop();
+    _appForegroundServiceManager.stopService();
 
     await _workoutCoordsRecordingManager.stopRecord();
 

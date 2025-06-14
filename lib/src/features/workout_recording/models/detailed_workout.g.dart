@@ -26,7 +26,8 @@ _$DetailedWorkoutImpl _$$DetailedWorkoutImplFromJson(
 Map<String, dynamic> _$$DetailedWorkoutImplToJson(
         _$DetailedWorkoutImpl instance) =>
     <String, dynamic>{
-      'workout': instance.workout,
-      'routes': instance.routes,
-      'metrics': instance.metrics,
+      'workout': instance.workout.toJson(),
+      'routes': instance.routes
+          .map((k, e) => MapEntry(k, e.map((e) => e.toJson()).toList())),
+      'metrics': instance.metrics?.toJson(),
     };
