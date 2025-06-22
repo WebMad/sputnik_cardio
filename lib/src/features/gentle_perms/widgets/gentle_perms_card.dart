@@ -65,7 +65,7 @@ class _GentlePermsCardState extends State<GentlePermsCard>
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: SpukiText.h3(
-                        'Для записи тренировки необходимо выдать разршения:',
+                        'Для записи тренировки необходимо выдать разрешения:',
                       ),
                     ),
                     for (final perm in state)
