@@ -78,6 +78,8 @@ class _SputnikMapState extends State<SputnikMap> {
 
     final workoutStateHolder = workoutDepsNode.persistentWorkoutStateHolder;
 
+    final initialCenter = mapsDepsNode.mapCenterStateHolder().state;
+
     return Stack(
       children: [
         StreamBuilder<Workout?>(
@@ -88,8 +90,8 @@ class _SputnikMapState extends State<SputnikMap> {
             return FlutterMap(
               options: MapOptions(
                 initialCenter: LatLng(
-                  LocationManager.moscowPosition.lat,
-                  LocationManager.moscowPosition.lon,
+                  initialCenter.lat,
+                  initialCenter.lon,
                 ),
                 onMapReady: () {
                   isReady = true;

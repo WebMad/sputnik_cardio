@@ -15,6 +15,7 @@ class CachedNetworkTileProvider extends NetworkTileProvider {
     final String tileUrl = getTileUrl(coordinates, options);
     return CachedNetworkImageProvider(
       tileUrl,
+      cacheKey: tileUrl,
       cacheManager: cacheManager,
       headers: headers,
     );

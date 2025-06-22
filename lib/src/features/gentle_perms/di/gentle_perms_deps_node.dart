@@ -2,6 +2,7 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/gentle_perms/permissions/location_perm.dart';
 
 import '../managers/gentle_perms_manager.dart';
+import '../permissions/background_location_perm.dart';
 import '../permissions/ignore_battery_optimizations_perm.dart';
 import '../permissions/notifications_perm.dart';
 import '../permissions/system_alert_window_perm.dart';
@@ -12,12 +13,17 @@ class GentlePermsDepsNode extends DepsNode {
     () => GentlePermsManager(
       {
         _locationPerm(),
+        backgroundLocationPerm(),
         _notificationsPerm(),
         _ignoreBatteryOptimizationsPerm(),
         _systemAlertWindowPerm(),
       },
       actualPermsStateHolder(),
     ),
+  );
+
+  late final backgroundLocationPerm = bind(
+    () => BackgroundLocationPerm(),
   );
 
   late final actualPermsStateHolder = bind(

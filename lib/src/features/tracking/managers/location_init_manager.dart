@@ -7,9 +7,7 @@ class LocationInitManager implements Lifecycle {
   const LocationInitManager(this._locationManager);
 
   @override
-  Future<void> init() async {
-    _locationManager.checkPermissions;
-  }
+  Future<void> init() async {}
 
   @override
   Future<void> dispose() async {}

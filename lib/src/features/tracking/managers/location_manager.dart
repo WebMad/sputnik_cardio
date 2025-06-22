@@ -10,8 +10,6 @@ abstract class LocationManager {
         fetchedAt: DateTime.now(),
       );
 
-  Future<bool> get checkPermissions;
-
   Future<ExtendedPos> get location;
 
   ExtendedPos? get lastLocation;

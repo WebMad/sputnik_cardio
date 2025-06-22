@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sputnik_cardio/src/features/app_foreground_service/state_holders/foreground_service_status_state_holder.dart';
+import 'package:sputnik_cardio/src/features/gentle_perms/state_holders/actual_perms_state_holder.dart';
+import 'package:sputnik_cardio/src/features/tracking/models/location_service_state.dart';
+import 'package:sputnik_cardio/src/features/tracking/state_holders/location_service_state_holder.dart';
 
 import '../../app_foreground_service/models/foreground_service_status.dart';
 import '../models/extended_pos.dart';
@@ -13,80 +16,62 @@ import 'location_manager.dart';
 class GeolocatorLocationManager implements LocationManager {
   ExtendedPos? _lastLocation;
   final ForegroundServiceStatusStateHolder _foregroundServiceStatusStateHolder;
+  final ActualPermsStateHolder _actualPermsStateHolder;
+
+  final LocationServiceStateHolder _locationServiceStateHolder;
 
   GeolocatorLocationManager(
     this._foregroundServiceStatusStateHolder,
+    this._locationServiceStateHolder,
+    this._actualPermsStateHolder,
   );
 
   @override
-  Future<bool> get checkPermissions async {
-    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
-
-    if (!serviceEnabled) {
-      /// todo: надо делать логи
-      return false;
-    }
-
-    final permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      final permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        /// todo: надо делать логи
-        return false;
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      /// todo: надо делать логи
-      return false;
-    }
-
-    return true;
-  }
-
-  @override
   Future<ExtendedPos> get location async {
-    final res = await checkPermissions;
+    await _locationServiceStateHolder.asStream.firstWhere(
+      (serviceState) => serviceState == LocationServiceState.enabled,
+    );
 
-    if (res) {
-      final currentPosition = (await Geolocator.getCurrentPosition(
-        locationSettings: Platform.isAndroid
-            ? AndroidSettings(
-                forceLocationManager: true,
-              )
-            : null,
-      ))
-          .pos;
+    final currentLocation = await Geolocator.getCurrentPosition(
+      locationSettings: Platform.isAndroid
+          ? AndroidSettings(
+              forceLocationManager: true,
+            )
+          : null,
+    );
 
-      _lastLocation = currentPosition;
+    _lastLocation = currentLocation.pos;
 
-      return currentPosition;
-    }
-
-    /// todo: надо делать логи
-    throw Exception('Not enough permissions');
+    return currentLocation.pos;
   }
 
   @override
-  Stream<ExtendedPos> get locationStream {
-    return _foregroundServiceStatusStateHolder.asStream.switchMap(
-      (status) => status == ForegroundServiceStatus.idle
-          ? Geolocator.getPositionStream(
-              locationSettings: Platform.isAndroid
-                  ? AndroidSettings(
-                      forceLocationManager: true,
-                    )
-                  : null,
-            ).map((pos) {
-              final position = pos.pos;
+  Stream<ExtendedPos> get locationStream => Rx.combineLatest3(
+        _foregroundServiceStatusStateHolder.asStream,
+        _locationServiceStateHolder.asStream,
+        _actualPermsStateHolder.asStream,
+        (foregroundServiceStatus, locationServiceState, actualPermsState) {
+          return foregroundServiceStatus == ForegroundServiceStatus.idle &&
+              locationServiceState == LocationServiceState.enabled &&
+              _actualPermsStateHolder.isPermGranted(Permission.location);
+        },
+      ).switchMap(
+        (enabled) => enabled
+            ? Geolocator.getPositionStream(
+                locationSettings: Platform.isAndroid
+                    ? AndroidSettings(
+                        forceLocationManager: true,
+                      )
+                    : null,
+              ).map((pos) {
+                final position = pos.pos;
 
-              _lastLocation = position;
+                _lastLocation = position;
 
-              return position;
-            })
-          : const Stream.empty(),
-    );
-  }
+                return position;
+              })
+            : const Stream.empty(),
+      );
 
   @override
   ExtendedPos? get lastLocation => _lastLocation;

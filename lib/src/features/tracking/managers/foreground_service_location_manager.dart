@@ -60,9 +60,6 @@ class ForegroundServiceLocationManager extends StateHolder<ExtendedPos?>
   }
 
   @override
-  Future<bool> get checkPermissions async => true;
-
-  @override
   ExtendedPos? get lastLocation => state;
 
   @override

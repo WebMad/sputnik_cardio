@@ -15,9 +15,9 @@ class AuthScopeDepsNode extends DepsNode {
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [
         {appForegroundServiceDepsNode},
+        {gentlePermsDepsNode},
         {locationDepsNode},
         {
-          gentlePermsDepsNode,
           workoutDepsNode,
         },
         {
@@ -45,6 +45,7 @@ class AuthScopeDepsNode extends DepsNode {
   late final locationDepsNode = bind(
     () => LocationDepsNode(
       appForegroundServiceDepsNode(),
+      gentlePermsDepsNode(),
     ),
   );
 

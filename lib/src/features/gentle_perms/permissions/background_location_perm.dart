@@ -7,16 +7,16 @@ import 'package:sputnik_cardio/src/features/gentle_perms/models/gentle_perm_data
 
 import '../models/gentle_perm.dart';
 
-class LocationPerm implements GentlePerm {
+class BackgroundLocationPerm implements GentlePerm {
   @override
   GentlePermData getData(BuildContext context) {
     return const GentlePermData(
-      title: 'Геолокация',
-      description: 'Используется для записи вашей тренировки',
+      title: 'Геолокация в фоне',
+      description: 'Получение координат в фоновом режиме',
       icon: Icon(Icons.gps_fixed),
     );
   }
 
   @override
-  Permission get permission => Permission.location;
+  Permission get permission => Permission.locationAlways;
 }
