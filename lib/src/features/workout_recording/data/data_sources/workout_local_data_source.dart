@@ -15,7 +15,7 @@ abstract interface class WorkoutLocalDataSource {
 
   Future<void> createPendingWorkout(PendingWorkout pendingWorkout);
 
-  Future<void> removePendingWorkout(PendingWorkout pendingWorkout);
+  Future<void> removePendingWorkout(String workoutUuid);
 }
 
 class WorkoutLocalDataSourceImpl implements WorkoutLocalDataSource {
@@ -134,9 +134,9 @@ class WorkoutLocalDataSourceImpl implements WorkoutLocalDataSource {
   }
 
   @override
-  Future<void> removePendingWorkout(PendingWorkout pendingWorkout) async {
+  Future<void> removePendingWorkout(String workoutUuid) async {
     final pendingWorkouts = [...await getPendingWorkouts()]..removeWhere(
-        (element) => element.workout.uuid == pendingWorkout.workout.uuid,
+        (element) => element.workout.uuid == workoutUuid,
       );
 
     await _sharedPreferences.setString(

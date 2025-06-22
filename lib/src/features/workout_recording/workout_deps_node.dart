@@ -13,6 +13,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/data/repository/wo
 import 'package:sputnik_cardio/src/features/workout_recording/managers/pending_workouts_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_retrive_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/state_holders/pending_workouts_save_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_info_screen_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
@@ -23,6 +24,7 @@ import 'managers/workout_coords_recording_manager.dart';
 import 'managers/workout_lifecycle_manager.dart';
 import 'managers/workout_list_manager.dart';
 import 'state_holders/pending_workouts_state_holder.dart';
+import 'state_holders/workout_save_state_holder.dart';
 import 'state_holders/workouts_list_state_holder.dart';
 
 class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
@@ -48,6 +50,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
       pendingWorkoutsManager(),
       workoutCoreDepsNode().workoutModificationManagerFactory(),
       _appForegroundServiceDepsNode.appForegroundServiceManager(),
+      workoutSaveStateHolder(),
     ),
   );
 
@@ -57,7 +60,12 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
       workoutDataSource(),
       internetConnectionStateHolder,
       workoutRepository(),
+      pendingWorkoutSaveStateHolder(),
     ),
+  );
+
+  late final pendingWorkoutSaveStateHolder = bind(
+    () => PendingWorkoutsSaveStateHolder(),
   );
 
   late final pendingWorkoutsStateHolder = bind(
@@ -127,6 +135,10 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   late final workoutInfoScreenDepsNode = bindSingletonFactory(
     (DetailedWorkout detailedWorkout) =>
         WorkoutInfoScreenDepsNode(detailedWorkout),
+  );
+
+  late final workoutSaveStateHolder = bind(
+    () => WorkoutSaveStateHolder(),
   );
 
   WorkoutDepsNode(

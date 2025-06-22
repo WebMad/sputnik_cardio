@@ -40,24 +40,24 @@ class AppForegroundServiceManager implements Lifecycle {
   }
 
   Future<void> _requestPermissions() async {
-    // Android 13+, you need to allow notification permission to display foreground service notification.
+    // // Android 13+, you need to allow notification permission to display foreground service notification.
+    // //
+    // // iOS: If you need notification, ask for permission.
+    // final NotificationPermission notificationPermission =
+    //     await FlutterForegroundTask.checkNotificationPermission();
+    // if (notificationPermission != NotificationPermission.granted) {
+    //   await FlutterForegroundTask.requestNotificationPermission();
+    // }
     //
-    // iOS: If you need notification, ask for permission.
-    final NotificationPermission notificationPermission =
-        await FlutterForegroundTask.checkNotificationPermission();
-    if (notificationPermission != NotificationPermission.granted) {
-      await FlutterForegroundTask.requestNotificationPermission();
-    }
-
-    if (Platform.isAndroid) {
-      // Android 12+, there are restrictions on starting a foreground service.
-      //
-      // To restart the service on device reboot or unexpected problem, you need to allow below permission.
-      if (!await FlutterForegroundTask.isIgnoringBatteryOptimizations) {
-        // This function requires `android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` permission.
-        await FlutterForegroundTask.requestIgnoreBatteryOptimization();
-      }
-    }
+    // if (Platform.isAndroid) {
+    //   // Android 12+, there are restrictions on starting a foreground service.
+    //   //
+    //   // To restart the service on device reboot or unexpected problem, you need to allow below permission.
+    //   if (!await FlutterForegroundTask.isIgnoringBatteryOptimizations) {
+    //     // This function requires `android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` permission.
+    //     await FlutterForegroundTask.requestIgnoreBatteryOptimization();
+    //   }
+    // }
   }
 
   void _initService() {

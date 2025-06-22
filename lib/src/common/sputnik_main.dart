@@ -108,7 +108,7 @@ class _SputnikMainState extends State<SputnikMain> {
                                               launchUrl(Uri.parse(
                                                   "mailto:${email.value}"));
                                             },
-                                            title: SpukiText(
+                                            title: const SpukiText(
                                               'Поддержка',
                                             ),
                                           ),

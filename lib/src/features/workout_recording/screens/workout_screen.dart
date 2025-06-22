@@ -3,6 +3,9 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/gentle_perms/models/gentle_perm.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/models/workout_save_state.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/screens/pending_workouts_screen.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_save_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
@@ -120,6 +123,32 @@ class WorkoutScreen extends StatelessWidget {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
+                                    StateHolderBuilder<WorkoutSaveStateHolder,
+                                        WorkoutSaveState>(
+                                      holder: workoutDepsNode
+                                          .workoutSaveStateHolder(),
+                                      builder: (context, state) =>
+                                          state.maybeMap(
+                                        saving: (_) => const Text(
+                                          'Идет сохранение тренировки...',
+                                        ),
+                                        saved: (_) => const Text(
+                                          'Тренировка сохранена',
+                                        ),
+                                        error: (_) => GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).pushNamed(
+                                              PendingWorkoutsScreen.routeName,
+                                            );
+                                          },
+                                          child: const Text(
+                                            'Ошибка при сохранении тренировки.\nНажмите чтобы перейти к списку\nнесохраненный тренировок.',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        orElse: () => const SizedBox.shrink(),
+                                      ),
+                                    ),
                                     const Text('Stopped training'),
                                     const SizedBox(height: 10),
                                     ElevatedButton(

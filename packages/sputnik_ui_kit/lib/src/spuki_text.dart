@@ -6,12 +6,14 @@ class SpukiText extends StatelessWidget {
   final SpukiFontType spukiFontType;
   final SpukiFontData? spukiFontData;
   final TextAlign? textAlign;
+  final Color? color;
 
   const SpukiText(
     this.data, {
     super.key,
     this.textAlign,
     this.spukiFontType = SpukiFontType.regular,
+    this.color,
   }) : spukiFontData = null;
 
   const SpukiText.link(
@@ -19,6 +21,7 @@ class SpukiText extends StatelessWidget {
     super.key,
     this.textAlign,
     this.spukiFontType = SpukiFontType.link,
+    this.color,
   }) : spukiFontData = null;
 
   const SpukiText.custom(
@@ -26,12 +29,14 @@ class SpukiText extends StatelessWidget {
     super.key,
     this.textAlign,
     required this.spukiFontData,
+    this.color,
   }) : spukiFontType = SpukiFontType.custom;
 
   const SpukiText.h1(
     this.data, {
     super.key,
     this.textAlign,
+    this.color,
   })  : spukiFontType = SpukiFontType.h1,
         spukiFontData = null;
 
@@ -39,6 +44,7 @@ class SpukiText extends StatelessWidget {
     this.data, {
     super.key,
     this.textAlign,
+    this.color,
   })  : spukiFontType = SpukiFontType.h2,
         spukiFontData = null;
 
@@ -46,6 +52,7 @@ class SpukiText extends StatelessWidget {
     this.data, {
     super.key,
     this.textAlign,
+    this.color,
   })  : spukiFontType = SpukiFontType.h3,
         spukiFontData = null;
 
@@ -68,7 +75,7 @@ class SpukiText extends StatelessWidget {
       style: TextStyle(
         fontSize: theme.puk(fontStyle.sizePuk),
         fontWeight: fontStyle.fontWeight,
-        color: fontStyle.color,
+        color: color ?? fontStyle.color,
       ),
     );
   }

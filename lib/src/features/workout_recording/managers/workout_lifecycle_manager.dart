@@ -7,6 +7,8 @@ import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/pending_workouts_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_coords_recording_manager.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/models/workout_save_state.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_save_state_holder.dart';
 
 import '../../app_foreground_service/managers/app_foreground_service_manager.dart';
 import '../../workout_track/workout_track_deps_node.dart';
@@ -21,6 +23,7 @@ class WorkoutLifecycleManager implements Lifecycle {
   final PendingWorkoutsManager _pendingWorkoutsManager;
   final WorkoutModificationManagerFactory _workoutModificationManagerFactory;
   final AppForegroundServiceManager _appForegroundServiceManager;
+  final WorkoutSaveStateHolder _workoutSaveStateHolder;
 
   WorkoutModificationManager? __workoutModificationManager;
 
@@ -41,6 +44,7 @@ class WorkoutLifecycleManager implements Lifecycle {
     this._pendingWorkoutsManager,
     this._workoutModificationManagerFactory,
     this._appForegroundServiceManager,
+    this._workoutSaveStateHolder,
   );
 
   @override
@@ -186,12 +190,28 @@ class WorkoutLifecycleManager implements Lifecycle {
 
     await _workoutCoordsRecordingManager.stopRecord();
 
-    _workoutRepository.removeActiveWorkout(_workoutProvider.workout);
-    await _workoutRepository.createWorkout(_workoutProvider.workout);
-    await _pendingWorkoutsManager.updateList();
+    try {
+      _workoutSaveStateHolder.update(const WorkoutSaveState.saving());
+      _workoutRepository.removeActiveWorkout(_workoutProvider.workout);
+      final saved =
+          await _workoutRepository.createWorkout(_workoutProvider.workout);
+      await _pendingWorkoutsManager.updateList();
+
+      if (!saved) {
+        _workoutSaveStateHolder.update(const WorkoutSaveState.error());
+        return;
+      }
+      _workoutSaveStateHolder.update(const WorkoutSaveState.saved());
+    } catch (e, st) {
+      print(e);
+      print(st);
+
+      _workoutSaveStateHolder.update(const WorkoutSaveState.error());
+    }
   }
 
   Future<void> reset() async {
+    _workoutSaveStateHolder.update(const WorkoutSaveState.idle());
     _workoutSub?.cancel();
     _workoutSub = null;
 

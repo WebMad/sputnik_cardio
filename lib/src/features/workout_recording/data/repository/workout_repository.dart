@@ -52,7 +52,7 @@ class WorkoutRepository {
     );
   }
 
-  Future<void> createWorkout(Workout workout) async {
+  Future<bool> createWorkout(Workout workout) async {
     final routeUuids = workout.segments.map((e) => e.routeUuid);
 
     final routes = <WorkoutRoute>[];
@@ -82,7 +82,7 @@ class WorkoutRepository {
         _workoutMetricsStateHolder.state,
       );
 
-      return;
+      return true;
     }
 
     await _workoutLocalDataSource.createPendingWorkout(
@@ -92,5 +92,7 @@ class WorkoutRepository {
         workoutMetrics: _workoutMetricsStateHolder.state,
       ),
     );
+
+    return false;
   }
 }

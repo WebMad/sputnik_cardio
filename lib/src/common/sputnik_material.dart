@@ -8,6 +8,7 @@ import 'package:sputnik_localization/sputnik_localization.dart';
 
 import '../features/auth/auth_deps_node.dart';
 import '../features/auth/auth_view_screen.dart';
+import '../features/workout_recording/screens/pending_workouts_screen.dart';
 import 'sputnik_main.dart';
 
 class SputnikMaterial extends StatefulWidget {
@@ -46,6 +47,10 @@ class _SputnikMaterialState extends State<SputnikMaterial> {
         routes: {
           '/': (context) => const SputnikMain(),
           '/auth': (context) => const AuthViewScreen(),
+          PendingWorkoutsScreen.routeName: (context) => DepsNodeBinder(
+                depsNode: () => appScope.authScopeDepsNode().workoutDepsNode(),
+                child: const PendingWorkoutsScreen(),
+              ),
         },
       ),
     );

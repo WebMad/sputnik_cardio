@@ -10,10 +10,14 @@ import '../workout_info_screen_deps_node.dart';
 
 class WorkoutCard extends StatelessWidget {
   final DetailedWorkout detailedWorkout;
+  final bool isInteractive;
+  final Widget? trailing;
 
   const WorkoutCard({
     super.key,
     required this.detailedWorkout,
+    this.isInteractive = true,
+    this.trailing,
   });
 
   @override
@@ -29,7 +33,7 @@ class WorkoutCard extends StatelessWidget {
     final metrics = detailedWorkout.metrics;
 
     return InkWell(
-      onTap: () => _openWorkoutScreen(context),
+      onTap: isInteractive ? () => _openWorkoutScreen(context) : null,
       child: Column(
         key: ValueKey(workout.uuid),
         children: [
@@ -71,27 +75,28 @@ class WorkoutCard extends StatelessWidget {
                         );
                       },
                     ),
-                    PopupMenuButton<int>(
-                      icon: const Icon(
-                        Icons.more_vert,
-                        size: 30,
-                      ),
-                      initialValue: -1,
-                      onSelected: (int item) {
-                        if (item == 0) {
-                          workoutListManager.removeWorkout(
-                            workout.uuid,
-                          );
-                        }
-                      },
-                      itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<int>>[
-                        const PopupMenuItem<int>(
-                          value: 0,
-                          child: Text('Remove'),
+                    trailing ??
+                        PopupMenuButton<int>(
+                          icon: const Icon(
+                            Icons.more_vert,
+                            size: 30,
+                          ),
+                          initialValue: -1,
+                          onSelected: (int item) {
+                            if (item == 0) {
+                              workoutListManager.removeWorkout(
+                                workout.uuid,
+                              );
+                            }
+                          },
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<int>>[
+                            const PopupMenuItem<int>(
+                              value: 0,
+                              child: Text('Remove'),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
                   ],
                 ),
                 if (metrics != null)
