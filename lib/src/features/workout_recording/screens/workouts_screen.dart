@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_models/pending_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/models/workouts_list_data.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/pending_workouts_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.dart';
 import 'package:sputnik_localization/sputnik_localization.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
+import '../widgets/pending_workouts_card.dart';
 import '../widgets/workout_card.dart';
 import 'pending_workouts_screen.dart';
 
@@ -18,32 +20,53 @@ class WorkoutsScreen extends StatefulWidget {
 }
 
 class _WorkoutsScreenState extends State<WorkoutsScreen> {
+  late WorkoutDepsNode _workoutDepsNode;
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _workoutDepsNode = DepsNodeBinder.of<WorkoutDepsNode>(context);
+    _workoutDepsNode.workoutListManager().load();
+
+    _scrollController = ScrollController();
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    DepsNodeBinder.of<WorkoutDepsNode>(context).workoutListManager().load();
+    _scrollController.addListener(_handleScroll);
+  }
+
+  void _handleScroll() {
+    if (mounted && _scrollController.position.extentAfter < 500) {
+      _workoutDepsNode.workoutListManager().handleAtEdge();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_handleScroll);
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final workoutDepsNode = DepsNodeBinder.of<WorkoutDepsNode>(context);
-
-    final workoutListManager = workoutDepsNode.workoutListManager();
-    final workoutsListStateHolder = workoutDepsNode.workoutsListStateHolder();
-
-    final pendingWorkoutsStateHolder =
-        workoutDepsNode.pendingWorkoutsStateHolder();
+    final workoutListManager = _workoutDepsNode.workoutListManager();
+    final workoutsListStateHolder = _workoutDepsNode.workoutsListStateHolder();
 
     return SpukiScaffold(
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: () => workoutListManager.load(),
-          child: StreamBuilder<List<DetailedWorkout>?>(
+          onRefresh: () => workoutListManager.refresh(),
+          child: StreamBuilder<WorkoutsListData?>(
             initialData: workoutsListStateHolder.state,
             stream: workoutsListStateHolder.stream,
             builder: (context, snapshot) {
-              final workouts = snapshot.data;
+              final workouts = snapshot.data?.dataOrNull?.workouts;
 
               if (workouts == null) {
                 return Center(
@@ -53,42 +76,10 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
 
               return Column(
                 children: [
-                  StateHolderBuilder<PendingWorkoutsStateHolder,
-                      List<PendingWorkout>>(
-                    holder: pendingWorkoutsStateHolder,
-                    builder: (context, state) {
-                      if (state.isEmpty) {
-                        return const SizedBox.shrink();
-                      }
-
-                      return GestureDetector(
-                        onTap: () => Navigator.of(context).pushNamed(
-                          PendingWorkoutsScreen.routeName,
-                        ),
-                        child: ColoredBox(
-                          color: Colors.grey,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SpukiText(
-                                  'Pending workouts: ${state.length}',
-                                  color: Colors.black,
-                                ),
-                                const Icon(
-                                  Icons.chevron_right,
-                                  color: Colors.black,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                  const PendingWorkoutsCard(),
                   Expanded(
                     child: ListView.builder(
+                      controller: _scrollController,
                       itemCount: workouts.length,
                       itemBuilder: (context, index) => WorkoutCard(
                         detailedWorkout: workouts[index],

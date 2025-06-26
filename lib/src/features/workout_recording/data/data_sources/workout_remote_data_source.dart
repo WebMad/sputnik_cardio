@@ -20,7 +20,10 @@ class WorkoutRemoteDataSource {
     this._authController,
   );
 
-  Future<List<DetailedWorkout>> list() async {
+  Future<List<DetailedWorkout>> list({
+    required int offset,
+    required int limit,
+  }) async {
     final workouts = await _supabaseClient.from('workouts').select('''
           *,
           workout_segments (
@@ -32,7 +35,7 @@ class WorkoutRemoteDataSource {
           workout_metrics (
             *
           )
-        ''').order('created_at');
+        ''').order('created_at').range(offset, offset + limit);
 
     final Map<String, List<ExtendedPos>> routesMap = {};
 
