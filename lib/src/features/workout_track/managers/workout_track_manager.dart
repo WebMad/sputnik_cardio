@@ -1,5 +1,3 @@
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
-import 'package:sputnik_cardio/src/features/workout_track/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_track/providers/workout_track_provider.dart';
 import 'package:sputnik_cardio/src/features/workout_track/repositories/workout_track_repository.dart';
 

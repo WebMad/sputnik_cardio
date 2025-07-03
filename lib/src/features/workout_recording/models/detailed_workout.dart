@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/workout_metrics/models/done_workout_metrics.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 import '../../workout_metrics/models/workout_metrics.dart';
 

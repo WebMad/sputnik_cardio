@@ -1169,7 +1169,7 @@ packages:
     source: path
     version: "0.0.1"
   sputnik_di:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: "../sputnik_di/packages/sputnik_di"
       relative: true
@@ -1182,6 +1182,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  sputnik_location:
+    dependency: "direct main"
+    description:
+      path: "packages/sputnik_location"
+      relative: true
+    source: path
+    version: "1.0.0"
   sputnik_ui_kit:
     dependency: "direct main"
     description:
@@ -1189,6 +1196,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  sputnik_workout_core:
+    dependency: "direct main"
+    description:
+      path: "packages/sputnik_workout_core"
+      relative: true
+    source: path
+    version: "1.0.0"
   sqflite:
     dependency: transitive
     description:
@@ -1470,5 +1484,5 @@ packages:
     source: hosted
     version: "2.0.3"
 sdks:
-  dart: ">=3.7.0 <4.0.0"
+  dart: ">=3.7.2 <4.0.0"
   flutter: ">=3.27.0"

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/pos.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 import '../state_holders/map_center_state_holder.dart';
 
@@ -15,7 +15,7 @@ class MapsCenteringManager implements Lifecycle {
   final LocationManager _locationManager;
   final MapCenterStateHolder _mapCenterStateHolder;
 
-  StreamController<Pos>? _centerPosController;
+  StreamController<ExtendedPos>? _centerPosController;
   Timer? _timer;
 
   CenterPositionStrategy _centerPositionStrategy =

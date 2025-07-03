@@ -4,10 +4,7 @@ import 'package:sputnik_cardio/src/features/app_foreground_service/state_holders
 import 'package:sputnik_cardio/src/features/tracking/managers/foreground_service_location_manager.dart';
 import 'package:sputnik_cardio/src/features/tracking/managers/geolocator_location_manager.dart';
 import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
-
-import '../models/location_service_state.dart';
-import '../state_holders/location_service_state_holder.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 class CombinedLocationManager implements LocationManager {
   final GeolocatorLocationManager _geolocatorLocationManager;

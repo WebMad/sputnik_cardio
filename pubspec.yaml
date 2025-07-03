@@ -43,6 +43,10 @@ dependencies:
     path: packages/sputnik_ui_kit
   sputnik_localization:
     path: packages/sputnik_localization
+  sputnik_location:
+    path: packages/sputnik_location
+  sputnik_workout_core:
+    path: packages/sputnik_workout_core
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
   geolocator: ^14.0.1
@@ -66,6 +70,7 @@ dependencies:
   flutter_foreground_task: ^9.1.0
   permission_handler: ^12.0.0+1
   location: ^8.0.0
+  sputnik_di: ^0.2.3
 
 dependency_overrides:
   sputnik_di:
@@ -74,8 +79,8 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-#  sputnik_di_graph_visualizer:
-#    path: ../sputnik_di/packages/sputnik_di_graph_visualizer
+  #  sputnik_di_graph_visualizer:
+  #    path: ../sputnik_di/packages/sputnik_di_graph_visualizer
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

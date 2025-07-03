@@ -2,11 +2,10 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
 import 'package:sputnik_cardio/src/features/app_foreground_service/di/app_foreground_service_deps_node.dart';
-import 'package:sputnik_cardio/src/features/auth/auth_deps_node.dart';
 import 'package:sputnik_cardio/src/features/auth/auth_scope_deps_node.dart';
 import 'package:sputnik_cardio/src/features/internet_connection_checker/state_holder/internet_connection_state_holder.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
-import 'package:sputnik_cardio/src/features/workout_core/workout_core_deps_node.dart';
+import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/workout_metrics/workout_metrics_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/workout_local_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/data/repository/workout_repository.dart';
@@ -34,7 +33,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   final AppForegroundServiceDepsNode _appForegroundServiceDepsNode;
 
   late final workoutCoreDepsNode = bind(
-    () => WorkoutCoreDepsNode(),
+    () => SputnikWorkoutCoreController(),
   );
 
   late final _persistentWorkoutStateHolder = bind(
@@ -48,7 +47,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
       workoutTrackDepsNode,
       workoutRepository(),
       pendingWorkoutsManager(),
-      workoutCoreDepsNode().workoutModificationManagerFactory(),
+      workoutCoreDepsNode().workoutModificationManagerFactory,
       _appForegroundServiceDepsNode.appForegroundServiceManager(),
       workoutSaveStateHolder(),
     ),

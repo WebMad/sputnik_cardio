@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sputnik_cardio/src/features/app_foreground_service/models/foreground_task_input.dart';
 import 'package:sputnik_cardio/src/features/app_foreground_service/models/foreground_task_output.dart';
 import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 import '../../app_foreground_service/managers/foreground_execute_manager.dart';
 import '../../app_foreground_service/state_holders/foreground_service_output_state_holder.dart';

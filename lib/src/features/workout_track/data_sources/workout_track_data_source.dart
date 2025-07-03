@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 class WorkoutTrackDataSource {
   static const _trackListKey = 'workout_recording_tracks';

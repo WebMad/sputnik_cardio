@@ -8,9 +8,9 @@ import 'package:sputnik_cardio/src/features/app_foreground_service/state_holders
 import 'package:sputnik_cardio/src/features/gentle_perms/state_holders/actual_perms_state_holder.dart';
 import 'package:sputnik_cardio/src/features/tracking/models/location_service_state.dart';
 import 'package:sputnik_cardio/src/features/tracking/state_holders/location_service_state_holder.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 import '../../app_foreground_service/models/foreground_service_status.dart';
-import '../models/extended_pos.dart';
 import 'location_manager.dart';
 
 class GeolocatorLocationManager implements LocationManager {

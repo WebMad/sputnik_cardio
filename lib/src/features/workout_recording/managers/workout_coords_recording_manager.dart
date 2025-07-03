@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
-
-import '../../tracking/models/pos.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 class WorkoutCoordsRecordingManager implements Lifecycle {
   final LocationManager _locationManager;
@@ -16,7 +14,7 @@ class WorkoutCoordsRecordingManager implements Lifecycle {
 
   bool isPaused = false;
 
-  StreamSubscription<Pos>? _locationSub;
+  StreamSubscription<ExtendedPos>? _locationSub;
 
   WorkoutCoordsRecordingManager(
     this._locationManager,

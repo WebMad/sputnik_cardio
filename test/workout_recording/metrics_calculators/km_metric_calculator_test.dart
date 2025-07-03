@@ -2,12 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sputnik_cardio/src/common/managers/shared_prefs_manager.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
-import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
-import 'package:sputnik_cardio/src/features/workout_core/models/workout_segment.dart';
 import 'package:sputnik_cardio/src/features/workout_metrics/calculators/km_metric_calculator.dart';
 import 'package:sputnik_cardio/src/features/workout_track/repositories/workout_track_repository.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
+import 'package:sputnik_location/sputnik_location.dart';
+import 'package:sputnik_workout_core/sputnik_workout_core.dart';
 
 class MockWorkoutTrackRepository extends Mock
     implements WorkoutTrackRepository {}

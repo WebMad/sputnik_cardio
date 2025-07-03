@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
-import '../../tracking/models/extended_pos.dart';
 
 part 'foreground_task_output.freezed.dart';
 

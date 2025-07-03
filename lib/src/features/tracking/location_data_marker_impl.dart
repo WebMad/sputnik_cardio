@@ -1,6 +1,5 @@
 import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/pos.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 import '../maps/widgets/current_location_layer.dart';
 

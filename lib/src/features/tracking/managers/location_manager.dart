@@ -1,6 +1,4 @@
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
-
-import '../models/pos.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 abstract class LocationManager {
   static get moscowPosition => ExtendedPos(

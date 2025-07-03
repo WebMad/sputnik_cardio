@@ -1,8 +1,6 @@
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
-import '../../maps/providers/track_provider.dart';
-import '../../tracking/models/extended_pos.dart';
-import '../../workout_track/providers/workout_track_provider.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 class KmMetricCalculator {
   final WorkoutTrackDepsNode _workoutTrackDepsNode;

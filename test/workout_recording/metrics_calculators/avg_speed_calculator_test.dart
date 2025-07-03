@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sputnik_cardio/src/features/workout_core/models/workout.dart';
-import 'package:sputnik_cardio/src/features/workout_core/models/workout_segment.dart';
 import 'package:sputnik_cardio/src/features/workout_metrics/calculators/avg_speed_calculator.dart';
+import 'package:sputnik_workout_core/sputnik_workout_core.dart';
 
 void main() {
   late AvgSpeedCalculator avgSpeedCalculator;

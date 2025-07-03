@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:sputnik_cardio/src/features/maps/providers/track_provider.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/pos.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
 class TrackLayer extends StatefulWidget {
@@ -24,7 +24,7 @@ class _TrackLayerState extends State<TrackLayer> {
   Widget build(BuildContext context) {
     final theme = SpukiTheme.of(context);
 
-    return StreamBuilder<Pos>(
+    return StreamBuilder<ExtendedPos>(
       stream: widget.trackProvider.trackStream,
       builder: (context, snapshot) {
         return PolylineLayer(

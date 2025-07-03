@@ -4,9 +4,8 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:sputnik_cardio/src/features/maps/widgets/track_layer.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/pos.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_info_screen_deps_node.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 
 class WorkoutInfoScreen extends StatefulWidget {

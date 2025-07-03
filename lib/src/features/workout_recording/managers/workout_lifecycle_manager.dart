@@ -2,13 +2,12 @@ import 'dart:async';
 
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sputnik_cardio/src/features/app_foreground_service/di/app_foreground_service_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/pending_workouts_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_coords_recording_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/workout_save_state.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_save_state_holder.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 import '../../app_foreground_service/managers/app_foreground_service_manager.dart';
 import '../../workout_track/workout_track_deps_node.dart';

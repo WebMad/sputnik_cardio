@@ -1,14 +1,11 @@
-import 'dart:convert';
 
 import 'package:sputnik_auth/sputnik_auth.dart';
 import 'package:sputnik_cardio/src/features/workout_metrics/models/done_workout_metrics.dart';
-import 'package:sputnik_cardio/src/features/workout_metrics/models/workout_metrics.dart';
-import 'package:sputnik_cardio/src/features/workout_recording/data/data_models/pending_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_core/workout_core.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../tracking/models/extended_pos.dart';
 import '../../../workout_metrics/models/remote_workout_metrics.dart';
 
 class WorkoutRemoteDataSource {

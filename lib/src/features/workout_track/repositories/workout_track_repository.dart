@@ -1,6 +1,6 @@
 import 'package:sputnik_cardio/src/features/workout_track/data_sources/workout_track_data_source.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
-import '../../tracking/models/extended_pos.dart';
 import '../providers/workout_track_provider.dart';
 
 class WorkoutTrackRepository {

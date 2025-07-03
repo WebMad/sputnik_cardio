@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
-import 'package:sputnik_cardio/src/features/tracking/managers/location_manager.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/pos.dart';
 import 'package:sputnik_cardio/src/features/tracking/tracking_deps_node.dart';
-
-import '../../tracking/models/extended_pos.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 class CurrentLocationLayer extends StatelessWidget {
   final double size;
@@ -24,7 +21,7 @@ class CurrentLocationLayer extends StatelessWidget {
     final locationDataMarker =
         context.depsNode<LocationDepsNode>().locationDataMarker();
 
-    return StreamBuilder<Pos>(
+    return StreamBuilder<ExtendedPos>(
       initialData: locationDataMarker.location,
       stream: locationDataMarker.locationStream,
       builder: (context, snapshot) {

@@ -1,14 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/extended_pos.dart';
-import 'package:sputnik_cardio/src/features/tracking/models/pos.dart';
+import 'package:sputnik_location/sputnik_location.dart';
 
 import '../../maps/providers/track_provider.dart';
 
-class WorkoutTrackProvider extends ChangeNotifier
-    implements TrackProvider {
+class WorkoutTrackProvider extends ChangeNotifier implements TrackProvider {
   final _track = <ExtendedPos>[];
   final _controller = StreamController<ExtendedPos>.broadcast();
 
