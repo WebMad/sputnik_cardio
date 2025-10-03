@@ -11,7 +11,7 @@ import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 import '../widgets/pending_workouts_card.dart';
 import '../widgets/workout_card.dart';
 import 'pending_workouts_screen.dart';
-import 'workout_screen.dart';
+
 
 class WorkoutsScreen extends StatefulWidget {
   const WorkoutsScreen({super.key});
