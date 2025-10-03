@@ -18,5 +18,6 @@
   "logout": "Logout",
   "recordTrain": "Tracking",
   "workouts": "Workouts",
-  "workoutListLoading": "Workout list loading..."
+  "workoutListLoading": "Workout list loading...",
+  "noWorkouts": "You have no recorded workouts"
 }
