@@ -11,6 +11,7 @@ import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 import '../widgets/pending_workouts_card.dart';
 import '../widgets/workout_card.dart';
 import 'pending_workouts_screen.dart';
+import 'workout_screen.dart';
 
 class WorkoutsScreen extends StatefulWidget {
   const WorkoutsScreen({super.key});
@@ -22,6 +23,11 @@ class WorkoutsScreen extends StatefulWidget {
 class _WorkoutsScreenState extends State<WorkoutsScreen> {
   late WorkoutDepsNode _workoutDepsNode;
   late final ScrollController _scrollController;
+
+  void _startNewWorkout() {
+    final tabController = DefaultTabController.of(context);
+    tabController.animateTo(0);
+  }
 
   @override
   void initState() {
@@ -36,7 +42,6 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     _scrollController.addListener(_handleScroll);
   }
 
@@ -71,6 +76,41 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
               if (workouts == null) {
                 return Center(
                   child: SpukiText(context.tr.workoutListLoading),
+                );
+              }
+              if (workouts.isEmpty) { //create kate
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        context.tr.noWorkouts,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      ElevatedButton(
+                          onPressed:_startNewWorkout,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.purple[80], // светло-фиолетовый
+                            foregroundColor: Colors.black,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 32,
+                              vertical: 16,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 4,
+                          ),
+                          child: Text(
+                            context.tr.recordTrain,
+                          ),
+                      ),
+                    ],
+                  ),
                 );
               }
 
