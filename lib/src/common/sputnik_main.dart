@@ -173,21 +173,23 @@ class _SputnikMainState extends State<SputnikMain> {
                           ],
                         ),
                       ),
-                      TabBar(
-                        tabs: [
-                          Tab(
-                            icon: const Icon(Icons.fiber_manual_record),
-                            text: context.tr.recordTrain,
-                          ),
-                          Tab(
-                            icon: const Icon(Icons.run_circle_outlined),
-                            text: context.tr.workouts,
-                          ),
-                          Tab(
-                            icon: const Icon(Icons.person),
-                            text: context.tr.profile,
-                          ),
-                        ],
+                      SafeArea(
+                        child: TabBar(
+                          tabs: [
+                            Tab(
+                              icon: const Icon(Icons.fiber_manual_record),
+                              text: context.tr.recordTrain,
+                            ),
+                            Tab(
+                              icon: const Icon(Icons.run_circle_outlined),
+                              text: context.tr.workouts,
+                            ),
+                            Tab(
+                              icon: const Icon(Icons.person),
+                              text: context.tr.profile,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   );
