@@ -12,9 +12,12 @@ import 'package:sputnik_location/sputnik_location.dart';
 import '../../app_foreground_service/managers/app_foreground_service_manager.dart';
 import '../../workout_track/workout_track_deps_node.dart';
 import '../data/repository/workout_repository.dart';
+import '../models/workouts_list_data.dart';
 import '../state_holders/workout_state_holder.dart';
+import '../state_holders/workouts_list_state_holder.dart';
 
 class WorkoutLifecycleManager implements Lifecycle {
+  final WorkoutsListStateHolder _workoutsListStateHolder;
   final PersistentWorkoutStateHolder _persistentWorkoutStateHolder;
   final WorkoutCoordsRecordingManager _workoutCoordsRecordingManager;
   final WorkoutTrackDepsNode _workoutTrackDepsNode;
@@ -36,6 +39,7 @@ class WorkoutLifecycleManager implements Lifecycle {
   StreamSubscription<Workout>? _workoutSub;
 
   WorkoutLifecycleManager(
+      this._workoutsListStateHolder,
     this._persistentWorkoutStateHolder,
     this._workoutCoordsRecordingManager,
     this._workoutTrackDepsNode,
@@ -201,6 +205,7 @@ class WorkoutLifecycleManager implements Lifecycle {
         return;
       }
       _workoutSaveStateHolder.update(const WorkoutSaveState.saved());
+      _workoutsListStateHolder.update(const WorkoutsListData.loading());
     } catch (e, st) {
       print(e);
       print(st);
