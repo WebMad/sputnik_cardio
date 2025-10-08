@@ -42,6 +42,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
 
   late final workoutLifecycleManager = bind(
     () => WorkoutLifecycleManager(
+      workoutsListStateHolder(),
       persistentWorkoutStateHolder,
       _workoutCoordsRecordingManager(),
       workoutTrackDepsNode,
