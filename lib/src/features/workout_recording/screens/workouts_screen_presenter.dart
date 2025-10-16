@@ -16,25 +16,38 @@ class WorkoutsScreenPresenter extends StateHolder<WorkoutsScreenState> {
           status: WorkoutsScreenStatus.loading,
         ),
       ) {
-    _init();
+    //_init();//надо исправить, я что-то поломала
   }
 
   final WorkoutDepsNode _depsNode;
   StreamSubscription<WorkoutsListData?>? _workoutsSubscription;
 
-  void _init() {
+  void initialize() {
+    _workoutsSubscription = _depsNode
+        .workoutsListStateHolder()
+        .asStream
+        .listen(_handleWorkoutsDataUpdate);
+
+    loadWorkouts();
+  }
+
+  /*void _init() {
     // Подписываемся на изменения списка тренировок
     _workoutsSubscription = _depsNode
         .workoutsListStateHolder()
-        .stream
+        .asStream
         .listen(_handleWorkoutsDataUpdate);
 
     // Загружаем начальные данные
     loadWorkouts();
-  }
+  }*/
 
   void _handleWorkoutsDataUpdate(WorkoutsListData? data) {
-    if (data == null) return;
+    print('🔄 WorkoutsScreenPresenter: Data received - ${data?.runtimeType}');
+    if (data == null) {
+      print('❌ WorkoutsScreenPresenter: Data is NULL');
+      return;
+    }
 
     data.map(
       loading: (_) {
@@ -47,6 +60,7 @@ class WorkoutsScreenPresenter extends StateHolder<WorkoutsScreenState> {
         }
       },
       data: (dataState) {
+        print('✅ WorkoutsScreenPresenter: Data state, workouts count: ${dataState.workouts.length}');
         state = state.copyWith(
           workouts: dataState.workouts,
           status: WorkoutsScreenStatus.loaded,
