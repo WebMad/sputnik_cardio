@@ -12,9 +12,14 @@ import 'package:sputnik_location/sputnik_location.dart';
 import '../../app_foreground_service/managers/app_foreground_service_manager.dart';
 import '../../workout_track/workout_track_deps_node.dart';
 import '../data/repository/workout_repository.dart';
+import '../models/workouts_list_data.dart';
 import '../state_holders/workout_state_holder.dart';
+import '../state_holders/workouts_list_state_holder.dart';
+import '../managers/workout_list_manager.dart';
 
 class WorkoutLifecycleManager implements Lifecycle {
+  final WorkoutsListStateHolder _workoutsListStateHolder;
+  final WorkoutListManager _workoutListManager;
   final PersistentWorkoutStateHolder _persistentWorkoutStateHolder;
   final WorkoutCoordsRecordingManager _workoutCoordsRecordingManager;
   final WorkoutTrackDepsNode _workoutTrackDepsNode;
@@ -36,7 +41,9 @@ class WorkoutLifecycleManager implements Lifecycle {
   StreamSubscription<Workout>? _workoutSub;
 
   WorkoutLifecycleManager(
-    this._persistentWorkoutStateHolder,
+      this._workoutsListStateHolder,
+      this._workoutListManager,
+      this._persistentWorkoutStateHolder,
     this._workoutCoordsRecordingManager,
     this._workoutTrackDepsNode,
     this._workoutRepository,
@@ -195,6 +202,7 @@ class WorkoutLifecycleManager implements Lifecycle {
       final saved =
           await _workoutRepository.createWorkout(_workoutProvider.workout);
       await _pendingWorkoutsManager.updateList();
+      await _workoutListManager.refresh();
 
       if (!saved) {
         _workoutSaveStateHolder.update(const WorkoutSaveState.error());
