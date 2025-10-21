@@ -25,26 +25,7 @@ class WorkoutsContent extends StatelessWidget {
   Widget build(BuildContext context) {
     print('🔄 WorkoutsContent: building with ${state.workouts.length} workouts');
     print('🎯 WorkoutsContent: status = ${state.status}');
-    if (state.isLoaded && state.showErrorBanner) {
-      print('📢 WorkoutsContent: showing error banner');
-      return Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: WorkoutsScreenErrorBanner(
-              errorMessage: state.errorMessage ?? 'Неизвестная ошибка',
-              onRetry: presenter.retryOnError,
-            ),
-          ),
-          Expanded(child: WorkoutsList(state: state, scrollController: scrollController)),
-        ],
-      );
-    }
 
-    if (state.isLoading && !state.hasData) {
-      print('📢 WorkoutsContent: showing loading state');
-      return const WorkoutsLoadingState();
-    }
 
     if (state.isError) {
       print('📢 WorkoutsContent: showing error state');
@@ -54,10 +35,34 @@ class WorkoutsContent extends StatelessWidget {
       );
     }
 
+
+    if (state.isLoading && !state.hasData) {
+      print('📢 WorkoutsContent: showing loading state');
+      return const WorkoutsLoadingState();
+    }
+
     if (state.isLoaded && !state.hasData) {
       print('📢 WorkoutsContent: showing empty state');
       return WorkoutsEmptyState(onStartNewWorkout: onStartNewWorkout);
     }
+
+    if (state.showErrorBanner) {
+      print('📢 WorkoutsContent: showing error banner over content');
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: WorkoutsScreenErrorBanner(
+              errorMessage: state.errorMessage ?? 'Неизвестная ошибка',
+              onRetry: presenter.retryOnError,
+            ),
+          ),
+          Expanded(child: WorkoutsList(
+              state: state, scrollController: scrollController)),
+        ],
+      );
+    }
+
     print('📢 WorkoutsContent: showing workouts list');
     return WorkoutsList(state: state, scrollController: scrollController);
   }

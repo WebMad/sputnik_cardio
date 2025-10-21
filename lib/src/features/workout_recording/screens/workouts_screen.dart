@@ -15,7 +15,7 @@ class WorkoutsScreen extends StatefulWidget {
 }
 
 class _WorkoutsScreenState extends State<WorkoutsScreen> {
-  WorkoutsScreenPresenter? _presenter;
+  late WorkoutsScreenPresenter _presenter;
   late final ScrollController _scrollController;
 
   void _startNewWorkout() {
@@ -32,23 +32,19 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_presenter == null) {
-      final depsNode = DepsNodeBinder.of<WorkoutDepsNode>(
-          context); //связывает узел зависимостей типа узел зависимостей тренировок с контекстом
-      _presenter = depsNode.workoutsScreenPresenter();
-    }
+    _presenter = DepsNodeBinder.of<WorkoutDepsNode>(context).workoutsScreenPresenter();
     _scrollController.addListener(_handleScroll);
   }
 
   void _handleScroll() {
     if (mounted && _scrollController.position.extentAfter < 500) {
-      _presenter?.handleScrollEnd();
+      _presenter.handleScrollEnd();
     }
   }
 
   @override
   void dispose() {
-    _presenter?.dispose();
+    _presenter.dispose();
     _scrollController.removeListener(_handleScroll);
     _scrollController.dispose();
     super.dispose();
@@ -56,21 +52,18 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_presenter == null) {
-      return const CircularProgressIndicator();
-    }
     return SpukiScaffold(
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: () => _presenter!.refreshWorkouts(),
+          onRefresh: () => _presenter.refreshWorkouts(),
           child: StreamBuilder<WorkoutsScreenState>(
-            initialData: _presenter!.state,
-            stream: _presenter!.stream,
+            initialData: _presenter.state,
+            stream: _presenter.stream,
             builder: (context, snapshot) {
               print('🔄 StreamBuilder: rebuilding, hasData: ${snapshot.hasData}');
               final state = snapshot.data!;
               return WorkoutsContent(
-                presenter: _presenter!,
+                presenter: _presenter,
                 state: state,
                 onStartNewWorkout: _startNewWorkout,
                 scrollController: _scrollController,

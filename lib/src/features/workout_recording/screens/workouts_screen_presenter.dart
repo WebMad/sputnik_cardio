@@ -9,15 +9,14 @@ import 'workouts_screen_state.dart';
 class WorkoutsScreenPresenter extends StateHolder<WorkoutsScreenState> {
   WorkoutsScreenPresenter({
     required WorkoutDepsNode depsNode,
-  }) : _depsNode = depsNode,
+  })
+      : _depsNode = depsNode,
         super(
         const WorkoutsScreenState(
           workouts: const [],
           status: WorkoutsScreenStatus.loading,
         ),
-      ) {
-    //_init();//надо исправить, я что-то поломала
-  }
+      );
 
   final WorkoutDepsNode _depsNode;
   StreamSubscription<WorkoutsListData?>? _workoutsSubscription;
@@ -30,17 +29,6 @@ class WorkoutsScreenPresenter extends StateHolder<WorkoutsScreenState> {
 
     loadWorkouts();
   }
-
-  /*void _init() {
-    // Подписываемся на изменения списка тренировок
-    _workoutsSubscription = _depsNode
-        .workoutsListStateHolder()
-        .asStream
-        .listen(_handleWorkoutsDataUpdate);
-
-    // Загружаем начальные данные
-    loadWorkouts();
-  }*/
 
   void _handleWorkoutsDataUpdate(WorkoutsListData? data) {
     print('🔄 WorkoutsScreenPresenter: Data received - ${data?.runtimeType}');
