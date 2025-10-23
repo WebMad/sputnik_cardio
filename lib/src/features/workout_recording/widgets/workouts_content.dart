@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../screens/workouts_screen_presenter.dart';
-import '../screens/workouts_screen_state.dart';
+import '../models/workouts_screen_state.dart';
 import 'workouts_screen_error_banner.dart';
 import 'workouts_loading_state.dart';
 import 'workouts_error_state.dart';
@@ -23,31 +23,23 @@ class WorkoutsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('🔄 WorkoutsContent: building with ${state.workouts.length} workouts');
-    print('🎯 WorkoutsContent: status = ${state.status}');
-
-
     if (state.isError) {
-      print('📢 WorkoutsContent: showing error state');
+
       return WorkoutsErrorState(
         errorMessage: state.errorMessage,
         onRetry: presenter.retryOnError,
       );
     }
 
-
     if (state.isLoading && !state.hasData) {
-      print('📢 WorkoutsContent: showing loading state');
       return const WorkoutsLoadingState();
     }
 
     if (state.isLoaded && !state.hasData) {
-      print('📢 WorkoutsContent: showing empty state');
       return WorkoutsEmptyState(onStartNewWorkout: onStartNewWorkout);
     }
 
     if (state.showErrorBanner) {
-      print('📢 WorkoutsContent: showing error banner over content');
       return Column(
         children: [
           Padding(
@@ -63,7 +55,6 @@ class WorkoutsContent extends StatelessWidget {
       );
     }
 
-    print('📢 WorkoutsContent: showing workouts list');
     return WorkoutsList(state: state, scrollController: scrollController);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/workouts_screen_state.dart';
+import '../models/workouts_screen_state.dart';
 import '../widgets/pending_workouts_card.dart';
 import '../widgets/workout_card.dart';
 

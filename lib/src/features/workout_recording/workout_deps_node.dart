@@ -42,11 +42,10 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   );
 
   late final workoutsScreenPresenter = bind(
-        () {
-      final presenter = WorkoutsScreenPresenter(depsNode: this);
-      presenter.initialize();
-      return presenter;
-    },
+        () => WorkoutsScreenPresenter(
+      workoutsListStateHolder(),
+      workoutListManager(),
+    ),
   );
 
   late final workoutLifecycleManager = bind(
@@ -191,6 +190,9 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
           _workoutCoordsRecordingManager,
           pendingWorkoutsManager,
           workoutLifecycleManager,
+        },
+        {
+          workoutsScreenPresenter,
         },
         {
           workoutRetriveManager,

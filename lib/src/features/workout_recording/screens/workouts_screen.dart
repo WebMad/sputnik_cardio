@@ -4,7 +4,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.
 import 'package:sputnik_localization/sputnik_localization.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 import 'workouts_screen_presenter.dart';
-import 'workouts_screen_state.dart';
+import '../models/workouts_screen_state.dart';
 import '../widgets/workouts_content.dart';
 
 class WorkoutsScreen extends StatefulWidget {
@@ -44,7 +44,6 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
 
   @override
   void dispose() {
-    _presenter.dispose();
     _scrollController.removeListener(_handleScroll);
     _scrollController.dispose();
     super.dispose();
@@ -60,7 +59,6 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
             initialData: _presenter.state,
             stream: _presenter.stream,
             builder: (context, snapshot) {
-              print('🔄 StreamBuilder: rebuilding, hasData: ${snapshot.hasData}');
               final state = snapshot.data!;
               return WorkoutsContent(
                 presenter: _presenter,
