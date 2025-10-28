@@ -1,4 +1,8 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for Russian (`ru`).
 class AppLocalizationsRu extends AppLocalizations {
@@ -20,7 +24,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get invalidEmail => 'Неправильный формат электронной почты';
 
   @override
-  String get invalidPassword => 'Пароль должен содержать не менее 6 и не более 64 символов';
+  String get invalidPassword =>
+      'Пароль должен содержать не менее 6 и не более 64 символов';
 
   @override
   String get passwordDontMatch => 'Пароли не совпадают';
@@ -32,7 +37,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get unknownSignInError => 'Неизвестная ошибка при входе в аккаунт';
 
   @override
-  String get unknownAuthState => 'Упс, кажется произошла ошибка. Вас тут быть не должно';
+  String get unknownAuthState =>
+      'Упс, кажется произошла ошибка. Вас тут быть не должно';
 
   @override
   String get notAuthorizedOnProfile => 'Вы не зарегистрированы';
@@ -53,5 +59,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get workouts => 'Тренировки';
 
   @override
-  String get workoutListLoading => 'Загрузка списка тренировок';
+  String get workoutListLoading => 'Загрузка списка тренировок...';
+
+  @override
+  String get noWorkouts => 'У вас нет записанных тренировок';
+
+  @override
+  String get workoutListError => 'Ошибка загрузки тренировок';
+
+  @override
+  String get retry => 'Повторить';
 }

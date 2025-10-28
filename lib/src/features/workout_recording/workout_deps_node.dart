@@ -25,6 +25,7 @@ import 'managers/workout_list_manager.dart';
 import 'state_holders/pending_workouts_state_holder.dart';
 import 'state_holders/workout_save_state_holder.dart';
 import 'state_holders/workouts_list_state_holder.dart';
+import 'screens/workouts_screen_presenter.dart';
 
 class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   final AuthScopeDepsNode parent;
@@ -40,8 +41,17 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
     () => PersistentWorkoutStateHolder(),
   );
 
+  late final workoutsScreenPresenter = bind(
+        () => WorkoutsScreenPresenter(
+      workoutsListStateHolder(),
+      workoutListManager(),
+    ),
+  );
+
   late final workoutLifecycleManager = bind(
     () => WorkoutLifecycleManager(
+      workoutsListStateHolder(),
+      workoutListManager(),
       persistentWorkoutStateHolder,
       _workoutCoordsRecordingManager(),
       workoutTrackDepsNode,
@@ -179,6 +189,10 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
           workoutMetricsDepsNode,
           _workoutCoordsRecordingManager,
           pendingWorkoutsManager,
+          workoutLifecycleManager,
+        },
+        {
+          workoutsScreenPresenter,
         },
         {
           workoutRetriveManager,
