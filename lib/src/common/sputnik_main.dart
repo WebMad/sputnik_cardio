@@ -8,7 +8,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/screens/workout_sc
 import 'package:sputnik_localization/sputnik_localization.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:sputnik_cardio/src/features/workout_recording/screens/progress_screen.dart';
 import '../features/workout_recording/screens/workouts_screen.dart';
 
 class SputnikMain extends StatefulWidget {
@@ -50,7 +50,7 @@ class _SputnikMainState extends State<SputnikMain> {
               ),
             ],
             child: DefaultTabController(
-              length: 3,
+              length: 4,
               child: DepsNodeBuilder(
                 depsNode: workoutDepsNode,
                 initialized: (context, workoutDepsNode) {
@@ -61,6 +61,7 @@ class _SputnikMainState extends State<SputnikMain> {
                           children: [
                             const WorkoutScreen(),
                             const WorkoutsScreen(),
+                            const ProgressScreen(),
                             ProfileScreen(
                               authController: authController,
                               authorizedBuilder: (context, state) {
@@ -174,6 +175,7 @@ class _SputnikMainState extends State<SputnikMain> {
                         ),
                       ),
                       SafeArea(
+                        top: false,
                         child: TabBar(
                           tabs: [
                             Tab(
@@ -183,6 +185,10 @@ class _SputnikMainState extends State<SputnikMain> {
                             Tab(
                               icon: const Icon(Icons.run_circle_outlined),
                               text: context.tr.workouts,
+                            ),
+                            Tab(
+                              icon: const Icon(Icons.show_chart),
+                              text: context.tr.progress,
                             ),
                             Tab(
                               icon: const Icon(Icons.person),
