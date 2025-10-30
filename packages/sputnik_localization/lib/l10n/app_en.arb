@@ -21,5 +21,15 @@
   "workoutListLoading": "Workout list loading...",
   "noWorkouts": "You have no recorded workouts",
   "workoutListError": "Error loading workouts",
-  "retry": "Retry"
+  "retry": "Retry",
+  "progress": "Progress",
+  "noWorkoutsThisWeek": "No workouts this week",
+  "mon":"Mon",
+  "tue":"Tue",
+  "wed":"Wed",
+  "thu":"Thu",
+  "fri":"Fri",
+  "sat":"Sat",
+  "sun":"Sun",
+  "distancePastWeek":"Distance (km) - Past Week"
 }
