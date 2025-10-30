@@ -18,14 +18,22 @@ class _ProgressScreenState extends State<ProgressScreen> {
   List<DetailedWorkout> _lastWeekWorkouts = [];
   late WorkoutListManager _workoutListManager;
   late WorkoutsListStateHolder _workoutsListStateHolder;
+  bool _dependenciesInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    _initializeDependencies();
-    _loadWorkouts();
   }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
+    if (!_dependenciesInitialized) {
+      _initializeDependencies();
+      _loadWorkouts();
+      _dependenciesInitialized = true;
+    }
+  }
   void _initializeDependencies() {
     final workoutDepsNode = DepsNodeBinder.of<WorkoutDepsNode>(context);
     _workoutListManager = workoutDepsNode.workoutListManager();
