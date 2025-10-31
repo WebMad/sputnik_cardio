@@ -12,6 +12,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/data/repository/wo
 import 'package:sputnik_cardio/src/features/workout_recording/managers/pending_workouts_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_retrive_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/screens/progress_screen_presenter.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/pending_workouts_save_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_info_screen_deps_node.dart';
@@ -47,7 +48,12 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
       workoutListManager(),
     ),
   );
-
+  late final progressScreenPresenter = bind(
+      ()=> ProgressScreenPresenter(
+          workoutListManager(),
+          workoutsListStateHolder(),
+      ),
+  );
   late final workoutLifecycleManager = bind(
     () => WorkoutLifecycleManager(
       workoutsListStateHolder(),
