@@ -19,24 +19,24 @@ class _ProgressScreenState extends State<ProgressScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     if (!_dependenciesInitialized) {
       _initializeDependencies();
       _dependenciesInitialized = true;
     }
   }
+
   void _initializeDependencies() {
     final workoutDepsNode = DepsNodeBinder.of<WorkoutDepsNode>(context);
     _presenter = workoutDepsNode.progressScreenPresenter();
-    _presenter.init();
   }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<ProgressScreenState>(
       stream: _presenter.asStream,
+      initialData: _presenter.state,
       builder: (context, snapshot) {
-        final state = snapshot.data ?? _presenter.state;
-
+        final state = snapshot.data!;
         return Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
@@ -44,7 +44,10 @@ class _ProgressScreenState extends State<ProgressScreen> {
               children: [
                 const _ProgressHeader(),
                 Expanded(
-                  child: _ProgressContent(state: state),
+                  child: _ProgressContent(
+                    key: ValueKey(state.charData.join(',')),
+                    state: state,
+                  ),
                 ),
               ],
             ),
@@ -53,12 +56,14 @@ class _ProgressScreenState extends State<ProgressScreen> {
       },
     );
   }
+
   @override
   void dispose() {
     _presenter.dispose();
     super.dispose();
   }
 }
+
 class _ProgressHeader extends StatelessWidget {
   const _ProgressHeader();
 
@@ -90,10 +95,11 @@ class _ProgressHeader extends StatelessWidget {
     );
   }
 }
+
 class _ProgressContent extends StatelessWidget {
   final ProgressScreenState state;
 
-  const _ProgressContent({required this.state});
+  const _ProgressContent({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -108,10 +114,11 @@ class _ProgressContent extends StatelessWidget {
     return _ProgressChart(state: state);
   }
 }
+
 class _ProgressChart extends StatelessWidget {
   final ProgressScreenState state;
 
-  const _ProgressChart({required this.state});
+  const _ProgressChart({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -153,6 +160,7 @@ class _ProgressChart extends StatelessWidget {
     );
   }
 }
+
 class _ChartBar extends StatelessWidget {
   final double value;
   final double maxValue;

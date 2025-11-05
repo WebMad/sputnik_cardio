@@ -13,6 +13,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/managers/pending_w
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_retrive_manager.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/screens/progress_screen_presenter.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/state_holders/last_week_workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/pending_workouts_save_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workout_state_holder.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_info_screen_deps_node.dart';
@@ -20,6 +21,7 @@ import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_nod
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'data/data_sources/workout_remote_data_source.dart';
+import 'managers/last_week_workout_manager.dart';
 import 'managers/workout_coords_recording_manager.dart';
 import 'managers/workout_lifecycle_manager.dart';
 import 'managers/workout_list_manager.dart';
@@ -41,7 +43,15 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   late final _persistentWorkoutStateHolder = bind(
     () => PersistentWorkoutStateHolder(),
   );
-
+  late final lastWeekWorkoutsManager = bind(
+        () => LastWeekWorkoutsManager(
+      lastWeekWorkoutsStateHolder(),
+      workoutRepository(),
+    ),
+  );
+  late final lastWeekWorkoutsStateHolder = bind(
+        () => LastWeekWorkoutsStateHolder(),
+  );
   late final workoutsScreenPresenter = bind(
         () => WorkoutsScreenPresenter(
       workoutsListStateHolder(),
@@ -49,13 +59,13 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
     ),
   );
   late final progressScreenPresenter = bind(
-      ()=> ProgressScreenPresenter(
-          workoutListManager(),
-          workoutsListStateHolder(),
-      ),
+        () => ProgressScreenPresenter(
+      lastWeekWorkoutsManager(),
+
+    ),
   );
   late final workoutLifecycleManager = bind(
-    () => WorkoutLifecycleManager(
+        () => WorkoutLifecycleManager(
       workoutsListStateHolder(),
       workoutListManager(),
       persistentWorkoutStateHolder,
@@ -66,6 +76,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
       workoutCoreDepsNode().workoutModificationManagerFactory,
       _appForegroundServiceDepsNode.appForegroundServiceManager(),
       workoutSaveStateHolder(),
+      lastWeekWorkoutsManager(),
     ),
   );
 
@@ -184,24 +195,27 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
 
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [
-        {
-          workoutCoreDepsNode,
-        },
-        {
-          workoutsListStateHolder,
-          _persistentWorkoutStateHolder,
-        },
-        {
-          workoutMetricsDepsNode,
-          _workoutCoordsRecordingManager,
-          pendingWorkoutsManager,
-          workoutLifecycleManager,
-        },
-        {
-          workoutsScreenPresenter,
-        },
-        {
-          workoutRetriveManager,
-        },
-      ];
+    {
+      workoutCoreDepsNode,
+    },
+    {
+      workoutsListStateHolder,
+      _persistentWorkoutStateHolder,
+      lastWeekWorkoutsStateHolder,
+    },
+    {
+      workoutMetricsDepsNode,
+      _workoutCoordsRecordingManager,
+      pendingWorkoutsManager,
+      workoutLifecycleManager,
+      lastWeekWorkoutsManager,
+    },
+    {
+      workoutsScreenPresenter,
+      progressScreenPresenter,
+    },
+    {
+      workoutRetriveManager,
+    },
+  ];
 }

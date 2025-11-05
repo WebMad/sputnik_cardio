@@ -16,6 +16,7 @@ import '../models/workouts_list_data.dart';
 import '../state_holders/workout_state_holder.dart';
 import '../state_holders/workouts_list_state_holder.dart';
 import '../managers/workout_list_manager.dart';
+import 'last_week_workout_manager.dart';
 
 class WorkoutLifecycleManager implements Lifecycle {
   final WorkoutsListStateHolder _workoutsListStateHolder;
@@ -28,12 +29,13 @@ class WorkoutLifecycleManager implements Lifecycle {
   final WorkoutModificationManagerFactory _workoutModificationManagerFactory;
   final AppForegroundServiceManager _appForegroundServiceManager;
   final WorkoutSaveStateHolder _workoutSaveStateHolder;
+  final LastWeekWorkoutsManager _lastWeekWorkoutsManager;
 
   WorkoutModificationManager? __workoutModificationManager;
 
   WorkoutModificationManager get _workoutModificationManager =>
       __workoutModificationManager ??
-      (throw Exception('Workout is not started'));
+          (throw Exception('Workout is not started'));
 
   WorkoutProvider get _workoutProvider =>
       _workoutModificationManager.workoutProvider;
@@ -44,14 +46,15 @@ class WorkoutLifecycleManager implements Lifecycle {
       this._workoutsListStateHolder,
       this._workoutListManager,
       this._persistentWorkoutStateHolder,
-    this._workoutCoordsRecordingManager,
-    this._workoutTrackDepsNode,
-    this._workoutRepository,
-    this._pendingWorkoutsManager,
-    this._workoutModificationManagerFactory,
-    this._appForegroundServiceManager,
-    this._workoutSaveStateHolder,
-  );
+      this._workoutCoordsRecordingManager,
+      this._workoutTrackDepsNode,
+      this._workoutRepository,
+      this._pendingWorkoutsManager,
+      this._workoutModificationManagerFactory,
+      this._appForegroundServiceManager,
+      this._workoutSaveStateHolder,
+      this._lastWeekWorkoutsManager,
+      );
 
   @override
   Future<void> init() async {}
@@ -98,9 +101,9 @@ class WorkoutLifecycleManager implements Lifecycle {
   }
 
   Future<void> _pushPosFromPreviousSegment(
-    Workout workout,
-    String newRouteUuid,
-  ) async {
+      Workout workout,
+      String newRouteUuid,
+      ) async {
     final lastPos = await _getLastPosFromPreviousSegment(workout);
 
     if (lastPos == null) {
@@ -200,9 +203,10 @@ class WorkoutLifecycleManager implements Lifecycle {
       _workoutSaveStateHolder.update(const WorkoutSaveState.saving());
       _workoutRepository.removeActiveWorkout(_workoutProvider.workout);
       final saved =
-          await _workoutRepository.createWorkout(_workoutProvider.workout);
+      await _workoutRepository.createWorkout(_workoutProvider.workout);
       await _pendingWorkoutsManager.updateList();
       await _workoutListManager.refresh();
+      await _lastWeekWorkoutsManager.loadLastWeekWorkouts();
 
       if (!saved) {
         _workoutSaveStateHolder.update(const WorkoutSaveState.error());
@@ -212,7 +216,6 @@ class WorkoutLifecycleManager implements Lifecycle {
     } catch (e, st) {
       print(e);
       print(st);
-
       _workoutSaveStateHolder.update(const WorkoutSaveState.error());
     }
   }
