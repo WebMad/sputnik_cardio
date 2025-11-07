@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 
 import '../data/repository/workout_repository.dart';
@@ -13,8 +14,6 @@ class LastWeekWorkoutsManager implements Lifecycle {
       this._workoutRepository,
       );
 
-  LastWeekWorkoutsStateHolder get stateHolder => _stateHolder;
-
   @override
   Future<void> init() async {
     await loadLastWeekWorkouts();
@@ -28,8 +27,9 @@ class LastWeekWorkoutsManager implements Lifecycle {
     try {
       final workouts = await _workoutRepository.getLastWeekWorkouts();
       _stateHolder.updateWorkouts(workouts);
-    } catch (e) {
-      _stateHolder.clear();
+    } catch (e, st) {
+      debugPrint('Error: $e');
+      debugPrint('Stack trace: $st');
     }
   }
 }

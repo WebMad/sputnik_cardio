@@ -3,7 +3,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/models/workouts_li
 import 'package:sputnik_cardio/src/features/workout_recording/state_holders/workouts_list_state_holder.dart';
 
 class WorkoutListManager {
-  static const _limit = 100;
+  static const _limit = 10;
 
   final WorkoutRemoteDataSource _workoutRemoteDataSource;
   final WorkoutsListStateHolder _workoutsListStateHolder;

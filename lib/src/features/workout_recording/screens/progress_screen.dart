@@ -59,7 +59,6 @@ class _ProgressScreenState extends State<ProgressScreen> {
 
   @override
   void dispose() {
-    _presenter.dispose();
     super.dispose();
   }
 }

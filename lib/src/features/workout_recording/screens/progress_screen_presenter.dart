@@ -4,12 +4,14 @@ import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import '../managers/last_week_workout_manager.dart';
 import '../models/progress_screen_state.dart';
+import '../state_holders/last_week_workout_state_holder.dart';
 
 class ProgressScreenPresenter extends StateHolder<ProgressScreenState> {
   final LastWeekWorkoutsManager _lastWeekWorkoutsManager;
-
+  final LastWeekWorkoutsStateHolder _lastWeekWorkoutsStateHolder;
   ProgressScreenPresenter(
       this._lastWeekWorkoutsManager,
+      this._lastWeekWorkoutsStateHolder,
       ) : super(
     const ProgressScreenState(
       lastWeekWorkouts: [],
@@ -20,11 +22,12 @@ class ProgressScreenPresenter extends StateHolder<ProgressScreenState> {
 
   StreamSubscription<List<DetailedWorkout>>? _lastWeekWorkoutsSubscription;
 
+
   @override
   Future<void> init() async {
     super.init();
     _lastWeekWorkoutsSubscription =
-        _lastWeekWorkoutsManager.stateHolder.asStream.listen(_handleLastWeekWorkoutsUpdate);
+        _lastWeekWorkoutsStateHolder.asStream.listen(_handleLastWeekWorkoutsUpdate);
     await _lastWeekWorkoutsManager.loadLastWeekWorkouts();
   }
 
@@ -73,7 +76,8 @@ class ProgressScreenPresenter extends StateHolder<ProgressScreenState> {
 
   @override
   Future<void> dispose() async {
-    await _lastWeekWorkoutsSubscription?.cancel();
+    _lastWeekWorkoutsSubscription?.cancel();
+    _lastWeekWorkoutsSubscription = null;
     await super.dispose();
   }
 }

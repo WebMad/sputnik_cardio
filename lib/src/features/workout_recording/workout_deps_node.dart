@@ -61,7 +61,7 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   late final progressScreenPresenter = bind(
         () => ProgressScreenPresenter(
       lastWeekWorkoutsManager(),
-
+      lastWeekWorkoutsStateHolder(),
     ),
   );
   late final workoutLifecycleManager = bind(
