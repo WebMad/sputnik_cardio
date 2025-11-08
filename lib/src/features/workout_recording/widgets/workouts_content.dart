@@ -24,7 +24,6 @@ class WorkoutsContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (state.isError) {
-
       return WorkoutsErrorState(
         errorMessage: state.errorMessage,
         onRetry: presenter.retryOnError,
@@ -49,8 +48,12 @@ class WorkoutsContent extends StatelessWidget {
               onRetry: presenter.retryOnError,
             ),
           ),
-          Expanded(child: WorkoutsList(
-              state: state, scrollController: scrollController)),
+          Expanded(
+            child: WorkoutsList(
+              state: state,
+              scrollController: scrollController,
+            ),
+          ),
         ],
       );
     }

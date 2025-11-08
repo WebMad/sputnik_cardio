@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 part 'workouts_screen_state.freezed.dart';
+
 enum WorkoutsScreenStatus {
   loading,
   error,

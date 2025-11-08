@@ -16,6 +16,7 @@ import '../models/workouts_list_data.dart';
 import '../state_holders/workout_state_holder.dart';
 import '../state_holders/workouts_list_state_holder.dart';
 import '../managers/workout_list_manager.dart';
+import 'last_week_workout_manager.dart';
 
 class WorkoutLifecycleManager implements Lifecycle {
   final WorkoutsListStateHolder _workoutsListStateHolder;
@@ -28,6 +29,7 @@ class WorkoutLifecycleManager implements Lifecycle {
   final WorkoutModificationManagerFactory _workoutModificationManagerFactory;
   final AppForegroundServiceManager _appForegroundServiceManager;
   final WorkoutSaveStateHolder _workoutSaveStateHolder;
+  final LastWeekWorkoutsManager _lastWeekWorkoutsManager;
 
   WorkoutModificationManager? __workoutModificationManager;
 
@@ -41,9 +43,9 @@ class WorkoutLifecycleManager implements Lifecycle {
   StreamSubscription<Workout>? _workoutSub;
 
   WorkoutLifecycleManager(
-      this._workoutsListStateHolder,
-      this._workoutListManager,
-      this._persistentWorkoutStateHolder,
+    this._workoutsListStateHolder,
+    this._workoutListManager,
+    this._persistentWorkoutStateHolder,
     this._workoutCoordsRecordingManager,
     this._workoutTrackDepsNode,
     this._workoutRepository,
@@ -51,6 +53,7 @@ class WorkoutLifecycleManager implements Lifecycle {
     this._workoutModificationManagerFactory,
     this._appForegroundServiceManager,
     this._workoutSaveStateHolder,
+    this._lastWeekWorkoutsManager,
   );
 
   @override
@@ -203,6 +206,7 @@ class WorkoutLifecycleManager implements Lifecycle {
           await _workoutRepository.createWorkout(_workoutProvider.workout);
       await _pendingWorkoutsManager.updateList();
       await _workoutListManager.refresh();
+      await _lastWeekWorkoutsManager.loadLastWeekWorkouts();
 
       if (!saved) {
         _workoutSaveStateHolder.update(const WorkoutSaveState.error());
@@ -212,7 +216,6 @@ class WorkoutLifecycleManager implements Lifecycle {
     } catch (e, st) {
       print(e);
       print(st);
-
       _workoutSaveStateHolder.update(const WorkoutSaveState.error());
     }
   }

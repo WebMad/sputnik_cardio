@@ -37,13 +37,15 @@ class _AuthWrapperState extends State<AuthWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return isInitialized ? DepsNodeBinder(
-      depsNode: () => widget.authController.depsNode,
-      child: Builder(builder: (context) => widget.builder(context)),
-    ) : const Scaffold(
-      body: Center(
-        child: SpukiText('Loading...'),
-      ),
-    );
+    return isInitialized
+        ? DepsNodeBinder(
+            depsNode: () => widget.authController.depsNode,
+            child: Builder(builder: (context) => widget.builder(context)),
+          )
+        : const Scaffold(
+            body: Center(
+              child: SpukiText('Loading...'),
+            ),
+          );
   }
 }

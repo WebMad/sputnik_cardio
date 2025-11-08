@@ -29,7 +29,8 @@ void main() {
     workoutModificationManager.finishSegment(endAt: DateTime(2024));
 
     workoutModificationManager.addSegment(
-        segmentType: WorkoutSegmentType.cycling);
+      segmentType: WorkoutSegmentType.cycling,
+    );
 
     final workout2 = workoutProvider.workout;
 

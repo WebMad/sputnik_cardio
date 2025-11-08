@@ -69,4 +69,34 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get retry => 'Повторить';
+
+  @override
+  String get progress => 'Прогресс';
+
+  @override
+  String get noWorkoutsThisWeek => 'Нет тренировок за последнюю неделю';
+
+  @override
+  String get mon => 'ПН';
+
+  @override
+  String get tue => 'ВТ';
+
+  @override
+  String get wed => 'СР';
+
+  @override
+  String get thu => 'ЧТ';
+
+  @override
+  String get fri => 'ПТ';
+
+  @override
+  String get sat => 'СБ';
+
+  @override
+  String get sun => 'ВС';
+
+  @override
+  String get distancePastWeek => 'Дистанция (км) - Последние 7 дней';
 }

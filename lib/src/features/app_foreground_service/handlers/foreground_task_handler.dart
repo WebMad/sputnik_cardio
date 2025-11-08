@@ -22,13 +22,13 @@ class ForegroundTaskHandler extends TaskHandler {
     Geolocator.getPositionStream(
       locationSettings: Platform.isAndroid
           ? AndroidSettings(
-        forceLocationManager: true,
-      )
+              forceLocationManager: true,
+            )
           : null,
     ).listen(
-          (event) {
+      (event) {
         final pos =
-        ForegroundTaskOutput.locationStream(pos: event.pos).toJson();
+            ForegroundTaskOutput.locationStream(pos: event.pos).toJson();
         FlutterForegroundTask.sendDataToMain(pos);
       },
     );

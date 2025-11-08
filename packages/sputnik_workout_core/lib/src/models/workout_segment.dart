@@ -27,8 +27,4 @@ extension WorkoutSegmentEx on WorkoutSegment {
   bool get isActive => WorkoutSegment.activeTypes.contains(type);
 }
 
-enum WorkoutSegmentType {
-  run,
-  cycling,
-  pause,
-}
+enum WorkoutSegmentType { run, cycling, pause }

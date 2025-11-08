@@ -8,6 +8,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/data/data_sources/
 import 'package:sputnik_cardio/src/features/workout_track/data_sources/workout_track_data_source.dart';
 import 'package:sputnik_cardio/src/features/workout_track/repositories/workout_track_repository.dart';
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
+import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 
 class WorkoutRepository {
   final WorkoutRemoteDataSource _workoutRemoteDataSource;
@@ -94,5 +95,32 @@ class WorkoutRepository {
     );
 
     return false;
+  }
+
+  Future<List<DetailedWorkout>> getLastWeekWorkouts() async {
+    try {
+      final allWorkouts =
+          await _workoutRemoteDataSource.list(offset: 0, limit: 1000);
+
+      final now = DateTime.now();
+      final firstDayOfWeek = now.subtract(Duration(days: now.weekday - 1));
+      final weekAgo = DateTime(
+        firstDayOfWeek.year,
+        firstDayOfWeek.month,
+        firstDayOfWeek.day,
+      );
+
+      final filteredWorkouts = allWorkouts.where((workout) {
+        final startAt = workout.workout.startAt;
+        final isAfter = startAt.isAfter(weekAgo);
+        final equals = startAt.isAtSameMomentAs(weekAgo);
+        final hasMetrics = workout.metrics != null;
+
+        return (isAfter || equals) && hasMetrics;
+      }).toList();
+      return filteredWorkouts;
+    } catch (e) {
+      return [];
+    }
   }
 }

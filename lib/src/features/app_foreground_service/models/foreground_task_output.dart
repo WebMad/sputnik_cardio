@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sputnik_location/sputnik_location.dart';
 
-
 part 'foreground_task_output.freezed.dart';
 
 part 'foreground_task_output.g.dart';
