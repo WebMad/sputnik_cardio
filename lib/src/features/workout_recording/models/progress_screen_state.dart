@@ -7,14 +7,14 @@ class ProgressScreenState with _$ProgressScreenState {
   const factory ProgressScreenState({
     required List<DetailedWorkout> lastWeekWorkouts,
     required ProgressScreenStatus status,
-    required List<double> charData,
+    required List<double> chartData,
   }) = _ProgressScreenState;
 
   factory ProgressScreenState.initial() => const ProgressScreenState(
-    lastWeekWorkouts: [],
-    status: ProgressScreenStatus.loading,
-    charData: [],
-  );
+        lastWeekWorkouts: [],
+        status: ProgressScreenStatus.loading,
+        chartData: [],
+      );
 }
 
 enum ProgressScreenStatus {

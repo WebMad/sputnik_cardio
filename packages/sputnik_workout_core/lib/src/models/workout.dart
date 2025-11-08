@@ -23,16 +23,10 @@ class Workout with _$Workout {
 extension WorkoutEx on Workout {
   WorkoutSegment? get lastSegment => segments.lastOrNull;
 
-  List<WorkoutSegment> get activeSegments => segments
-      .where(
-        (segment) => WorkoutSegment.activeTypes.contains(segment.type),
-      )
-      .toList();
+  List<WorkoutSegment> get activeSegments =>
+      segments
+          .where((segment) => WorkoutSegment.activeTypes.contains(segment.type))
+          .toList();
 }
 
-enum WorkoutState {
-  idle,
-  inProcess,
-  paused,
-  stopped,
-}
+enum WorkoutState { idle, inProcess, paused, stopped }

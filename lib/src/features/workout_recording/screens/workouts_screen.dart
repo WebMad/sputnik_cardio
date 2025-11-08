@@ -32,7 +32,8 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _presenter = DepsNodeBinder.of<WorkoutDepsNode>(context).workoutsScreenPresenter();
+    _presenter =
+        DepsNodeBinder.of<WorkoutDepsNode>(context).workoutsScreenPresenter();
     _scrollController.addListener(_handleScroll);
   }
 

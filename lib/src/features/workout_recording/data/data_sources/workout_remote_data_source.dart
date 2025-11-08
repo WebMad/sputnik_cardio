@@ -1,4 +1,3 @@
-
 import 'package:sputnik_auth/sputnik_auth.dart';
 import 'package:sputnik_cardio/src/features/workout_metrics/models/done_workout_metrics.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';

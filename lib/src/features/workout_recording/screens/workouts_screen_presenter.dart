@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/managers/workout_list_manager.dart';
@@ -11,24 +10,22 @@ class WorkoutsScreenPresenter extends StateHolder<WorkoutsScreenState> {
   final WorkoutListManager _workoutListManager;
 
   WorkoutsScreenPresenter(
-    this._workoutsListStateHolder,
-    this._workoutListManager
-  )  :super(
-        const WorkoutsScreenState(
-          workouts: const [],
-          status: WorkoutsScreenStatus.loading,
-        ),
-      );
+      this._workoutsListStateHolder, this._workoutListManager)
+      : super(
+          const WorkoutsScreenState(
+            workouts: const [],
+            status: WorkoutsScreenStatus.loading,
+          ),
+        );
 
   StreamSubscription<WorkoutsListData?>? _workoutsSubscription;
 
-
   @override
-  Future<void> init() async{
+  Future<void> init() async {
     super.init();
 
-    _workoutsSubscription = _workoutsListStateHolder.asStream.listen(_handleWorkoutsDataUpdate);
-
+    _workoutsSubscription =
+        _workoutsListStateHolder.asStream.listen((workouts) => _handleWorkoutsDataUpdate(workouts));
   }
 
   void _handleWorkoutsDataUpdate(WorkoutsListData? data) {

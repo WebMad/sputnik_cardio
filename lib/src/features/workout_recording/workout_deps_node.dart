@@ -44,28 +44,28 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
     () => PersistentWorkoutStateHolder(),
   );
   late final lastWeekWorkoutsManager = bind(
-        () => LastWeekWorkoutsManager(
+    () => LastWeekWorkoutsManager(
       lastWeekWorkoutsStateHolder(),
       workoutRepository(),
     ),
   );
   late final lastWeekWorkoutsStateHolder = bind(
-        () => LastWeekWorkoutsStateHolder(),
+    () => LastWeekWorkoutsStateHolder(),
   );
   late final workoutsScreenPresenter = bind(
-        () => WorkoutsScreenPresenter(
+    () => WorkoutsScreenPresenter(
       workoutsListStateHolder(),
       workoutListManager(),
     ),
   );
   late final progressScreenPresenter = bind(
-        () => ProgressScreenPresenter(
+    () => ProgressScreenPresenter(
       lastWeekWorkoutsManager(),
       lastWeekWorkoutsStateHolder(),
     ),
   );
   late final workoutLifecycleManager = bind(
-        () => WorkoutLifecycleManager(
+    () => WorkoutLifecycleManager(
       workoutsListStateHolder(),
       workoutListManager(),
       persistentWorkoutStateHolder,
@@ -195,27 +195,27 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
 
   @override
   List<Set<LifecycleDependency>> get initializeQueue => [
-    {
-      workoutCoreDepsNode,
-    },
-    {
-      workoutsListStateHolder,
-      _persistentWorkoutStateHolder,
-      lastWeekWorkoutsStateHolder,
-    },
-    {
-      workoutMetricsDepsNode,
-      _workoutCoordsRecordingManager,
-      pendingWorkoutsManager,
-      workoutLifecycleManager,
-      lastWeekWorkoutsManager,
-    },
-    {
-      workoutsScreenPresenter,
-      progressScreenPresenter,
-    },
-    {
-      workoutRetriveManager,
-    },
-  ];
+        {
+          workoutCoreDepsNode,
+        },
+        {
+          workoutsListStateHolder,
+          _persistentWorkoutStateHolder,
+          lastWeekWorkoutsStateHolder,
+        },
+        {
+          workoutMetricsDepsNode,
+          _workoutCoordsRecordingManager,
+          pendingWorkoutsManager,
+          workoutLifecycleManager,
+          lastWeekWorkoutsManager,
+        },
+        {
+          workoutsScreenPresenter,
+          progressScreenPresenter,
+        },
+        {
+          workoutRetriveManager,
+        },
+      ];
 }

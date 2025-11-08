@@ -35,7 +35,7 @@ class WorkoutLifecycleManager implements Lifecycle {
 
   WorkoutModificationManager get _workoutModificationManager =>
       __workoutModificationManager ??
-          (throw Exception('Workout is not started'));
+      (throw Exception('Workout is not started'));
 
   WorkoutProvider get _workoutProvider =>
       _workoutModificationManager.workoutProvider;
@@ -43,18 +43,18 @@ class WorkoutLifecycleManager implements Lifecycle {
   StreamSubscription<Workout>? _workoutSub;
 
   WorkoutLifecycleManager(
-      this._workoutsListStateHolder,
-      this._workoutListManager,
-      this._persistentWorkoutStateHolder,
-      this._workoutCoordsRecordingManager,
-      this._workoutTrackDepsNode,
-      this._workoutRepository,
-      this._pendingWorkoutsManager,
-      this._workoutModificationManagerFactory,
-      this._appForegroundServiceManager,
-      this._workoutSaveStateHolder,
-      this._lastWeekWorkoutsManager,
-      );
+    this._workoutsListStateHolder,
+    this._workoutListManager,
+    this._persistentWorkoutStateHolder,
+    this._workoutCoordsRecordingManager,
+    this._workoutTrackDepsNode,
+    this._workoutRepository,
+    this._pendingWorkoutsManager,
+    this._workoutModificationManagerFactory,
+    this._appForegroundServiceManager,
+    this._workoutSaveStateHolder,
+    this._lastWeekWorkoutsManager,
+  );
 
   @override
   Future<void> init() async {}
@@ -101,9 +101,9 @@ class WorkoutLifecycleManager implements Lifecycle {
   }
 
   Future<void> _pushPosFromPreviousSegment(
-      Workout workout,
-      String newRouteUuid,
-      ) async {
+    Workout workout,
+    String newRouteUuid,
+  ) async {
     final lastPos = await _getLastPosFromPreviousSegment(workout);
 
     if (lastPos == null) {
@@ -203,7 +203,7 @@ class WorkoutLifecycleManager implements Lifecycle {
       _workoutSaveStateHolder.update(const WorkoutSaveState.saving());
       _workoutRepository.removeActiveWorkout(_workoutProvider.workout);
       final saved =
-      await _workoutRepository.createWorkout(_workoutProvider.workout);
+          await _workoutRepository.createWorkout(_workoutProvider.workout);
       await _pendingWorkoutsManager.updateList();
       await _workoutListManager.refresh();
       await _lastWeekWorkoutsManager.loadLastWeekWorkouts();

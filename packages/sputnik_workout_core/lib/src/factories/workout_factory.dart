@@ -8,8 +8,8 @@ class WorkoutFactory {
   WorkoutFactory(this._uuid);
 
   Workout create() => Workout(
-        uuid: _uuid.v4(),
-        startAt: DateTime.now(),
-        state: WorkoutState.idle,
-      );
+    uuid: _uuid.v4(),
+    startAt: DateTime.now(),
+    state: WorkoutState.idle,
+  );
 }

@@ -6,7 +6,6 @@ class LastWeekWorkoutsStateHolder extends StateHolder<List<DetailedWorkout>> {
 
   void updateWorkouts(List<DetailedWorkout> workouts) {
     state = List<DetailedWorkout>.from(workouts);
-
   }
 
   void clear() {

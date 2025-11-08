@@ -36,7 +36,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
       stream: _presenter.asStream,
       initialData: _presenter.state,
       builder: (context, snapshot) {
-        final state = snapshot.data!;
+        final state = snapshot.requireData;
         return Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
@@ -45,7 +45,6 @@ class _ProgressScreenState extends State<ProgressScreen> {
                 const _ProgressHeader(),
                 Expanded(
                   child: _ProgressContent(
-                    key: ValueKey(state.charData.join(',')),
                     state: state,
                   ),
                 ),
@@ -57,7 +56,6 @@ class _ProgressScreenState extends State<ProgressScreen> {
     );
   }
 
-  @override
   void dispose() {
     super.dispose();
   }
@@ -131,8 +129,8 @@ class _ProgressChart extends StatelessWidget {
       AppLocalizations.of(context).sun,
     ];
 
-    final maxDistance = state.charData.isNotEmpty
-        ? state.charData.reduce((a, b) => a > b ? a : b)
+    final maxDistance = state.chartData.isNotEmpty
+        ? state.chartData.reduce((a, b) => a > b ? a : b)
         : 0.0;
 
     return Container(
@@ -145,9 +143,9 @@ class _ProgressChart extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: List.generate(state.charData.length, (index) {
+              children: List.generate(state.chartData.length, (index) {
                 return _ChartBar(
-                  value: state.charData[index],
+                  value: state.chartData[index],
                   maxValue: maxDistance,
                   label: dayLabels[index],
                 );

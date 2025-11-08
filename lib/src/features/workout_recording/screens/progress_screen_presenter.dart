@@ -9,34 +9,31 @@ import '../state_holders/last_week_workout_state_holder.dart';
 class ProgressScreenPresenter extends StateHolder<ProgressScreenState> {
   final LastWeekWorkoutsManager _lastWeekWorkoutsManager;
   final LastWeekWorkoutsStateHolder _lastWeekWorkoutsStateHolder;
-  ProgressScreenPresenter(
-      this._lastWeekWorkoutsManager,
-      this._lastWeekWorkoutsStateHolder,
-      ) : super(
-    const ProgressScreenState(
-      lastWeekWorkouts: [],
-      status: ProgressScreenStatus.loading,
-      charData: [],
-    ),
-  );
-
   StreamSubscription<List<DetailedWorkout>>? _lastWeekWorkoutsSubscription;
-
+  ProgressScreenPresenter(
+    this._lastWeekWorkoutsManager,
+    this._lastWeekWorkoutsStateHolder,
+  ) : super(
+          const ProgressScreenState(
+            lastWeekWorkouts: [],
+            status: ProgressScreenStatus.loading,
+            chartData: [],
+          ),
+        );
 
   @override
   Future<void> init() async {
     super.init();
-    _lastWeekWorkoutsSubscription =
-        _lastWeekWorkoutsStateHolder.asStream.listen(_handleLastWeekWorkoutsUpdate);
+    _lastWeekWorkoutsSubscription = _lastWeekWorkoutsStateHolder.asStream
+        .listen((workouts) => _handleLastWeekWorkoutsUpdate(workouts));
     await _lastWeekWorkoutsManager.loadLastWeekWorkouts();
   }
 
   void _handleLastWeekWorkoutsUpdate(List<DetailedWorkout> workouts) {
-
     final chartData = _calculateChartData(workouts);
     state = state.copyWith(
       lastWeekWorkouts: workouts,
-      charData: chartData,
+      chartData: chartData,
       status: ProgressScreenStatus.loaded,
     );
   }
@@ -45,22 +42,29 @@ class ProgressScreenPresenter extends StateHolder<ProgressScreenState> {
     final distancesByDay = <DateTime, double>{};
 
     for (final workout in workouts) {
+      final startAt = workout.workout.startAt;
       final day = DateTime(
-        workout.workout.startAt.year,
-        workout.workout.startAt.month,
-        workout.workout.startAt.day,
+        startAt.year,
+        startAt.month,
+        startAt.day,
       );
 
-      final distance = workout.metrics!.kms;
+      final distance = workout.metrics?.kms ?? 0;
       distancesByDay.update(
         day,
-            (value) => value + distance,
+        (value) => value + distance,
         ifAbsent: () => distance,
       );
     }
 
     final now = DateTime.now();
-    final firstDayOfWeek = now.subtract(Duration(days: now.weekday - 1));
+    final firstDayOfWeekSubstracted =
+        now.subtract(Duration(days: now.weekday - 1));
+    final firstDayOfWeek = DateTime(
+      firstDayOfWeekSubstracted.year,
+      firstDayOfWeekSubstracted.month,
+      firstDayOfWeekSubstracted.day,
+    );
     final chartData = List.generate(7, (index) {
       final day = firstDayOfWeek.add(Duration(days: index));
       final dayKey = DateTime(day.year, day.month, day.day);

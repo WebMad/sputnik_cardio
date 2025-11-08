@@ -18,7 +18,8 @@ class AuthDepsNode extends DepsNode {
 
   AuthDepsNode(
     this._supabaseClient,
-    this._googleSignIn, this._authSettingsProvider,
+    this._googleSignIn,
+    this._authSettingsProvider,
   );
 
   AuthSettingsProvider get authSettingsProvider => _authSettingsProvider;

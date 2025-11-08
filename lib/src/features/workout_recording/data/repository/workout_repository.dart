@@ -19,13 +19,13 @@ class WorkoutRepository {
   final WorkoutMetricsDataSource _workoutMetricsDataSource;
 
   WorkoutRepository(
-      this._workoutRemoteDataSource,
-      this._workoutTrackDepsNode,
-      this._workoutLocalDataSource,
-      this._internetConnectionStateHolder,
-      this._workoutMetricsStateHolder,
-      this._workoutMetricsDataSource,
-      );
+    this._workoutRemoteDataSource,
+    this._workoutTrackDepsNode,
+    this._workoutLocalDataSource,
+    this._internetConnectionStateHolder,
+    this._workoutMetricsStateHolder,
+    this._workoutMetricsDataSource,
+  );
 
   Future<List<Workout>> getActiveWorkouts() async =>
       await _workoutLocalDataSource.getActiveWorkouts();
@@ -60,7 +60,7 @@ class WorkoutRepository {
 
     for (final routeUuid in routeUuids) {
       final route =
-      _workoutTrackDepsNode.workoutTrackRepository().getRoute(routeUuid);
+          _workoutTrackDepsNode.workoutTrackRepository().getRoute(routeUuid);
       routes.add(
         WorkoutRoute(
           uuid: routeUuid,
@@ -99,16 +99,20 @@ class WorkoutRepository {
 
   Future<List<DetailedWorkout>> getLastWeekWorkouts() async {
     try {
-      final allWorkouts = await _workoutRemoteDataSource.list(offset: 0, limit: 1000);
+      final allWorkouts =
+          await _workoutRemoteDataSource.list(offset: 0, limit: 1000);
 
-
-      final weekAgo = DateTime.now().subtract(const Duration(days: 7));
+      final now = DateTime.now();
+      final firstDayOfWeek = now.subtract(Duration(days: now.weekday - 1));
+      final weekAgo = DateTime(
+          firstDayOfWeek.year, firstDayOfWeek.month, firstDayOfWeek.day);
 
       final filteredWorkouts = allWorkouts.where((workout) {
         final isAfter = workout.workout.startAt.isAfter(weekAgo);
+        final equals = workout.workout.startAt.isAtSameMomentAs(weekAgo);
         final hasMetrics = workout.metrics != null;
 
-        return isAfter && hasMetrics;
+        return (isAfter || equals) && hasMetrics;
       }).toList();
       return filteredWorkouts;
     } catch (e) {
