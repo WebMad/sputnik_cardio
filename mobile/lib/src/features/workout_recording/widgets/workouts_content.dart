@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/workouts_screen_state.dart';
 import '../screens/workouts_screen_presenter.dart';
 import '../models/workouts_screen_state.dart';
 import 'workouts_screen_error_banner.dart';
