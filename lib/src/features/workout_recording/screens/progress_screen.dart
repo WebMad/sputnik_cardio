@@ -13,7 +13,7 @@ class ProgressScreen extends StatefulWidget {
 }
 
 class _ProgressScreenState extends State<ProgressScreen> {
-  late ProgressScreenPresenter _presenter;
+  late ProgressScreenPresenter _progressScreenPresenter;
   bool _dependenciesInitialized = false;
 
   @override
@@ -27,14 +27,14 @@ class _ProgressScreenState extends State<ProgressScreen> {
 
   void _initializeDependencies() {
     final workoutDepsNode = DepsNodeBinder.of<WorkoutDepsNode>(context);
-    _presenter = workoutDepsNode.progressScreenPresenter();
+    _progressScreenPresenter = workoutDepsNode.progressScreenPresenter();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<ProgressScreenState>(
-      stream: _presenter.asStream,
-      initialData: _presenter.state,
+      stream: _progressScreenPresenter.asStream,
+      initialData: _progressScreenPresenter.state,
       builder: (context, snapshot) {
         final state = snapshot.requireData;
         return Scaffold(
@@ -54,10 +54,6 @@ class _ProgressScreenState extends State<ProgressScreen> {
         );
       },
     );
-  }
-
-  void dispose() {
-    super.dispose();
   }
 }
 

@@ -105,11 +105,15 @@ class WorkoutRepository {
       final now = DateTime.now();
       final firstDayOfWeek = now.subtract(Duration(days: now.weekday - 1));
       final weekAgo = DateTime(
-          firstDayOfWeek.year, firstDayOfWeek.month, firstDayOfWeek.day);
+        firstDayOfWeek.year,
+        firstDayOfWeek.month,
+        firstDayOfWeek.day,
+      );
 
       final filteredWorkouts = allWorkouts.where((workout) {
-        final isAfter = workout.workout.startAt.isAfter(weekAgo);
-        final equals = workout.workout.startAt.isAtSameMomentAs(weekAgo);
+        final startAt = workout.workout.startAt;
+        final isAfter = startAt.isAfter(weekAgo);
+        final equals = startAt.isAtSameMomentAs(weekAgo);
         final hasMetrics = workout.metrics != null;
 
         return (isAfter || equals) && hasMetrics;

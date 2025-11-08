@@ -49,8 +49,11 @@ class WorkoutsContent extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: WorkoutsList(
-                  state: state, scrollController: scrollController)),
+            child: WorkoutsList(
+              state: state,
+              scrollController: scrollController,
+            ),
+          ),
         ],
       );
     }

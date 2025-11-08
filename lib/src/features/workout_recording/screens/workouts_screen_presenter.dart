@@ -10,8 +10,9 @@ class WorkoutsScreenPresenter extends StateHolder<WorkoutsScreenState> {
   final WorkoutListManager _workoutListManager;
 
   WorkoutsScreenPresenter(
-      this._workoutsListStateHolder, this._workoutListManager)
-      : super(
+    this._workoutsListStateHolder,
+    this._workoutListManager,
+  ) : super(
           const WorkoutsScreenState(
             workouts: const [],
             status: WorkoutsScreenStatus.loading,
@@ -24,8 +25,8 @@ class WorkoutsScreenPresenter extends StateHolder<WorkoutsScreenState> {
   Future<void> init() async {
     super.init();
 
-    _workoutsSubscription =
-        _workoutsListStateHolder.asStream.listen((workouts) => _handleWorkoutsDataUpdate(workouts));
+    _workoutsSubscription = _workoutsListStateHolder.asStream
+        .listen((workouts) => _handleWorkoutsDataUpdate(workouts));
   }
 
   void _handleWorkoutsDataUpdate(WorkoutsListData? data) {
