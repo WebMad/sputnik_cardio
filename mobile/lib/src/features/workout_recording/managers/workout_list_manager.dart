@@ -53,6 +53,20 @@ class WorkoutListManager {
 
   Future<void> removeWorkout(String workoutUuid) async {
     await _workoutRemoteDataSource.deleteWorkout(workoutUuid);
+
+    final currentState = _workoutsListStateHolder.state.dataOrNull;
+    if (currentState != null) {
+      final updatedWorkouts = currentState.workouts
+          .where((workout) => workout.workout.uuid != workoutUuid)
+          .toList();
+
+      _workoutsListStateHolder.update(
+        currentState.copyWith(
+          workouts: updatedWorkouts,
+        ),
+      );
+    }
+
     await load();
   }
 }
