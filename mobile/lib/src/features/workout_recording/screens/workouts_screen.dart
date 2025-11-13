@@ -15,7 +15,7 @@ class WorkoutsScreen extends StatefulWidget {
 }
 
 class _WorkoutsScreenState extends State<WorkoutsScreen> {
-  late WorkoutsScreenPresenter _presenter;
+  late WorkoutsScreenPresenter _workoutsScreenPresenter;
   late final ScrollController _scrollController;
 
   void _startNewWorkout() {
@@ -32,14 +32,14 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _presenter =
+    _workoutsScreenPresenter =
         DepsNodeBinder.of<WorkoutDepsNode>(context).workoutsScreenPresenter();
     _scrollController.addListener(_handleScroll);
   }
 
   void _handleScroll() {
     if (mounted && _scrollController.position.extentAfter < 500) {
-      _presenter.handleScrollEnd();
+      _workoutsScreenPresenter.handleScrollEnd();
     }
   }
 
@@ -55,14 +55,14 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
     return SpukiScaffold(
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: () => _presenter.refreshWorkouts(),
+          onRefresh: () => _workoutsScreenPresenter.refreshWorkouts(),
           child: StreamBuilder<WorkoutsScreenState>(
-            initialData: _presenter.state,
-            stream: _presenter.stream,
+            initialData: _workoutsScreenPresenter.state,
+            stream: _workoutsScreenPresenter.stream,
             builder: (context, snapshot) {
               final state = snapshot.data!;
               return WorkoutsContent(
-                presenter: _presenter,
+                presenter: _workoutsScreenPresenter,
                 state: state,
                 onStartNewWorkout: _startNewWorkout,
                 scrollController: _scrollController,
