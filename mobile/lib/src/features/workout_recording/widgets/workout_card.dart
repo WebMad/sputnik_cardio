@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:intl/intl.dart';
+import 'package:sputnik_cardio/src/features/workout_export/workout_export_deps_node.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/models/detailed_workout.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_deps_node.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
@@ -164,8 +165,15 @@ class WorkoutCard extends StatelessWidget {
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => DepsNodeBinder<WorkoutInfoScreenDepsNode>.value(
-          depsNode: workoutScreenDepsNode,
+        builder: (context) => MultiDepsNodeBinder(
+          depsNodeBinders: [
+            DepsNodeBinder<WorkoutInfoScreenDepsNode>.value(
+              depsNode: workoutScreenDepsNode,
+            ),
+            DepsNodeBinder<WorkoutExportDepsNode>.value(
+              depsNode: workoutDepsNode.workoutExportDepsNode(),
+            ),
+          ],
           child: const WorkoutInfoScreen(),
         ),
       ),

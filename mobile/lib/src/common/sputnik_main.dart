@@ -54,150 +54,162 @@ class _SputnikMainState extends State<SputnikMain> {
               child: DepsNodeBuilder(
                 depsNode: workoutDepsNode,
                 initialized: (context, workoutDepsNode) {
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: TabBarView(
-                          children: [
-                            const WorkoutScreen(),
-                            const WorkoutsScreen(),
-                            const ProgressScreen(),
-                            ProfileScreen(
-                              authController: authController,
-                              authorizedBuilder: (context, state) {
-                                final appSettingsStateHolder = appScopeDepsNode
-                                    .appSettingsDepsNode()
-                                    .appSettingsStateHolder();
-                                return StreamBuilder<Map<String, AppSetting>>(
-                                    initialData: appSettingsStateHolder.state,
-                                    stream: appSettingsStateHolder.stream,
-                                    builder: (context, snapshot) {
-                                      final appSettings = snapshot.requireData;
-
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SizedBox(
-                                            height: theme.puk(2),
-
-                                            /// Надо чтобы растянуть контейнер по ширине и блоки
-                                            /// внутри Column корректно выравнивались
-                                            width: double.infinity,
-                                          ),
-                                          CircleAvatar(
-                                            radius: theme.puk(20),
-                                          ),
-                                          const SizedBox(height: 10),
-                                          SpukiText.h3(
-                                            state.user.map(
-                                              (state) => state.email,
-                                              guest: (_) => context.tr.guest,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          SizedBox(height: theme.puk(4)),
-                                          ListTile(
-                                            onTap: () {
-                                              final email = appSettings[
-                                                  AppSetting.supportEmail];
-
-                                              if (email == null) {
-                                                return;
-                                              }
-
-                                              launchUrl(Uri.parse(
-                                                  "mailto:${email.value}"));
-                                            },
-                                            title: const SpukiText(
-                                              'Поддержка',
-                                            ),
-                                          ),
-                                          ListTile(
-                                            onTap: () {
-                                              final link = appSettings[
-                                                  AppSetting.privacyPolicy];
-
-                                              if (link == null) {
-                                                return;
-                                              }
-
-                                              launchUrl(Uri.parse(link.value));
-                                            },
-                                            title: const SpukiText(
-                                              'Политика конфиденциальности',
-                                            ),
-                                          ),
-                                          ListTile(
-                                            onTap: () {
-                                              final link = appSettings[
-                                                  AppSetting.personalData];
-
-                                              if (link == null) {
-                                                return;
-                                              }
-
-                                              launchUrl(Uri.parse(link.value));
-                                            },
-                                            title: const SpukiText(
-                                              'Согласие на обработку персональных данных',
-                                            ),
-                                          ),
-                                          ListTile(
-                                            onTap: () {
-                                              final email = appSettings[
-                                                  AppSetting.supportEmail];
-
-                                              if (email == null) {
-                                                return;
-                                              }
-
-                                              launchUrl(Uri.parse(
-                                                  "mailto:${email.value}"));
-                                            },
-                                            title: const SpukiText(
-                                              'Удаление аккаунта',
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                          ListTile(
-                                            onTap: () => authDepsNode
-                                                .authController()
-                                                .logout(),
-                                            title: SpukiText(context.tr.logout),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      SafeArea(
-                        top: false,
-                        child: TabBar(
-                          tabs: [
-                            Tab(
-                              icon: const Icon(Icons.fiber_manual_record),
-                              text: context.tr.recordTrain,
-                            ),
-                            Tab(
-                              icon: const Icon(Icons.run_circle_outlined),
-                              text: context.tr.workouts,
-                            ),
-                            Tab(
-                              icon: const Icon(Icons.show_chart),
-                              text: context.tr.progress,
-                            ),
-                            Tab(
-                              icon: const Icon(Icons.person),
-                              text: context.tr.profile,
-                            ),
-                          ],
-                        ),
+                  return MultiDepsNodeBinder(
+                    depsNodeBinders: [
+                      DepsNodeBinder.value(
+                        depsNode: workoutDepsNode.workoutExportDepsNode(),
                       ),
                     ],
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: TabBarView(
+                            children: [
+                              const WorkoutScreen(),
+                              const WorkoutsScreen(),
+                              const ProgressScreen(),
+                              ProfileScreen(
+                                authController: authController,
+                                authorizedBuilder: (context, state) {
+                                  final appSettingsStateHolder =
+                                      appScopeDepsNode
+                                          .appSettingsDepsNode()
+                                          .appSettingsStateHolder();
+                                  return StreamBuilder<Map<String, AppSetting>>(
+                                      initialData: appSettingsStateHolder.state,
+                                      stream: appSettingsStateHolder.stream,
+                                      builder: (context, snapshot) {
+                                        final appSettings =
+                                            snapshot.requireData;
+
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: theme.puk(2),
+
+                                              /// Надо чтобы растянуть контейнер по ширине и блоки
+                                              /// внутри Column корректно выравнивались
+                                              width: double.infinity,
+                                            ),
+                                            CircleAvatar(
+                                              radius: theme.puk(20),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            SpukiText.h3(
+                                              state.user.map(
+                                                (state) => state.email,
+                                                guest: (_) => context.tr.guest,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            SizedBox(height: theme.puk(4)),
+                                            ListTile(
+                                              onTap: () {
+                                                final email = appSettings[
+                                                    AppSetting.supportEmail];
+
+                                                if (email == null) {
+                                                  return;
+                                                }
+
+                                                launchUrl(Uri.parse(
+                                                    "mailto:${email.value}"));
+                                              },
+                                              title: const SpukiText(
+                                                'Поддержка',
+                                              ),
+                                            ),
+                                            ListTile(
+                                              onTap: () {
+                                                final link = appSettings[
+                                                    AppSetting.privacyPolicy];
+
+                                                if (link == null) {
+                                                  return;
+                                                }
+
+                                                launchUrl(
+                                                    Uri.parse(link.value));
+                                              },
+                                              title: const SpukiText(
+                                                'Политика конфиденциальности',
+                                              ),
+                                            ),
+                                            ListTile(
+                                              onTap: () {
+                                                final link = appSettings[
+                                                    AppSetting.personalData];
+
+                                                if (link == null) {
+                                                  return;
+                                                }
+
+                                                launchUrl(
+                                                    Uri.parse(link.value));
+                                              },
+                                              title: const SpukiText(
+                                                'Согласие на обработку персональных данных',
+                                              ),
+                                            ),
+                                            ListTile(
+                                              onTap: () {
+                                                final email = appSettings[
+                                                    AppSetting.supportEmail];
+
+                                                if (email == null) {
+                                                  return;
+                                                }
+
+                                                launchUrl(Uri.parse(
+                                                    "mailto:${email.value}"));
+                                              },
+                                              title: const SpukiText(
+                                                'Удаление аккаунта',
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            ListTile(
+                                              onTap: () => authDepsNode
+                                                  .authController()
+                                                  .logout(),
+                                              title:
+                                                  SpukiText(context.tr.logout),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SafeArea(
+                          top: false,
+                          child: TabBar(
+                            tabs: [
+                              Tab(
+                                icon: const Icon(Icons.fiber_manual_record),
+                                text: context.tr.recordTrain,
+                              ),
+                              Tab(
+                                icon: const Icon(Icons.run_circle_outlined),
+                                text: context.tr.workouts,
+                              ),
+                              Tab(
+                                icon: const Icon(Icons.show_chart),
+                                text: context.tr.progress,
+                              ),
+                              Tab(
+                                icon: const Icon(Icons.person),
+                                text: context.tr.profile,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 },
                 orElse: (context, depsNode) => const Center(

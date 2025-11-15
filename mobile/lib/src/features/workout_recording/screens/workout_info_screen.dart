@@ -9,7 +9,7 @@ import 'package:sputnik_cardio/src/features/maps/widgets/track_layer.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_info_screen_deps_node.dart';
 import 'package:sputnik_location/sputnik_location.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
-import '../services/gpx_export_service.dart';
+import '../../workout_export/workout_export_deps_node.dart';
 
 class WorkoutInfoScreen extends StatefulWidget {
   const WorkoutInfoScreen({
@@ -75,9 +75,10 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
 
       final detailedWorkout =
           _workoutScreenDepsNode.workoutScreenStateHolder().state;
-
-      final gpxContent = GpxExportService().export(detailedWorkout);
-      final fileName = GpxExportService().generateFileName(detailedWorkout);
+      final exportDepNode = context.depsNode<WorkoutExportDepsNode>();
+      final gpxExportService = exportDepNode.gpxExportService();
+      final gpxContent = gpxExportService.export(detailedWorkout);
+      final fileName = gpxExportService.generateFileName(detailedWorkout);
 
       final tempDir = await getTemporaryDirectory();
       final file = File('${tempDir.path}/$fileName');
@@ -89,7 +90,10 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
         [XFile(file.path)],
         text: 'Экспорт тренировки',
       );
-    } catch (e) {
+    } catch (e, st) {
+      print(e);
+      print(st);
+
       if (mounted && Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
       }
