@@ -76,8 +76,8 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
       final detailedWorkout =
           _workoutScreenDepsNode.workoutScreenStateHolder().state;
 
-      final gpxContent = GpxExportService.generateGpxContent(detailedWorkout);
-      final fileName = GpxExportService.generateFileName(detailedWorkout);
+      final gpxContent = GpxExportService().export(detailedWorkout);
+      final fileName = GpxExportService().generateFileName(detailedWorkout);
 
       final tempDir = await getTemporaryDirectory();
       final file = File('${tempDir.path}/$fileName');
