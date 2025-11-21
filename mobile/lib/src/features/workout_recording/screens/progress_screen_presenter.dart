@@ -26,7 +26,7 @@ class ProgressScreenPresenter extends StateHolder<ProgressScreenState> {
     super.init();
     _lastWeekWorkoutsSubscription = _lastWeekWorkoutsStateHolder.asStream
         .listen((workouts) => _handleLastWeekWorkoutsUpdate(workouts));
-    await _lastWeekWorkoutsManager.loadLastWeekWorkouts();
+    _lastWeekWorkoutsManager.loadLastWeekWorkouts();
   }
 
   void _handleLastWeekWorkoutsUpdate(List<DetailedWorkout> workouts) {

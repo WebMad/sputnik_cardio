@@ -198,6 +198,11 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   );
 
   @override
+  Future<void> init() {
+    return super.init();
+  }
+
+  @override
   List<Set<LifecycleDependency>> get initializeQueue => [
         {
           workoutCoreDepsNode,

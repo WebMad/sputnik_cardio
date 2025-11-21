@@ -26,7 +26,7 @@ class WorkoutsScreenPresenter extends StateHolder<WorkoutsScreenState> {
 
     _workoutsSubscription = _workoutsListStateHolder.asStream
         .listen((workouts) => _handleWorkoutsDataUpdate(workouts));
-    await _workoutListManager.refresh();
+    _workoutListManager.refresh();
   }
 
   void _handleWorkoutsDataUpdate(WorkoutsListData? data) {
