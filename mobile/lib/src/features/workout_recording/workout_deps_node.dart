@@ -20,6 +20,7 @@ import 'package:sputnik_cardio/src/features/workout_recording/workout_info_scree
 import 'package:sputnik_cardio/src/features/workout_track/workout_track_deps_node.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../workout_export/workout_export_deps_node.dart';
 import 'data/data_sources/workout_remote_data_source.dart';
 import 'managers/last_week_workout_manager.dart';
 import 'managers/workout_coords_recording_manager.dart';
@@ -38,6 +39,9 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
 
   late final workoutCoreDepsNode = bind(
     () => SputnikWorkoutCoreController(),
+  );
+  late final workoutExportDepsNode = bind(
+    () => WorkoutExportDepsNode(this),
   );
 
   late final _persistentWorkoutStateHolder = bind(
@@ -194,9 +198,15 @@ class WorkoutDepsNode extends DepsNode implements WorkoutMetricsParent {
   );
 
   @override
+  Future<void> init() {
+    return super.init();
+  }
+
+  @override
   List<Set<LifecycleDependency>> get initializeQueue => [
         {
           workoutCoreDepsNode,
+          workoutExportDepsNode,
         },
         {
           workoutsListStateHolder,

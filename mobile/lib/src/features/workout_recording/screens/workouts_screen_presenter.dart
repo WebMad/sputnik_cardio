@@ -8,6 +8,7 @@ import '../models/workouts_screen_state.dart';
 class WorkoutsScreenPresenter extends StateHolder<WorkoutsScreenState> {
   final WorkoutsListStateHolder _workoutsListStateHolder;
   final WorkoutListManager _workoutListManager;
+  StreamSubscription<WorkoutsListData?>? _workoutsSubscription;
 
   WorkoutsScreenPresenter(
     this._workoutsListStateHolder,
@@ -19,14 +20,13 @@ class WorkoutsScreenPresenter extends StateHolder<WorkoutsScreenState> {
           ),
         );
 
-  StreamSubscription<WorkoutsListData?>? _workoutsSubscription;
-
   @override
   Future<void> init() async {
     super.init();
 
     _workoutsSubscription = _workoutsListStateHolder.asStream
         .listen((workouts) => _handleWorkoutsDataUpdate(workouts));
+    _workoutListManager.refresh();
   }
 
   void _handleWorkoutsDataUpdate(WorkoutsListData? data) {
@@ -84,7 +84,8 @@ class WorkoutsScreenPresenter extends StateHolder<WorkoutsScreenState> {
 
   @override
   Future<void> dispose() async {
-    await _workoutsSubscription?.cancel();
+    _workoutsSubscription?.cancel();
+    _workoutsSubscription = null;
     await super.dispose();
   }
 }

@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_sputnik_di/flutter_sputnik_di.dart';
 import 'package:intl/intl.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 import 'package:sputnik_cardio/src/features/maps/widgets/track_layer.dart';
 import 'package:sputnik_cardio/src/features/workout_recording/workout_info_screen_deps_node.dart';
 import 'package:sputnik_location/sputnik_location.dart';
 import 'package:sputnik_ui_kit/sputnik_ui_kit.dart';
+import '../../workout_export/workout_export_deps_node.dart';
 
 class WorkoutInfoScreen extends StatefulWidget {
   const WorkoutInfoScreen({
@@ -20,7 +23,6 @@ class WorkoutInfoScreen extends StatefulWidget {
 class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
   late final WorkoutInfoScreenDepsNode _workoutScreenDepsNode;
   late final MapController flutterMapController;
-
   bool _isReady = false;
 
   @override
@@ -61,6 +63,52 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
     }
   }
 
+  Future<void> _exportCurrentWorkout() async {
+    try {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+      final detailedWorkout =
+          _workoutScreenDepsNode.workoutScreenStateHolder().state;
+      final exportDepNode = context.depsNode<WorkoutExportDepsNode>();
+      final gpxExportService = exportDepNode.gpxExportService();
+      final gpxContent = gpxExportService.export(detailedWorkout);
+      final fileName = gpxExportService.generateFileName(detailedWorkout);
+
+      final tempDir = await getTemporaryDirectory();
+      final file = File('${tempDir.path}/$fileName');
+      await file.writeAsString(gpxContent);
+
+      if (mounted) Navigator.of(context).pop();
+
+      await Share.shareXFiles(
+        [XFile(file.path)],
+        text: 'Экспорт тренировки',
+      );
+    } catch (e, st) {
+      print(e);
+      print(st);
+
+      if (mounted && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Ошибка экспорта: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
   void _dispose() async {
     await _workoutScreenDepsNode.dispose();
     _workoutScreenDepsNode.clear();
@@ -77,6 +125,13 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
     return SpukiScaffold(
       appBar: AppBar(
         title: const SpukiText.h3('Тренировка'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.import_export),
+            onPressed: _exportCurrentWorkout,
+            tooltip: 'Экспорт в GPX',
+          ),
+        ],
       ),
       body: SafeArea(
         child: DepsNodeBuilder(
@@ -85,9 +140,7 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
             final detailedWorkout =
                 _workoutScreenDepsNode.workoutScreenStateHolder().state;
             final metrics = detailedWorkout.metrics;
-
             final workout = detailedWorkout.workout;
-
             final startAt = workout.startAt;
 
             return Padding(
@@ -175,8 +228,6 @@ class _WorkoutInfoScreenState extends State<WorkoutInfoScreen> {
                               'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                           userAgentPackageName:
                               'dev.fleaflet.flutter_map.example',
-                          // tileProvider: CancellableNetworkTileProvider(),
-                          // tileUpdateTransformer: _animatedMoveTileUpdateTransformer,
                         ),
                         for (final segment in workout.segments)
                           TrackLayer(

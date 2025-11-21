@@ -15,6 +15,10 @@ class InternetConnectionCheckerManager implements Lifecycle {
 
   @override
   Future<void> init() async {
+    _init();
+  }
+
+  Future<void> _init() async {
     final internetConnectionChecker = InternetConnectionChecker.instance;
     _sub = internetConnectionChecker.onStatusChange
         .startWith(await internetConnectionChecker.connectionStatus)

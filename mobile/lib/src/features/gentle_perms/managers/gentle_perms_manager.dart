@@ -73,7 +73,7 @@ class GentlePermsManager implements Lifecycle {
       register(initialPerm);
     }
 
-    await actualize();
+    actualize();
   }
 
   @override
